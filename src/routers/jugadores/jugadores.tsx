@@ -54,7 +54,7 @@ function Jugadores() {
               <td>{jugador.name}</td>
               <td>{jugador.Email}</td>
               <td>{jugador.birthDate}</td>
-              <td>{jugador.Photo}</td>
+              <td><img className="PhotoTablas" src={`http://18.188.110.39:83/public/participants/${jugador.Photo}`} alt="Foto del jugador" /></td>
               <td>{jugador.Curp}</td>
 
               {/* Renderiza más celdas según la estructura de tus datos */}

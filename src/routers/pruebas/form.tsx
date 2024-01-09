@@ -5,8 +5,7 @@ interface FormData extends Jugadorestype {
   file: FileList;
 }
 
-function JugadoresCreate(){
-
+ function Pruebas (){
   const { register, handleSubmit } = useForm<FormData>();
 
   const token = localStorage.getItem('token');
@@ -18,10 +17,11 @@ function JugadoresCreate(){
     formData.append('name', data.name);
     formData.append('Curp', data.Curp);
     formData.append('Email', data.Email);
+
     formData.append('birthDate', data.birthDate);
 
     try {
-      const response = await fetch('http://18.188.110.39:83/api/v1/participants', {
+      const response = await fetch('http://localhost:4000/api/v1/participants', {
         method: 'POST',
         body: formData,
         headers:{
@@ -30,8 +30,7 @@ function JugadoresCreate(){
       });
 
       if (response.ok) {
-        window.location.href = '/Jugadores';
-
+        // Handle successful response
       } else {
         // Handle error response
       }
@@ -40,10 +39,8 @@ function JugadoresCreate(){
     }
   };
 
-     
-   
-    return(
-      <form onSubmit={handleSubmit(onSubmit)}>
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
       {/* Your form fields go here */}
       <label htmlFor="name">Name:</label>
       <input type="text" {...register('name')} />
@@ -62,7 +59,7 @@ function JugadoresCreate(){
 
       <button type="submit">Submit</button>
     </form>
-    )
-    }
+  );
 
-export default JugadoresCreate
+  }
+export default Pruebas

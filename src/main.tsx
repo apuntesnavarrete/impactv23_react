@@ -10,6 +10,7 @@ import Equipos from './routers/equipos/equipos.tsx';
 import Login from './routers/login/loguin.tsx';
 import JugadoresCreate from './routers/jugadores/jugadoresCreate.tsx';
 import EquiposCreate from './routers/equipos/equiposCreate.tsx';
+import Pruebas from './routers/pruebas/form.tsx';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>
+  }
+
+  ,
+  {
+    path: "/pruebas",
+    element: <Pruebas></Pruebas>
   }
 ]);
 
