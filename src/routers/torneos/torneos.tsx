@@ -1,18 +1,19 @@
 import  { useEffect, useState } from "react";
-import { Jugadorestype } from "../../types/jugadores";
 import { NavLink } from "react-router-dom";
 import { apiruta } from "../../config/apiruta";
+import { TorneoType } from "../../types/torneotype";
 
-function Jugadores() {
-  const [data, setData] = useState<Jugadorestype[]>([]);
+function Torneos() {
+  const [data, setData] = useState<TorneoType[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiruta}/api/v1/participants`);
-        const result: Jugadorestype[] = await response.json();
+        const response = await fetch(`${apiruta}/api/v1/tournaments`);
+        const result: TorneoType[] = await response.json();
         setData(result);
+        console.log(result)
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -31,32 +32,32 @@ function Jugadores() {
     <>
       <p>Lectura de jugadores</p>
 
-      <NavLink to="/Jugadores/Crear">
-      Crear Nuevo Participante
+      <NavLink to="/Torneos/Create">
+      Crear Nuevo Torneo
     </NavLink>
 
       <table>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo electrónico</th>
-            <th>Fecha de Nacimiento</th>
-            <th>Foto</th>
-            <th>Curp</th>
+            <th>Id Name</th>
+            <th> descripcion</th>
+            <th> fecha de creacion</th>
+            <th>Liga</th>
+            <th>Categoria</th>
 
             {/* Agrega más encabezados según la estructura de tus datos */}
           </tr>
         </thead>
         <tbody>
-          {data.map((jugador) => (
-            <tr key={jugador.id}>
-              <td>{jugador.id}</td>
-              <td>{jugador.name}</td>
-              <td>{jugador.Email}</td>
-              <td>{jugador.birthDate}</td>
-              <td><img className="PhotoTablas" src={`${apiruta}/public/participants/${jugador.Photo}`} alt="Foto del jugador" /></td>
-              <td>{jugador.Curp}</td>
+          {data.map((torneo) => (
+            <tr key={torneo.id}>
+              <td>{torneo.id}</td>
+              <td>{torneo.idName}</td>
+              <td>{torneo.description}</td>
+              <td>{torneo.date_fundation}</td>
+              <td>{torneo.leagues.name}</td>
+              <td>{torneo.categories.categorias}</td>
 
               {/* Renderiza más celdas según la estructura de tus datos */}
             </tr>
@@ -67,4 +68,4 @@ function Jugadores() {
   );
 }
 
-export default Jugadores;
+export default Torneos;

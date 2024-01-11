@@ -1,76 +1,66 @@
-import { useState } from "react";
-import { EquiposType } from "../../types/equipostype";
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { EquiposType } from '../../types/equipostype';
+import { apiruta } from '../../config/apiruta';
+
+interface FormData extends EquiposType {
+  file: FileList;
+}
 
 function EquiposCreate(){
 
-    const [formData, setFormData] = useState<Partial<EquiposType>>({
-        name: ''
-      });
-    
-      const token = localStorage.getItem('token');
-console.log(token)
+  const { register, handleSubmit } = useForm<FormData>();
 
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-        }));
-      };
+  const token = localStorage.getItem('token');
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('http://18.188.110.39:83/api/v1/teams', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
 
-              },
-              body: JSON.stringify(formData),
-            });
-    
-            console.log(response)
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    const formData = new FormData();
+    formData.append('file', data.file[0]);
+    formData.append('name', data.name);
 
-            if (response.ok) {
-                // El servidor respondió correctamente (código de estado 2xx)
-                const responseData = await response.json();
-    
 
-    
-                console.log('Creacion exitosa:', responseData);
-              } else {
+    if (data.participants) {
+      formData.append('participants', data.participants.toString());
+    } 
+    //  formData.append('participants',participants.id);
 
-                // El servidor respondió con un error (código de estado diferente de 2xx)
-                console.error('Error en la autenticación:', response.statusText);
-
-              }
-            } catch (error) {
-              // Manejo de errores de la solicitud
-              console.error('Error al enviar la solicitud:', error);
-            }
-    
+    try {
+      const response = await fetch(`${apiruta}/api/v1/teams`, {
+        method: 'POST',
+        body: formData,
+        headers:{
+            'Authorization': `Bearer ${token}`,
         }
+      });
+
+      if (response.ok) {
+///mensaje de elemento creado
+        window.location.href = '/Equipos';
+
+      } else {
+        // Handle error response
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+
+     
    
     return(
-        <>
-        <p>formulario para crear Equipos</p>
-        <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Nombre</label>
-        <input
-          type="name"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+      <form onSubmit={handleSubmit(onSubmit)}>
+      {/* Your form fields go here */}
+      <label htmlFor="name">Name:</label>
+      <input type="text" {...register('name')} />
 
+      <label htmlFor="dt">dt:</label>
+      <input type="text" {...register('participants')} />
+    
+      <label htmlFor="file">Logo:</label>
+      <input type="file" {...register('file')} />
 
-        <button type="submit">Crear Equipos</button>
-      </form>
-        </>
+      <button type="submit">Submit</button>
+    </form>
     )
     }
 

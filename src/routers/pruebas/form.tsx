@@ -17,7 +17,6 @@ interface FormData extends Jugadorestype {
     formData.append('name', data.name);
     formData.append('Curp', data.Curp);
     formData.append('Email', data.Email);
-
     formData.append('birthDate', data.birthDate);
 
     try {

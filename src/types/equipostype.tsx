@@ -1,6 +1,8 @@
+import { Jugadorestype } from "./jugadores";
+
 export interface EquiposType {
     id: number;
     name: string;
     logo: string | null;
-    participantsid: number | null;
+    participants: Jugadorestype | null;
 }

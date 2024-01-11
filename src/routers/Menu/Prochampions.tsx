@@ -1,8 +1,7 @@
 
 import { NavLink } from 'react-router-dom'
-import './App.css'
 
-function App() {
+function Menu_Ligas() {
 
   return (
     <><header>
@@ -31,14 +30,11 @@ function App() {
       {/* hacerlo dinamico */}
 
 
-<NavLink to="/Spartaq">
-     Spartaq
-   </NavLink>
-   <NavLink to="/LigaED">
-   LigaED
+<NavLink to="/Libre_Golden">
+Libre_Golden
    </NavLink>
    <NavLink to="/Pro/Libre_Platino">
-   Prochampions
+   Libre_Platino
       </NavLink>
 </main>
 
@@ -47,4 +43,4 @@ function App() {
   )
 }
 
-export default App
+export default Menu_Ligas

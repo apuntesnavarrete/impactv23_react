@@ -11,6 +11,11 @@ import Login from './routers/login/loguin.tsx';
 import JugadoresCreate from './routers/jugadores/jugadoresCreate.tsx';
 import EquiposCreate from './routers/equipos/equiposCreate.tsx';
 import Pruebas from './routers/pruebas/form.tsx';
+import Torneos from './routers/torneos/torneos.tsx';
+import TorneosCreate from './routers/torneos/torneosCreate.tsx';
+import PartidosCreate from './routers/Partidos/partidosCreate.tsx';
+import Menu_Ligas from './routers/Menu/Prochampions.tsx';
+import Categoria from './routers/Menu/Libre_platino.tsx';
 
 const router = createBrowserRouter([
   {
@@ -43,7 +48,30 @@ const router = createBrowserRouter([
   {
     path: "/pruebas",
     element: <Pruebas></Pruebas>
+  },
+  {
+    path: "/Torneos",
+    element: <Torneos></Torneos>
+  },
+  {
+    path: "/Torneos/Create",
+    element: <TorneosCreate></TorneosCreate>
   }
+
+  ,
+  {
+    path: "/Partidos",
+    element: <PartidosCreate></PartidosCreate>
+  }
+   ,
+  {
+    path: "/Prochampions",
+    element: <Menu_Ligas></Menu_Ligas>
+  }, {
+    path: "/Pro/Libre_Platino",
+    element: <Categoria></Categoria>
+  }
+
 ]);
 
 
