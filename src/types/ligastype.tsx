@@ -9,5 +9,7 @@ export default interface Ligatype{
     createdAt: string;
     updatedAt: string;
     participants: Jugadorestype
+    Alias: string
+    //mejorar interface
 //mejorar el tipado de name
 }
