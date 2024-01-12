@@ -42,6 +42,18 @@ function App() {
       </NavLink>
 </main>
 
+<footer>
+<NavLink to="/Spartaq">
+     Spartaq
+   </NavLink>
+   <NavLink to="/Pro/Libre_Platino/Partidos">
+   Partidos
+   </NavLink>
+   <NavLink to="/Pro/Libre_Platino/Planteles">
+Planteles    
+  </NavLink>
+</footer>
+
        </>
   
   )
