@@ -41,6 +41,7 @@ function Equipos() {
     }
     return (
       <>
+      <p>crear un buscador para equipos</p>
         <p>lectura de Equipos</p>
         <NavLink to="/Equipos/Crear">
       Crear Nuevo Equipo
@@ -70,6 +71,7 @@ function Equipos() {
           ))}
         </tbody>
       </table>
+      
     </>
       
     )

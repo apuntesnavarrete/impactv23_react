@@ -14,6 +14,8 @@ import Menu_Ligas from './routers/Menu/Prochampions';
 import Categoria from './routers/Partidos/Libre_platino';
 import Planteles from './routers/planteles/planteles';
 import PartidoID from './routers/Partidos/partidoID';
+import PartidosView from './routers/Partidos/partidosView';
+import TablaGeneral from './routers/tablageneral/tablageneral';
  // Nuevo componente para detalles de torneo
 
 // Configura las rutas
@@ -32,9 +34,14 @@ const AppRouter = () => {
         <Route path="/torneos/create" element={<TorneosCreate />} />
         <Route path="/partidos" element={<PartidosCreate />} />
         <Route path="/prochampions" element={<Menu_Ligas />} />
+        {/* Rutas para hacer dinamicas*/}
 
         {/* Rutas dinámicas*/}
-        <Route path="/:liga/:torneo/partidos" element={<Categoria />} />
+        <Route path="/:liga/:torneo/Createpartidos" element={<Categoria />} />
+        <Route path="/:liga/:torneo/partidos" element={<PartidosView />} />
+        <Route path="/:liga/:torneo/tablageneral" element={<TablaGeneral />} />
+
+
         <Route path="/:liga/:torneo/planteles" element={<Planteles />} />
         <Route path="/:liga/:torneo/partidos/:idPartido" element={<PartidoID />} />
 

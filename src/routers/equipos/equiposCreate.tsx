@@ -48,7 +48,8 @@ function EquiposCreate(){
      
    
     return(
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <>
+        <form onSubmit={handleSubmit(onSubmit)}>
       {/* Your form fields go here */}
       <label htmlFor="name">Name:</label>
       <input type="text" {...register('name')} />
@@ -61,6 +62,11 @@ function EquiposCreate(){
 
       <button type="submit">Submit</button>
     </form>
+    <p>traer el id del dt por el momento del EQUIPOS</p>
+    <p>crear un componente de buscar jugador</p>
+      
+      </>
+    
     )
     }
 

@@ -42,6 +42,19 @@ function App() {
       </NavLink>
 </main>
 
+<h3>
+  estas rutas son provicionales debe hacer un menu
+</h3>
+<NavLink to="/ED/Mixta_Dominical/Createpartidos">
+    Crear partidos Ed mixta Dominical
+   </NavLink>
+   <NavLink to="/ED/Mixta_Dominical/partidos">
+    leer partidos Ed mixta Dominical
+   </NavLink>
+   <NavLink to="/ED/Mixta_Dominical/tablageneral">
+    TablaGeneral partidos Ed mixta Dominical
+   </NavLink>
+
 <footer>
 <NavLink to="/Spartaq">
      Spartaq

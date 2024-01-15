@@ -60,25 +60,33 @@ if (data.categories) {
   
 
     return(
-        <form onSubmit={handleSubmit(onSubmit)}>
-        {/* nesecito que a fututo el diname se componga de la liga y torneo */}
-        <label htmlFor="idName">idName</label>
-        <input type="text" {...register('idName')} />
-      
-        <label htmlFor="description">Descripción</label>
-      <input type="text" {...register('description')} />
+   
+      <>     <form onSubmit={handleSubmit(onSubmit)}>
+      {/* nesecito que a fututo el diname se componga de la liga y torneo */}
+      <label htmlFor="idName">idName</label>
+      <input type="text" {...register('idName')} />
+    
+      <label htmlFor="description">Descripción</label>
+    <input type="text" {...register('description')} />
 
-      <label htmlFor="date_fundation">Fecha de Fundación</label>
-      <input type="date" {...register('date_fundation')} />
+    <label htmlFor="date_fundation">Fecha de Fundación</label>
+    <input type="date" {...register('date_fundation')} />
 
-      <label htmlFor="leagues">Ligas</label>
-      <input type="number" {...register('leagues')} />
+    <label htmlFor="leagues">Ligas</label>
+    <input type="number" {...register('leagues')} />
 
-      <label htmlFor="categories">Categorías</label>
-      <input type="number" {...register('categories')} />
-     
-        <button type="submit">Submit</button>
-      </form>
+    <label htmlFor="categories">Categorías</label>
+    <input type="number" {...register('categories')} />
+   
+      <button type="submit">Submit</button>
+    </form>
+    <p>
+      ligas debe ser un select con las ligas.
+      y Idname debe acompletar de ligas y categorias , ejemplo aqui
+    </p>
+    <p>LIGA-CATEGORIA-AÑOTORNEO</p>
+    <p>ED-FEMENIL_PLANITO-22A</p>
+    </>
  )
     }   
 
