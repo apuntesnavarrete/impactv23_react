@@ -56,9 +56,11 @@ function PartidosView(){
             console.log(data)
 
             const resultadosFiltrados = data.filter(item => item.tournaments && item.tournaments.id === idtorneo );
-            console.log(resultadosFiltrados)
+            const RESULTIRDENADOS = resultadosFiltrados.sort((a, b) => b.matchday - a.matchday);
 
-            setpartidos(resultadosFiltrados)
+            console.log(RESULTIRDENADOS)
+
+            setpartidos(RESULTIRDENADOS)
             if (!response.ok) {
                 throw new Error('Error al obtener los datos');
               }
@@ -89,11 +91,15 @@ function PartidosView(){
       <p>idTorneo: {idtorneo}</p>
       {/* El resto de tu lógica para mostrar detalles del torneo */}
       </div>
-        <p>tabla para partidos</p>
+        <p>Tabla resultados</p>
 
         <table>
         <thead>
           <tr>
+          <th>Jornada</th>
+
+             <th>Id Partido</th>
+
             <th>Pts Local</th>
             <th>Equipo Local</th>
             <th>Goles Local</th>
@@ -107,6 +113,9 @@ function PartidosView(){
         <tbody>
           {partidos.map((partidos) => (
             <tr key={partidos.id}>
+                            <td>{partidos.matchday}</td>
+
+              <td>{partidos.id}</td>
 
               <td>{partidos.pointsLocal}</td>
               <td>{partidos.teamHome.name}</td>

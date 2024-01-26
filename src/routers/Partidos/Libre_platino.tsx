@@ -21,7 +21,6 @@ function Categoria(){
 
 
 
-
             // Verificar si la respuesta es exitosa (código de estado 200)
             if (!response.ok) {
               throw new Error('Error al obtener los datos');
@@ -29,7 +28,12 @@ function Categoria(){
     
             // Convertir la respuesta a formato JSON
             const data: TorneoType[] = await response.json();
+            console.log(data)
+            console.log(liga)
+            console.log(torneo)
+
            const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias === torneo );
+           console.log(resultadosFiltrados)
 
          const RESULTIRDENADOS =  resultadosFiltrados.sort((b, a) => a.idName.localeCompare(b.idName));
 
@@ -40,9 +44,7 @@ function Categoria(){
           item.leagues. === torneo
         );  
       */  
-        console.log(RESULTIRDENADOS)
 
-            console.log()
             // Actualizar el estado con los datos obtenidos
             setidtorneo(RESULTIRDENADOS[0].id)
           } catch (error) {
@@ -77,6 +79,10 @@ if (data.teamAway) {
 formData.append('date', data.date);
 formData.append('tournaments', idtorneo !== null ? idtorneo.toString() : '');
 
+
+if (data.matchday) {
+  formData.append('matchday', data.matchday.toString());
+}
 
 if (data.localgoals) {
     formData.append('localgoals', data.localgoals.toString());
@@ -188,6 +194,10 @@ if (data.localgoals) {
     </div>
         <form onSubmit={handleSubmit(onSubmit)}>
         {/* nesecito que a fututo el diname se componga de la liga y torneo */}
+
+        <label htmlFor="jornada">Jornada</label>
+        <input type="number" {...register('matchday')} />
+
         <label htmlFor="idName">Team Home</label>
         <input type="number" {...register('teamHome')} />
       

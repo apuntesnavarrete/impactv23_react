@@ -16,6 +16,7 @@ import Planteles from './routers/planteles/planteles';
 import PartidoID from './routers/Partidos/partidoID';
 import PartidosView from './routers/Partidos/partidosView';
 import TablaGeneral from './routers/tablageneral/tablageneral';
+import PlantelesTabla from './routers/planteles/plantelesView';
  // Nuevo componente para detalles de torneo
 
 // Configura las rutas
@@ -41,8 +42,9 @@ const AppRouter = () => {
         <Route path="/:liga/:torneo/partidos" element={<PartidosView />} />
         <Route path="/:liga/:torneo/tablageneral" element={<TablaGeneral />} />
 
-
         <Route path="/:liga/:torneo/planteles" element={<Planteles />} />
+        <Route path="/:liga/:torneo/plantelesView" element={<PlantelesTabla />} />
+
         <Route path="/:liga/:torneo/partidos/:idPartido" element={<PartidoID />} />
 
       </Routes>

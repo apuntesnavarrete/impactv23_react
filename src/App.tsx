@@ -48,13 +48,55 @@ function App() {
 <NavLink to="/ED/Mixta_Dominical/Createpartidos">
     Crear partidos Ed mixta Dominical
    </NavLink>
+
+
+
    <NavLink to="/ED/Mixta_Dominical/partidos">
     leer partidos Ed mixta Dominical
    </NavLink>
+   <h3>
+  Mixta Dominical
+</h3>
    <NavLink to="/ED/Mixta_Dominical/tablageneral">
-    TablaGeneral partidos Ed mixta Dominical
+    Tabla General Mixta ED Dominical
+   </NavLink>
+   <h3>
+Libre ed
+</h3>
+   <NavLink to="/ED/Libre/tablageneral">
+    Tabla General Libre ED 
+   </NavLink>
+   <NavLink to="/ED/Libre/planteles">
+    planteles Libre ED 
    </NavLink>
 
+   <NavLink to="/ED/Libre/plantelesView">
+    planteles tabla Libre ED 
+   </NavLink>
+   <NavLink to="/ED/Libre/partidos">
+    partidos Libre ED 
+   </NavLink>
+   <p>
+
+<p>
+<NavLink to="/ED/Mixta_Sabatina/partidos">
+    leer partidos Ed mixta sabatina
+   </NavLink>
+   <NavLink to="/ED/Mixta_Sabatina/partidos">
+    leer partidos Ed mixta sabatina
+   </NavLink>
+</p>
+
+   <NavLink to="/ED/Mixta_Sabatina/tablageneral">
+   - tabla Ed Mixta_Sabatina-
+   </NavLink>
+   <NavLink to="/ED/Mixta_Sabatina/Createpartidos">
+   - Crear partidos Ed Mixta_Sabatina-
+   </NavLink>
+   </p>
+   <h3>
+ Ligas
+</h3>
 <footer>
 <NavLink to="/Spartaq">
      Spartaq

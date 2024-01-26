@@ -102,8 +102,18 @@ const TablaGeneral: React.FC = () => {
 
 
         const equiposConInfo: EquipoConInfo[] = Object.values(puntosPorEquipo);
-        equiposConInfo.sort((a, b) => b.puntos - a.puntos);
-
+        equiposConInfo.sort((a, b) => {
+          // Ordenar por puntos de forma descendente
+          if (b.puntos !== a.puntos) {
+            return b.puntos - a.puntos;
+          }
+        
+          // En caso de empate en puntos, ordenar por diferencia de goles (goles a favor - goles en contra)
+          const diferenciaGolesA = a.goles - a.golesRecibidos;
+          const diferenciaGolesB = b.goles - b.golesRecibidos;
+        
+          return diferenciaGolesB - diferenciaGolesA;
+        });
         setClasificacion(equiposConInfo);
       } catch (error) {
         console.error('Error obteniendo los datos de los partidos:', error);
@@ -129,15 +139,15 @@ const TablaGeneral: React.FC = () => {
 
             <th>Equipo</th>
             <th>Puntos</th>
-            <th>GA</th>
+            <th>GF</th>
             <th>GC</th>
             <th>DF</th>
             <th>PJ</th>
             <th>PG</th>
+            <th>PP</th>
+
             <th>PGD</th>
-            <th>PPP</th>
             <th>PPD</th>
-            <th>PPE</th>
 
           </tr>
         </thead>
@@ -153,10 +163,10 @@ const TablaGeneral: React.FC = () => {
               <td>{ equipo.goles - equipo.golesRecibidos}</td>
               <td>{equipo.partidosJugados}</td>
               <td>{equipo.partidosGanados}</td>
+              <td>{equipo.partidosPerdidos}</td>
+
     <td>{equipo.partidosGanadosDesempate}</td>
-    <td>{equipo.partidosPerdidos}</td>
     <td>{equipo.partidosPerdidosDesempate}</td>
-    <td>{equipo.partidosEmpatados}</td>
             </tr>
           ))}
         </tbody>

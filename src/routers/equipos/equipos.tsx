@@ -7,12 +7,21 @@ function Equipos() {
     const [data, setData] = useState<EquiposType[]>([]);
     const [loading, setLoading] = useState(true);
   
+    const [jugadoresfiltrados, setjugadoresfiltrados] = useState<EquiposType[]>([]);
+    const [busqueda, setBusqueda] = useState('');
     useEffect(() => {
       const fetchData = async () => {
         try {
           const response = await fetch(`${apiruta}/api/v1/teams`);
           const result: EquiposType[] = await response.json();
+
+          const jugadoresOrdenados = result.sort((b, a) => a.id - b.id);
+          // Tomar solo los primeros 100 resultados
+          const primeros100Jugadores = jugadoresOrdenados.slice(0, 100);
+
           setData(result);
+          setjugadoresfiltrados(primeros100Jugadores);
+
           setLoading(false);
 
 
@@ -39,9 +48,25 @@ function Equipos() {
     if (loading) {
       return <p>Cargando datos...</p>;
     }
+
+    const handleBusquedaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const valorBusqueda = e.target.value;
+      setBusqueda(valorBusqueda);
+      // Filtrar los datos basándonos en la búsqueda
+     const datosFiltrados = data.filter((jugador) =>
+     jugador.name.toLowerCase().includes(valorBusqueda.toLowerCase())
+      );
+      setjugadoresfiltrados(datosFiltrados)
+    }
+
     return (
       <>
-      <p>crear un buscador para equipos</p>
+        <input
+        type="text"
+        placeholder="Buscar por nombre"
+        value={busqueda}
+        onChange={handleBusquedaChange}
+      />
         <p>lectura de Equipos</p>
         <NavLink to="/Equipos/Crear">
       Crear Nuevo Equipo
@@ -58,7 +83,7 @@ function Equipos() {
           </tr>
         </thead>
         <tbody>
-          {data.map((Equipo) => (
+          {jugadoresfiltrados.map((Equipo) => (
             <tr key={Equipo.id}>
               <td>{Equipo.id}</td>
               <td>{Equipo.name}</td>

@@ -3,6 +3,7 @@ import { TorneoType } from "./torneotype";
 
 export interface MatchType {
     id: number;
+    matchday: number;
     date: string;
     localgoals: number;
     pointsLocal: number;

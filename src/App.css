@@ -28,10 +28,11 @@ table {
   }
   
   /* Estilos alternos para filas para mejorar la legibilidad */
-  tbody tr:nth-child(even) {
-    background-color: #f9f9f9; /* Color de fondo para filas pares */
+  tbody tr:nth-child(odd) {
+    background-color: #a8d6de; /* Color de fondo para filas pares */
   }
-  
+
+
   /* Estilos para la fila actualmente seleccionada o resaltada */
   tbody tr:hover {
     background-color: #e0e0e0; /* Color de fondo al pasar el ratón sobre la fila */

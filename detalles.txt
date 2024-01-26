@@ -1,0 +1,13 @@
+-login , respuesta de logueado y redireccion.
+
+-al crear el equipo , un mesaje de creado(aunque ya redirreccion
+)
+
+-creacion de partidos , traer los equipos participantes en el torneo.
+o traer todos los equipos registrados
+
+-creacion de partidos , mostrar que el partido fue creado con exito
+
+-PARTIDOS , filtra para mostar por jornadas
+
+-urgente , jornadas en los partidos.

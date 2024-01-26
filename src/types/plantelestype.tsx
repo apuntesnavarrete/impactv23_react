@@ -1,15 +1,16 @@
 import { EquiposType } from "./equipostype"
+import { Jugadorestype } from "./jugadores"
 import { TorneoType } from "./torneotype"
 
 export interface Plantelestype {
 
     id: number
     dorsal: number
-    typeParticipants: string
+    typeParticipant: string
     //mejorar tipado
     //tupo de participante debe ser un enum
     tournaments: TorneoType
-    participants: TorneoType
+    participants: Jugadorestype
     teams: EquiposType
 
 }
