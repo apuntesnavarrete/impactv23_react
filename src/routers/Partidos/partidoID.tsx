@@ -1,11 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { apiruta } from '../../config/apiruta';
+//import { apiruta } from '../../config/apiruta';
 import { useParams } from 'react-router-dom';
 
 import { EstadisticasJugadorType } from '../../types/EstadisticasJugadorType';
 import { useEffect } from 'react';
-import { MatchType } from '../../types/partidoType';
-
+import getTeamIdsFromMatchId from './functions/getTeamIdsFromMatchId';
+import getPlayersByTeamAndTournament from './functions/getPlayersByTeamAndTournament';
+//import { MatchType } from '../../types/partidoType';
 
 
 function PartidoID(){
@@ -16,60 +17,47 @@ function PartidoID(){
 
 
   useEffect(() => {
-    // Función asincrónica para realizar la consulta a la API
-    const fetchData = async () => {
-      try {
-        // Realizar la consulta a la API
-        const response = await fetch('http://18.188.110.39:83/api/v1/matches');
-        
-        // Verificar si la solicitud fue exitosa
-        if (!response.ok) {
-          throw new Error('Error al obtener los datos');
-        }
-        
-        // Convertir la respuesta a formato JSON
-        const data : MatchType [] = await response.json();
-        
-        // Actualizar el estado con los datos de la API
-        const objetoEncontrado = data.find(objeto => objeto.id === numeroIdPartido);
 
-        if (objetoEncontrado) {
-          console.log("Equipo Local:", objetoEncontrado.teamAway.id);
-          console.log("Equipo visitante:", objetoEncontrado.teamHome.id);
+    getTeamIdsFromMatchId(numeroIdPartido)
+    .then((resultado) => {
+      // Verificamos si resultado?.teamAwayId es null o undefined, y le asignamos un valor por defecto si es necesario
+      const teamAwayId = resultado?.teamAwayId || 0; // Puedes ajustar el valor por defecto según tus necesidades
+  
+      // Verificamos si resultado?.teamHomeId es null o undefined, y le asignamos un valor por defecto si es necesario
+      const teamHomeId = resultado?.teamHomeId || 0; // Puedes ajustar el valor por defecto según tus necesidades
+  
+      // Llamamos a fetchTeamsById pasando el teamAwayId y teamHomeId obtenidos
+      const promiseAway = getPlayersByTeamAndTournament(teamAwayId,1);
+      const promiseHome = getPlayersByTeamAndTournament(teamHomeId,1);
+  
+      // Podemos utilizar Promise.all para esperar a que ambas promesas se resuelvan antes de continuar
+      return Promise.all([promiseAway, promiseHome]);
+    })
+    .then(([equiposFiltradosAway, equiposFiltradosHome]) => {
+      // Manejamos los equipos filtrados obtenidos de fetchTeamsById para teamAwayId y teamHomeId
+      console.log('Equipos filtrados para teamAwayId:', equiposFiltradosAway);
+      console.log('Equipos filtrados para teamHomeId:', equiposFiltradosHome);
+      // Puedes realizar cualquier otra acción con los equipos filtrados aquí
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // Manejar errores según tus necesidades
+    });
+  
 
-        } else {
-          console.log("Objeto no encontrado");
-        }       
-        // Imprimir los datos en la consola
-      } catch (error) {
-        console.error('Error:', error);
-      }
+  }, [numeroIdPartido]);
 
-
-      //lamada a planteles y doble filtro.
-
-
-    };
-
-    // Llamar a la función para realizar la consulta cuando el componente se monta
-    fetchData();
-  }, [numeroIdPartido]); // El segundo argumento, un array vacío, indica que useEffect solo se ejecutará una vez (equivalente a componentDidMount en componentes de clase)
-
-
-  const token = localStorage.getItem('token');
+ // const token = localStorage.getItem('token');
 
  const { register, handleSubmit  }  = useForm<EstadisticasJugadorType>()
 
   const onSubmit: SubmitHandler<EstadisticasJugadorType> = async (data) => {
 
+
+    console.log(data)
+
+
 const formData = new URLSearchParams();
-
-
-
-
-
-
-
 
   if (data.attendance) {
   
@@ -90,10 +78,9 @@ const formData = new URLSearchParams();
 
     formData.append('attendance', "1");
 
-
+/*
     try {
 
-        console.log(formData.toString())
     
         const response = await fetch(`${apiruta}/api/v1/PlayerStatistics`, {
             method: 'POST',
@@ -115,9 +102,11 @@ const formData = new URLSearchParams();
       } else {
         // Handle error response
       }
+      
     } catch (error) {
       console.error('Error submitting form:', error);
     }
+    */
 
   } 
 

@@ -76,6 +76,10 @@ Libre ed
    <NavLink to="/ED/Libre/partidos">
     partidos Libre ED 
    </NavLink>
+
+   <NavLink to="/ED/Libre/partidos/">
+   --Agregar goles--
+   </NavLink>
    <p>
 
 <p>

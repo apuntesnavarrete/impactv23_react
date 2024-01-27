@@ -2,7 +2,7 @@ import { EquiposType } from "./equipostype";
 import { TorneoType } from "./torneotype";
 
 export interface MatchType {
-    id: number;
+    id: number | null;
     matchday: number;
     date: string;
     localgoals: number;
