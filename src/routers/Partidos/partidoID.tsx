@@ -2,11 +2,15 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 //import { apiruta } from '../../config/apiruta';
 import { useParams } from 'react-router-dom';
 
-import { EstadisticasJugadorType } from '../../types/EstadisticasJugadorType';
 import { useEffect } from 'react';
 import getTeamIdsFromMatchId from './functions/getTeamIdsFromMatchId';
 import getPlayersByTeamAndTournament from './functions/getPlayersByTeamAndTournament';
-//import { MatchType } from '../../types/partidoType';
+import { EstadisticasJugadorTypeNuevo } from '../../types/EstadisticasJugadorType';
+
+
+
+
+
 
 
 function PartidoID(){
@@ -49,9 +53,9 @@ function PartidoID(){
 
  // const token = localStorage.getItem('token');
 
- const { register, handleSubmit  }  = useForm<EstadisticasJugadorType>()
+ const { register, handleSubmit } = useForm<EstadisticasJugadorTypeNuevo>();
 
-  const onSubmit: SubmitHandler<EstadisticasJugadorType> = async (data) => {
+  const onSubmit: SubmitHandler<EstadisticasJugadorTypeNuevo> = async (data) => {
 
 
     console.log(data)
@@ -135,23 +139,29 @@ const formData = new URLSearchParams();
       <p>idPartido: {idPartido}</p>
       {/* El resto de tu lógica para mostrar detalles del torneo */}
     </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-        {/* nesecito que a fututo el diname se componga de la liga y torneo */}
-        <label htmlFor="annotations">Anotaciones</label>
-        <input type="number" {...register('annotations')} />
-      
-        <label htmlFor="attendance">Asistencia</label>
-<input type="checkbox" {...register('attendance')} />
-
-        <label htmlFor="teamsId">Equipo</label>
-      <input type="number" {...register('teams')} />
-
-
-      <label htmlFor="participants">Jugador</label>
-      <input type="number" {...register('participants')} />
+    <form onSubmit={handleSubmit(onSubmit)}>
+  {/* En el futuro, el nombre puede componerse de la liga y el torneo */}
   
-        <button type="submit">Submit</button>
-      </form>
+  {/* Jugador 1 */}
+  <label htmlFor="participants.player1.annotations">Anotaciones Jugador 1</label>
+  <input type="number" {...register('participants.player1.annotations')} />
+
+  <label htmlFor="participants.player1.attendance">Asistencia Jugador 1</label>
+  <input type="checkbox" {...register('participants.player1.attendance')} />
+
+  {/* Jugador 2 */}
+  <label htmlFor="participants.player2.annotations">Anotaciones Jugador 2</label>
+  <input type="number" {...register('participants.player2.annotations')} />
+
+  <label htmlFor="participants.player2.attendance">Asistencia Jugador 2</label>
+  <input type="checkbox" {...register('participants.player2.attendance')} />
+
+  {/* Campo compartido para ambos jugadores */}
+  <label htmlFor="teams">Equipo para Ambos Jugadores</label>
+  <input type="number" {...register('teams')} />
+
+  <button type="submit">Submit</button>
+</form>
       </>
  )
     }   

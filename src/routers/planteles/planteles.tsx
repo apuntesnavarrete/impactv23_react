@@ -69,9 +69,9 @@ if (data.dorsal) {
     formData.append('dorsal', data.dorsal.toString());
   } 
 
-  if (data.typeParticipants) {
-    console.log(data.typeParticipants)
-    formData.append('typeParticipant', data.typeParticipants.toString());
+  if (data.typeParticipant) {
+    console.log(data.typeParticipant)
+    formData.append('typeParticipant', data.typeParticipant.toString());
   } 
 //modificar enum
   if (data.tournaments) {
@@ -142,7 +142,7 @@ if (data.dorsal) {
         <input type="number" {...register('dorsal')} />
     
         <label htmlFor="TypeParticipant">Typo de Participante</label>
-<select {...register('typeParticipants')} id="TypeParticipant">
+<select {...register('typeParticipant')} id="TypeParticipant">
   <option value="Delegado">Delegado</option>
   <option value="Jugador">Jugador</option>
   <option value="Entrenador">Entrenador</option>
