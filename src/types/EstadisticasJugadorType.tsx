@@ -10,24 +10,16 @@ export interface EstadisticasJugadorBase {
   matches: MatchType;
 }
 
-// Primera interfaz extiende la interfaz base
+// Interfaz extiende la interfaz base
 export interface EstadisticasJugadorType extends EstadisticasJugadorBase {
   participants: Jugadorestype;
   teams: EquiposType;
 }
 
-// Segunda interfaz extiende la interfaz base
+// Nueva interfaz extiende la interfaz base y permite múltiples jugadores
 export interface EstadisticasJugadorTypeNuevo extends EstadisticasJugadorBase {
   participants: {
-    player1: {
-      id: number;
-      name: string;
-      birthDate: string;
-      createdAt: string;
-      annotations: number;
-      attendance: boolean;
-    };
-    player2: {
+    [playerId: string]: {
       id: number;
       name: string;
       birthDate: string;

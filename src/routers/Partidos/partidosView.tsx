@@ -106,6 +106,7 @@ function PartidosView(){
             <th>Goles Visitante</th>
             <th>Equipo Visitante</th>
             <th>Puntos Visitante</th>
+            <th>Fecha</th>
 
             {/* Agrega más encabezados según la estructura de tus datos */}
           </tr>
@@ -123,6 +124,7 @@ function PartidosView(){
               <td>{partidos.visitangoals}</td>
               <td>{partidos.teamAway.name}</td>
               <td>{partidos.pointsVisitan}</td>
+              <td>{partidos.date}</td>
 
 
               {/* Renderiza más celdas según la estructura de tus datos */}

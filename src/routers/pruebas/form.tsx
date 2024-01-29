@@ -1,64 +1,92 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { Jugadorestype } from '../../types/jugadores';
+// src/components/PartidoForm.tsx
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-interface FormData extends Jugadorestype {
-  file: FileList;
+interface JugadorData {
+  jugador: string;
+  goles: number;
+  asistencias: boolean;
 }
 
- function Pruebas (){
-  const { register, handleSubmit } = useForm<FormData>();
+const initialJugadores = [
+  { id: 13, nombre: 'carlos' },
+  { id: 24, nombre: 'pedro' },
+  { id: 31, nombre: 'roberto' },
+  // Asegúrate de añadir más jugadores según sea necesario
+];
 
-  const token = localStorage.getItem('token');
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const jugadoresjson = initialJugadores.map((jugador) => ({
+  jugador: '',
+  goles: 0,
+  asistencias: false,
+  Equipo: 51,
+}));
+
+const Pruebas: React.FC = () => {
+  const [jugadores, setJugadores] = useState<JugadorData[]>(jugadoresjson);
 
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    const formData = new FormData();
-    formData.append('file', data.file[0]);
-    formData.append('name', data.name);
-    formData.append('Curp', data.Curp);
-    formData.append('Email', data.Email);
-    formData.append('birthDate', data.birthDate);
+  
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    const { name, value, type, checked } = e.target;
+  
+    setJugadores((prevJugadores) => {
+      const newJugadores = [...prevJugadores];
+  
+      // Si el tipo es checkbox, utiliza el valor booleano checked
+      const inputValue = type === 'checkbox' ? checked : value;
+  
+      newJugadores[index] = { ...newJugadores[index], [name]: inputValue };
+      return newJugadores;
+    });
+  };
 
-    try {
-      const response = await fetch('http://localhost:4000/api/v1/participants', {
-        method: 'POST',
-        body: formData,
-        headers:{
-            'Authorization': `Bearer ${token}`,
-        }
-      });
-
-      if (response.ok) {
-        // Handle successful response
-      } else {
-        // Handle error response
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    // Aquí puedes manejar la lógica para enviar los datos a la API
+    console.log('Datos enviados:', jugadores);
+    // Puedes realizar la llamada a la API aquí
+    // Ejemplo: fetch('url_de_tu_api', { method: 'POST', body: JSON.stringify(jugadores), headers: { 'Content-Type': 'application/json' } });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Your form fields go here */}
-      <label htmlFor="name">Name:</label>
-      <input type="text" {...register('name')} />
-
-      <label htmlFor="Curp">Curp:</label>
-      <input type="text" {...register('Curp')} />
-
-      <label htmlFor="Email">Email:</label>
-      <input type="text" {...register('Email')} />
-
-      <label htmlFor="birthDate">Birth Date:</label>
-      <input type="date" {...register('birthDate')} />
-
-      <label htmlFor="file">File:</label>
-      <input type="file" {...register('file')} />
-
-      <button type="submit">Submit</button>
+    <form onSubmit={handleSubmit}>
+      {jugadores.map((jugador, index) => (
+        <div key={index}>
+          <label>
+            Jugador: {initialJugadores[index].nombre}
+            <input
+              type="text"
+              name="jugador"
+              value={initialJugadores[index].id}
+              onChange={(e) => handleInputChange(e, index)}
+            disabled  // Deshabilita el campo de entrada
+          />
+            
+          </label>
+          <label>
+            Goles:
+            <input
+              type="number"
+              name="goles"
+              value={jugador.goles}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+  Asistencias:
+  <input
+    type="checkbox"
+    name="asistencias"
+    checked={jugador.asistencias}
+    onChange={(e) => handleInputChange(e, index)}
+  />
+</label>
+        </div>
+      ))}
+      <button type="submit">Registrar Partido</button>
     </form>
   );
+};
 
-  }
-export default Pruebas
+export default Pruebas;

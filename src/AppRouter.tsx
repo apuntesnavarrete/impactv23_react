@@ -24,6 +24,8 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
+      <Route path="/prueba" element={<Pruebas></Pruebas>} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/jugadores" element={<Jugadores />} />
         <Route path="/jugadores/crear" element={<JugadoresCreate />} />

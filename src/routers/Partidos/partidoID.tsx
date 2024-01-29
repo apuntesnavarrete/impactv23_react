@@ -9,16 +9,13 @@ import { EstadisticasJugadorTypeNuevo } from '../../types/EstadisticasJugadorTyp
 
 
 
-
-
-
-
 function PartidoID(){
+
+ 
+
     const { idPartido } = useParams();
   //  const [idtorneo, setidtorneo] = useState<number | null>(null);
   const numeroIdPartido = parseInt(idPartido ?? "0", 10);
-
-
 
   useEffect(() => {
 
@@ -117,19 +114,8 @@ const formData = new URLSearchParams();
 //modificar enum
 
 
- 
-
-
-  
-
-    
-
   }
    
-
- 
-
-  
 
     return(
 
@@ -140,28 +126,72 @@ const formData = new URLSearchParams();
       {/* El resto de tu lógica para mostrar detalles del torneo */}
     </div>
     <form onSubmit={handleSubmit(onSubmit)}>
-  {/* En el futuro, el nombre puede componerse de la liga y el torneo */}
-  
-  {/* Jugador 1 */}
-  <label htmlFor="participants.player1.annotations">Anotaciones Jugador 1</label>
-  <input type="number" {...register('participants.player1.annotations')} />
+      {/* Equipo 1 */}
+      {[...Array(14)].map((_, index) => (
+        <div key={`team1-${index}`}>
+          {/* playerID del Jugador */}
+          <label htmlFor={`participants.team1.player${index + 1}.playerID`}>
+            Player ID Equipo 1 Jugador {index + 1}
+          </label>
+          <input
+            type="text"
+            {...register(`participants.team1.player${index + 1}.playerID`)}
+          />
 
-  <label htmlFor="participants.player1.attendance">Asistencia Jugador 1</label>
-  <input type="checkbox" {...register('participants.player1.attendance')} />
+          {/* Anotaciones del Jugador */}
+          <label htmlFor={`participants.team1.player${index + 1}.annotations`}>
+            Anotaciones Equipo 1 Jugador {index + 1}
+          </label>
+          <input
+            type="number"
+            {...register(`participants.team1.player${index + 1}.annotations`)}
+          />
 
-  {/* Jugador 2 */}
-  <label htmlFor="participants.player2.annotations">Anotaciones Jugador 2</label>
-  <input type="number" {...register('participants.player2.annotations')} />
+          {/* Asistencia del Jugador */}
+          <label htmlFor={`participants.team1.player${index + 1}.attendance`}>
+            Asistencia Equipo 1 Jugador {index + 1}
+          </label>
+          <input
+            type="checkbox"
+            {...register(`participants.team1.player${index + 1}.attendance`)}
+          />
+        </div>
+      ))}
 
-  <label htmlFor="participants.player2.attendance">Asistencia Jugador 2</label>
-  <input type="checkbox" {...register('participants.player2.attendance')} />
+      {/* Equipo 2 */}
+      {[...Array(14)].map((_, index) => (
+        <div key={`team2-${index}`}>
+          {/* playerID del Jugador */}
+          <label htmlFor={`participants.team2.player${index + 1}.playerID`}>
+            Player ID Equipo 2 Jugador {index + 1}
+          </label>
+          <input
+            type="text"
+            {...register(`participants.team2.player${index + 1}.playerID`)}
+          />
 
-  {/* Campo compartido para ambos jugadores */}
-  <label htmlFor="teams">Equipo para Ambos Jugadores</label>
-  <input type="number" {...register('teams')} />
+          {/* Anotaciones del Jugador */}
+          <label htmlFor={`participants.team2.player${index + 1}.annotations`}>
+            Anotaciones Equipo 2 Jugador {index + 1}
+          </label>
+          <input
+            type="number"
+            {...register(`participants.team2.player${index + 1}.annotations`)}
+          />
 
-  <button type="submit">Submit</button>
-</form>
+          {/* Asistencia del Jugador */}
+          <label htmlFor={`participants.team2.player${index + 1}.attendance`}>
+            Asistencia Equipo 2 Jugador {index + 1}
+          </label>
+          <input
+            type="checkbox"
+            {...register(`participants.team2.player${index + 1}.attendance`)}
+          />
+        </div>
+      ))}
+
+      <button type="submit">Submit</button>
+    </form>
       </>
  )
     }   

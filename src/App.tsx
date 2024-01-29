@@ -98,6 +98,18 @@ Libre ed
    - Crear partidos Ed Mixta_Sabatina-
    </NavLink>
    </p>
+
+   <h3>
+Proo libre platinoa</h3>
+<NavLink to="/Pro/Libre_Platino/Createpartidos">
+   - Crear partidos Pro platino-
+   </NavLink>
+   <NavLink to="/Pro/Libre_Platino/tablageneral">
+   - Libre general Pro platino-
+   </NavLink>
+   <NavLink to="/Pro/Libre_Platino/partidos">
+   - Libre resultados platino-
+   </NavLink>
    <h3>
  Ligas
 </h3>
