@@ -2,24 +2,27 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
 interface JugadorData {
-  jugador: string;
-  goles: number;
-  asistencias: boolean;
+  annotations: number;
+  attendance: boolean;
+  matches: number,
+  participants: number,
+  teams: number,
 }
 
 const initialJugadores = [
-  { id: 13, nombre: 'carlos' },
-  { id: 24, nombre: 'pedro' },
-  { id: 31, nombre: 'roberto' },
+  { nombre: 'carlos', participants: 1 },
+  {  nombre: 'pedro', participants: 1 },
+  {  nombre: 'roberto', participants: 1 },
   // Asegúrate de añadir más jugadores según sea necesario
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const jugadoresjson = initialJugadores.map((jugador) => ({
-  jugador: '',
-  goles: 0,
-  asistencias: false,
-  Equipo: 51,
+const jugadoresjson = initialJugadores.map((jugador,index) => ({
+  annotations: 0,
+  attendance: false,
+  matches: 22,
+  participants: initialJugadores[index].participants,
+  teams:72, 
 }));
 
 const Pruebas: React.FC = () => {
@@ -41,35 +44,56 @@ const Pruebas: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Aquí puedes manejar la lógica para enviar los datos a la API
-    console.log('Datos enviados:', jugadores);
-    // Puedes realizar la llamada a la API aquí
-    // Ejemplo: fetch('url_de_tu_api', { method: 'POST', body: JSON.stringify(jugadores), headers: { 'Content-Type': 'application/json' } });
+    console.log('ver datos:', jugadores);
+
+
+    try {
+
+    
+      const response = await fetch(`http://localhost:4000/api/v1/PlayerStatistics`, {
+          method: 'POST',
+      headers:{
+         // 'Authorization': `Bearer ${token}`,
+         'Content-Type': 'application/json', // Cambiado a 'application/json'
+  
+      },
+      body: JSON.stringify(jugadores), // Convertir jugadores a cadena JSON
+  
+  
+    });
+  
+  
+    if (response.ok) {
+      console.log(response)
+    //  window.location.href = '/Jugadores';
+  
+    } else {
+      // Handle error response
+    }
+    
+  } catch (error) {
+    console.error('Error submitting form:', error);
+  }
+  
+
+    
   };
 
   return (
     <form onSubmit={handleSubmit}>
       {jugadores.map((jugador, index) => (
         <div key={index}>
-          <label>
-            Jugador: {initialJugadores[index].nombre}
-            <input
-              type="text"
-              name="jugador"
-              value={initialJugadores[index].id}
-              onChange={(e) => handleInputChange(e, index)}
-            disabled  // Deshabilita el campo de entrada
-          />
-            
-          </label>
+         
+      <p>Jugador ; {initialJugadores[index].nombre} Id.- {initialJugadores[index].participants}  </p>
+         
           <label>
             Goles:
             <input
               type="number"
-              name="goles"
-              value={jugador.goles}
+              name="annotations"
+              value={jugador.annotations}
               onChange={(e) => handleInputChange(e, index)}
             />
           </label>
@@ -77,8 +101,8 @@ const Pruebas: React.FC = () => {
   Asistencias:
   <input
     type="checkbox"
-    name="asistencias"
-    checked={jugador.asistencias}
+    name="attendance"
+    checked={jugador.attendance}
     onChange={(e) => handleInputChange(e, index)}
   />
 </label>
