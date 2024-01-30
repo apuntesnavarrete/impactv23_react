@@ -1,6 +1,6 @@
 import { Plantelestype } from "../../../types/plantelestype";
 
- const getPlayersByTeamAndTournament = async (id: number, tournamentId: number): Promise<Plantelestype[]> => {
+ const getPlayersByTeamAndTournament = async (id: number, tournamentId: number | null ): Promise<Plantelestype[]> => {
   try {
     // Cambia la URL con la dirección de tu API
     const response = await fetch('http://18.188.110.39:83/api/v1/rosters');
