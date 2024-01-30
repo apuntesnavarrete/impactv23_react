@@ -1,5 +1,7 @@
 // src/components/PartidoForm.tsx
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import getTeamIdsFromMatchId from '../Partidos/functions/getTeamIdsFromMatchId';
+import getPlayersByTeamAndTournament from '../Partidos/functions/getPlayersByTeamAndTournament';
 
 interface JugadorData {
   annotations: number;
@@ -9,25 +11,57 @@ interface JugadorData {
   teams: number,
 }
 
-const initialJugadores = [
-  { name: 'carlos', participants: 441,teams:98 },
-  {  name: 'pedro', participants: 637,teams:98 },
-  {  name: 'roberto', participants: 878,teams:98 },
-  // Asegúrate de añadir más jugadores según sea necesario
-];
+
+
+
+
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const jugadoresjson = initialJugadores.map((jugador,index) => ({
-  annotations: 0,
-  attendance: false,
-  matches: 22,
-  participants: initialJugadores[index].participants,
-  teams: initialJugadores[index].teams, 
-}));
+
 
 const Pruebas: React.FC = () => {
-  const [jugadores, setJugadores] = useState<JugadorData[]>(jugadoresjson);
+  const [jugadores, setJugadores] = useState<JugadorData[]>([]);
 
+  const numeroIdPartido = 31
+
+  useEffect(() => {
+    getTeamIdsFromMatchId(numeroIdPartido)
+      .then((resultado) => {
+        const teamAwayId = resultado?.teamAwayId || 0;
+        const teamHomeId = resultado?.teamHomeId || 0;
+
+        const promiseAway = getPlayersByTeamAndTournament(teamAwayId, 1);
+        const promiseHome = getPlayersByTeamAndTournament(teamHomeId, 1);
+
+        return Promise.all([promiseAway, promiseHome]);
+      })
+      .then(([equiposFiltradosAway, equiposFiltradosHome]) => {
+        console.log('Equipos filtrados para teamAwayId:', equiposFiltradosAway);
+        console.log('Equipos filtrados para teamHomeId:', equiposFiltradosHome);
+
+        const convertedArray = equiposFiltradosAway.map(({ participants, teams }) => ({
+          name: participants.name,
+          participants: participants.id,
+          teams: teams.id,
+        }));
+        
+        const jugadoresjson = convertedArray.map((jugador,index) => ({
+          name: convertedArray[index].name,
+
+          annotations: 0,
+          attendance: false,
+          matches: 22,
+          participants: convertedArray[index].participants,
+          teams: convertedArray[index].teams, 
+        }));
+        console.log(convertedArray);
+        setJugadores(jugadoresjson); // Actualiza el estado con convertedArray
+
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, [numeroIdPartido]);
 
   
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -72,7 +106,7 @@ const Pruebas: React.FC = () => {
       {jugadores.map((jugador, index) => (
         <div key={index}>
          
-      <p>Jugador ; {initialJugadores[index].name} Id.- {initialJugadores[index].participants}  </p>
+      <p> id.- {jugadores[index].participants}  </p>
          
           <label>
             Goles:
