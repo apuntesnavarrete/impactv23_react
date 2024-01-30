@@ -22,6 +22,7 @@ interface JugadorData {
 
 const Pruebas: React.FC = () => {
   const [jugadores, setJugadores] = useState<JugadorData[]>([]);
+  const [selectedTeam, setSelectedTeam] = useState('away');
 
   const numeroIdPartido = 31
 
@@ -39,8 +40,9 @@ const Pruebas: React.FC = () => {
       .then(([equiposFiltradosAway, equiposFiltradosHome]) => {
         console.log('Equipos filtrados para teamAwayId:', equiposFiltradosAway);
         console.log('Equipos filtrados para teamHomeId:', equiposFiltradosHome);
+        const selectedTeamData = selectedTeam === 'away' ? equiposFiltradosAway : equiposFiltradosHome;
 
-        const convertedArray = equiposFiltradosAway.map(({ participants, teams }) => ({
+        const convertedArray = selectedTeamData.map(({ participants, teams }) => ({
           name: participants.name,
           participants: participants.id,
           teams: teams.id,
@@ -62,7 +64,7 @@ const Pruebas: React.FC = () => {
       .catch((error) => {
         console.error('Error:', error);
       });
-  }, [numeroIdPartido]);
+  }, [numeroIdPartido, selectedTeam]);
 
   
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
@@ -111,6 +113,10 @@ const Pruebas: React.FC = () => {
   }
 
   return (
+<>
+    <button onClick={() => setSelectedTeam('away')}>Usar equiposFiltradosAway</button>
+    <button onClick={() => setSelectedTeam('home')}>Usar equiposFiltradosHome</button>
+
     <form onSubmit={handleSubmit}>
       {jugadores.map((jugador, index) => (
         <div key={index}>
@@ -139,6 +145,7 @@ const Pruebas: React.FC = () => {
       ))}
       <button type="submit">Registrar Partido</button>
     </form>
+    </>
   );
 };
 
