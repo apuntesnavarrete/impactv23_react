@@ -10,9 +10,9 @@ interface JugadorData {
 }
 
 const initialJugadores = [
-  { nombre: 'carlos', participants: 1 },
-  {  nombre: 'pedro', participants: 1 },
-  {  nombre: 'roberto', participants: 1 },
+  { name: 'carlos', participants: 441,teams:98 },
+  {  name: 'pedro', participants: 637,teams:98 },
+  {  name: 'roberto', participants: 878,teams:98 },
   // Asegúrate de añadir más jugadores según sea necesario
 ];
 
@@ -22,7 +22,7 @@ const jugadoresjson = initialJugadores.map((jugador,index) => ({
   attendance: false,
   matches: 22,
   participants: initialJugadores[index].participants,
-  teams:72, 
+  teams: initialJugadores[index].teams, 
 }));
 
 const Pruebas: React.FC = () => {
@@ -48,45 +48,31 @@ const Pruebas: React.FC = () => {
     e.preventDefault();
     console.log('ver datos:', jugadores);
 
-
     try {
-
-    
       const response = await fetch(`http://localhost:4000/api/v1/PlayerStatistics`, {
-          method: 'POST',
-      headers:{
-         // 'Authorization': `Bearer ${token}`,
-         'Content-Type': 'application/json', // Cambiado a 'application/json'
-  
-      },
-      body: JSON.stringify(jugadores), // Convertir jugadores a cadena JSON
-  
-  
-    });
-  
-  
-    if (response.ok) {
-      console.log(response)
-    //  window.location.href = '/Jugadores';
-  
-    } else {
-      // Handle error response
-    }
-    
-  } catch (error) {
-    console.error('Error submitting form:', error);
-  }
-  
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jugadores),
+      });
 
-    
-  };
+      if (response.ok) {
+        console.log(response);
+      } else {
+        // Manejar respuesta de error
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit}>
       {jugadores.map((jugador, index) => (
         <div key={index}>
          
-      <p>Jugador ; {initialJugadores[index].nombre} Id.- {initialJugadores[index].participants}  </p>
+      <p>Jugador ; {initialJugadores[index].name} Id.- {initialJugadores[index].participants}  </p>
          
           <label>
             Goles:

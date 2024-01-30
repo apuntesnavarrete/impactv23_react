@@ -208,82 +208,71 @@ interface JugadorData {
   participants: number,
   teams: number,
 }
-
+/*
 const initialJugadores = [
   {  participants: 1  },
   {  participants: 1 },
   {  participants: 1 },
   // Asegúrate de añadir más jugadores según sea necesario
 ];
-
+*/
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 
 const Pruebas: React.FC = () => {
-  
   const { idPartido } = useParams();
-
   const numeroIdPartido = parseInt(idPartido ?? "0", 10);
 
-  const [teamAwayId, setTeamAwayId] = useState<Plantelestype[]>([]); // Cambié a array
- // const [teamHomeId, setTeamHomeId] = useState(0);
+  const [teamAwayId, setTeamAwayId] = useState<Plantelestype[]>([]);
 
   useEffect(() => {
-
     getTeamIdsFromMatchId(numeroIdPartido)
-    .then((resultado) => {
-      // Verificamos si resultado?.teamAwayId es null o undefined, y le asignamos un valor por defecto si es necesario
-      const teamAwayId = resultado?.teamAwayId || 0; // Puedes ajustar el valor por defecto según tus necesidades
-  
-      // Verificamos si resultado?.teamHomeId es null o undefined, y le asignamos un valor por defecto si es necesario
-      const teamHomeId = resultado?.teamHomeId || 0; // Puedes ajustar el valor por defecto según tus necesidades
-  
-      // Llamamos a fetchTeamsById pasando el teamAwayId y teamHomeId obtenidos
-      const promiseAway = getPlayersByTeamAndTournament(teamAwayId,1);
-      const promiseHome = getPlayersByTeamAndTournament(teamHomeId,1);
-  
-      // Podemos utilizar Promise.all para esperar a que ambas promesas se resuelvan antes de continuar
-      return Promise.all([promiseAway, promiseHome]);
-    })
-    .then(([equiposFiltradosAway, equiposFiltradosHome]) => {
-      // Manejamos los equipos filtrados obtenidos de fetchTeamsById para teamAwayId y teamHomeId
-      console.log('Equipos filtrados para teamAwayId:', equiposFiltradosAway);
-      console.log('Equipos filtrados para teamHomeId:', equiposFiltradosHome);
-      // Puedes realizar cualquier otra acción con los equipos filtrados aquí
-      setTeamAwayId(equiposFiltradosAway);
-     // setTeamHomeId(equiposFiltradosHome);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-      // Manejar errores según tus necesidades
-    });
-  
+      .then((resultado) => {
+        const teamAwayId = resultado?.teamAwayId || 0;
+        const teamHomeId = resultado?.teamHomeId || 0;
 
+        const promiseAway = getPlayersByTeamAndTournament(teamAwayId, 1);
+        const promiseHome = getPlayersByTeamAndTournament(teamHomeId, 1);
+
+        return Promise.all([promiseAway, promiseHome]);
+      })
+      .then(([equiposFiltradosAway, equiposFiltradosHome]) => {
+        console.log('Equipos filtrados para teamAwayId:', equiposFiltradosAway);
+        console.log('Equipos filtrados para teamHomeId:', equiposFiltradosHome);
+
+        const convertedArray = equiposFiltradosAway.map(({ participants, teams }) => ({
+          name: participants.name,
+          participants: participants.id,
+          teams: teams.id,
+        }));
+        
+        console.log(convertedArray);
+
+
+        setTeamAwayId(equiposFiltradosAway);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }, [numeroIdPartido]);
 
-
-
-  const jugadoresjson = initialJugadores.map((jugador,index) => ({
+  // Utiliza teamAwayId para construir jugadoresjson
+  const jugadoresjson = teamAwayId.map((jugador) => ({
     annotations: 0,
     attendance: false,
     matches: numeroIdPartido,
-    participants: initialJugadores[index].participants,
-    teams:72, 
+    participants: jugador.participants.id || 0,
+    teams: jugador.teams.id || 0,
   }));
 
   const [jugadores, setJugadores] = useState<JugadorData[]>(jugadoresjson);
 
-
-  
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     const { name, value, type, checked } = e.target;
-  
+
     setJugadores((prevJugadores) => {
       const newJugadores = [...prevJugadores];
-  
-      // Si el tipo es checkbox, utiliza el valor booleano checked
       const inputValue = type === 'checkbox' ? checked : value;
-  
       newJugadores[index] = { ...newJugadores[index], [name]: inputValue };
       return newJugadores;
     });
@@ -293,47 +282,32 @@ const Pruebas: React.FC = () => {
     e.preventDefault();
     console.log('ver datos:', jugadores);
 
-
     try {
-
-    
       const response = await fetch(`http://localhost:4000/api/v1/PlayerStatistics`, {
-          method: 'POST',
-      headers:{
-         // 'Authorization': `Bearer ${token}`,
-         'Content-Type': 'application/json', // Cambiado a 'application/json'
-  
-      },
-      body: JSON.stringify(jugadores), // Convertir jugadores a cadena JSON
-  
-  
-    });
-  
-  
-    if (response.ok) {
-      console.log(response)
-    //  window.location.href = '/Jugadores';
-  
-    } else {
-      // Handle error response
-    }
-    
-  } catch (error) {
-    console.error('Error submitting form:', error);
-  }
-  
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jugadores),
+      });
 
-    
+      if (response.ok) {
+        console.log(response);
+      } else {
+        // Manejar respuesta de error
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   return (
-    
     <form onSubmit={handleSubmit}>
-      {jugadores.map((jugador, index) => (
+      {teamAwayId.map((jugador, index) => (
         <div key={index}>
-<p>{teamAwayId[index]?.participants?.name || "Nombre no disponible"}</p>
-<p>{teamAwayId[index]?.participants?.id || "ID no disponible"}</p>
-         
+          <p>{teamAwayId[index]?.participants?.name || "Nombre no disponible"}</p>
+          <p>{teamAwayId[index]?.participants?.id || "ID no disponible"}</p>
+
           <label>
             Goles:
             <input
@@ -344,14 +318,14 @@ const Pruebas: React.FC = () => {
             />
           </label>
           <label>
-  Asistencias:
-  <input
-    type="checkbox"
-    name="attendance"
-    checked={jugador.attendance}
-    onChange={(e) => handleInputChange(e, index)}
-  />
-</label>
+            Asistencias:
+            <input
+              type="checkbox"
+              name="attendance"
+              checked={jugador.attendance}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
         </div>
       ))}
       <button type="submit">Registrar Partido</button>
