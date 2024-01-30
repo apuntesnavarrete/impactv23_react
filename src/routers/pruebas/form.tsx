@@ -9,6 +9,7 @@ interface JugadorData {
   matches: number,
   participants: number,
   teams: number,
+  name: string
 }
 
 
@@ -82,13 +83,21 @@ const Pruebas: React.FC = () => {
     e.preventDefault();
     console.log('ver datos:', jugadores);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const postData = jugadores.map(({ name, ...rest }) => rest);
+    console.log('ver postData:', postData);
+    const filteredArray = postData.filter((jugador) => jugador.attendance);
+    console.log('filtrado true:', filteredArray);
+
+
+
     try {
       const response = await fetch(`http://localhost:4000/api/v1/PlayerStatistics`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(jugadores),
+        body: JSON.stringify(filteredArray),
       });
 
       if (response.ok) {
@@ -106,7 +115,7 @@ const Pruebas: React.FC = () => {
       {jugadores.map((jugador, index) => (
         <div key={index}>
          
-      <p> id.- {jugadores[index].participants}  </p>
+      <p>Jugador ;{jugadores[index].name} Id.- {jugadores[index].participants}  </p>
          
           <label>
             Goles:
