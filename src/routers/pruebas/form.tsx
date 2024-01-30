@@ -112,10 +112,21 @@ const Pruebas: React.FC = () => {
     }
   }
 
+  const handleToggleCheckboxes = () => {
+    setJugadores((prevJugadores) => {
+      const newJugadores = prevJugadores.map((jugador) => ({
+        ...jugador,
+        attendance: !jugador.attendance,
+      }));
+      return newJugadores;
+    });
+  };
+
   return (
 <>
     <button onClick={() => setSelectedTeam('away')}>Usar equiposFiltradosAway</button>
     <button onClick={() => setSelectedTeam('home')}>Usar equiposFiltradosHome</button>
+    <button onClick={handleToggleCheckboxes}>Toggle Todos</button>
 
     <form onSubmit={handleSubmit}>
       {jugadores.map((jugador, index) => (
