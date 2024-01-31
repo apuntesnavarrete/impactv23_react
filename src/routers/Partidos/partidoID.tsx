@@ -457,7 +457,7 @@ const PartidoID: React.FC = () => {
 
 
     try {
-      const response = await fetch(`http://localhost:4000/api/v1/PlayerStatistics`, {
+      const response = await fetch(`http://18.188.110.39:83/api/v1/PlayerStatistics`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

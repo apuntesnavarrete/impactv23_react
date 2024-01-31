@@ -73,6 +73,11 @@ Libre ed
    <NavLink to="/ED/Libre/plantelesView">
     planteles tabla Libre ED 
    </NavLink>
+
+   <NavLink to="/Pro/Libre_Platino/Createpartidos">
+   - Crear partidos libre ed -
+   </NavLink>
+
    <NavLink to="/ED/Libre/partidos">
     partidos Libre ED 
    </NavLink>

@@ -11,3 +11,7 @@ o traer todos los equipos registrados
 -PARTIDOS , filtra para mostar por jornadas
 
 -urgente , jornadas en los partidos.
+
+//proteger ruta stadisticas
+
+//revisar si funciona partidos create

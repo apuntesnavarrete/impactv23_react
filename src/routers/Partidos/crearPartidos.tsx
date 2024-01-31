@@ -4,12 +4,21 @@ import { MatchType } from '../../types/partidoType';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { TorneoType } from '../../types/torneotype';
+import getRapidFootballStandings from './functions/getRapidFootballStandings';
+import { TablageneralType } from '../../types/tablageneral';
 
+const SuccessMessage: React.FC<{ message: string }> = ({ message }) => (
+  <div style={{ color: 'green', border: '1px solid green', padding: '10px', margin: '10px 0' }}>
+    {message}
+  </div>
+);
 
-
-function Categoria(){
+function CrearPartidos(){
     const { liga, torneo } = useParams();
     const [idtorneo, setidtorneo] = useState<number | null>(null);
+    const [tablageneral, setTablageneral] = useState<TablageneralType[]>([]);
+    const [showSuccess, setShowSuccess] = useState(false);
+
 
     useEffect(() => {
         // Función para realizar la solicitud fetch
@@ -52,9 +61,24 @@ function Categoria(){
           }
         };
     
+
+        if (idtorneo !== null) {
+          getRapidFootballStandings(idtorneo)
+            .then((equiposConInfo) => {
+              console.log('Equipos con Info:', equiposConInfo);
+              setTablageneral(equiposConInfo);
+
+            })
+            .catch((error) => {
+              console.error('Error en la obtención de equipos con info:', error);
+            });
+        }
+
         // Llamar a la función para realizar la solicitud fetch
         fetchData();
-      }, [liga,torneo]); 
+
+        
+      }, [liga,torneo, idtorneo]); 
 
   const token = localStorage.getItem('token');
 
@@ -170,8 +194,10 @@ if (data.localgoals) {
 
       if (response.ok) {
         console.log(response)
-      //  window.location.href = '/Jugadores';
-
+        setShowSuccess(true); // Mostrar el mensaje de éxito si la solicitud fue exitosa
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 3000);
       } else {
         // Handle error response
       }
@@ -199,10 +225,22 @@ if (data.localgoals) {
         <input type="number" {...register('matchday')} />
 
         <label htmlFor="idName">Team Home</label>
-        <input type="number" {...register('teamHome')} />
-      
+          <select {...register('teamHome')}>
+            {tablageneral.map((equipo) => (
+              <option key={equipo.equipoId} value={equipo.equipoId}>
+                {equipo.equipo}
+              </option>
+            ))}
+          </select>
+                
         <label htmlFor="description">TeamAway</label>
-      <input type="number" {...register('teamAway')} />
+        <select {...register('teamAway')}>
+            {tablageneral.map((equipo) => (
+              <option key={equipo.equipoId} value={equipo.equipoId}>
+                {equipo.equipo}
+              </option>
+            ))}
+          </select>
 
       <label htmlFor="date_fundation">Fecha de partido</label>
       <input type="date" {...register('date')} />
@@ -216,8 +254,10 @@ if (data.localgoals) {
 
         <button type="submit">Submit</button>
       </form>
+      {showSuccess && <SuccessMessage message="¡Creado con éxito!" />}
+
       </>
  )
     }   
 
-export default Categoria
+export default CrearPartidos
