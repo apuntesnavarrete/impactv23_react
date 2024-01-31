@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plantelestype } from '../../types/plantelestype';
+import { apiruta } from '../../config/apiruta';
 
 const PlantelesTabla: React.FC = () => {
     // Estado para almacenar los datos de la API
@@ -35,6 +36,7 @@ const PlantelesTabla: React.FC = () => {
               <th>Jugador</th>
               <th>Dorsal</th>
               <th>Tipo de Participante</th>
+              <th>Foto</th>
 
               {/* Agrega más encabezados según la estructura de tus datos */}
             </tr>
@@ -48,6 +50,7 @@ const PlantelesTabla: React.FC = () => {
                 <td>{item.participants.name}</td>
                 <td>{item.dorsal}</td>
                 <td>{item.typeParticipant}</td>
+                <td><img className="PhotoTablas" src={`${apiruta}/public/participants/${item.participants.Photo}`} alt="Foto del jugador" /></td>
 
                 {/* Agrega más celdas según la estructura de tus datos */}
               </tr>

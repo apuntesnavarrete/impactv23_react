@@ -6,13 +6,14 @@ import { useEffect, useState } from 'react';
 import { TorneoType } from '../../types/torneotype';
 import getRapidFootballStandings from './functions/getRapidFootballStandings';
 import { TablageneralType } from '../../types/tablageneral';
-
+import { SuccessMessage } from '../SuccesMessage';
+/*
 const SuccessMessage: React.FC<{ message: string }> = ({ message }) => (
   <div style={{ color: 'green', border: '1px solid green', padding: '10px', margin: '10px 0' }}>
     {message}
   </div>
 );
-
+*/
 function CrearPartidos(){
     const { liga, torneo } = useParams();
     const [idtorneo, setidtorneo] = useState<number | null>(null);

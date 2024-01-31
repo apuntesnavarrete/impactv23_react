@@ -4,12 +4,17 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { TorneoType } from '../../types/torneotype';
 import { Plantelestype } from '../../types/plantelestype';
+import { SuccessMessage } from '../SuccesMessage';
+import { TablageneralType } from '../../types/tablageneral';
+import getRapidFootballStandings from '../Partidos/functions/getRapidFootballStandings';
 
 
 
 function Planteles(){
     const { liga, torneo } = useParams();
     const [idtorneo, setidtorneo] = useState<number | null>(null);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [tablageneral, setTablageneral] = useState<TablageneralType[]>([]);
 
     useEffect(() => {
         // Función para realizar la solicitud fetch
@@ -49,9 +54,25 @@ function Planteles(){
           }
         };
     
+
+
         // Llamar a la función para realizar la solicitud fetch
         fetchData();
-      }, [liga,torneo]); 
+
+
+        if (idtorneo !== null) {
+          getRapidFootballStandings(idtorneo)
+            .then((equiposConInfo) => {
+              console.log('Equipos con Info:', equiposConInfo);
+              setTablageneral(equiposConInfo);
+      
+            })
+            .catch((error) => {
+              console.error('Error en la obtención de equipos con info:', error);
+            });
+        }
+
+      }, [liga,torneo, idtorneo]); 
 
   const token = localStorage.getItem('token');
 
@@ -108,6 +129,10 @@ if (data.dorsal) {
 
   if (response.ok) {
     console.log(response)
+    setShowSuccess(true); // Mostrar el mensaje de éxito si la solicitud fue exitosa
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 3000);
   //  window.location.href = '/Jugadores';
 
   } else {
@@ -138,8 +163,7 @@ if (data.dorsal) {
     </div>
         <form onSubmit={handleSubmit(onSubmit)}>
         {/* nesecito que a fututo el diname se componga de la liga y torneo */}
-        <label htmlFor="dorsal">Dorsal</label>
-        <input type="number" {...register('dorsal')} />
+        
     
         <label htmlFor="TypeParticipant">Typo de Participante</label>
 <select {...register('typeParticipant')} id="TypeParticipant">
@@ -148,15 +172,26 @@ if (data.dorsal) {
   <option value="Entrenador">Entrenador</option>
 </select>
       
-        <label htmlFor="teamsId">Equipo</label>
-      <input type="number" {...register('teams')} />
-
+      
+    <label htmlFor="teams">Team Away</label>
+          <select {...register('teams')}>
+            {tablageneral.map((equipo) => (
+              <option key={equipo.equipoId} value={equipo.equipoId}>
+                {equipo.equipo}
+              </option>
+            ))}
+          </select>
 
       <label htmlFor="participants">Jugador</label>
       <input type="number" {...register('participants')} />
   
+      <label htmlFor="dorsal">Dorsal</label>
+        <input type="number" {...register('dorsal')} />
+
         <button type="submit">Submit</button>
       </form>
+      {showSuccess && <SuccessMessage message="¡Creado con éxito!" />}
+
       </>
  )
     }   
