@@ -18,7 +18,8 @@ function CrearPartidos(){
     const [idtorneo, setidtorneo] = useState<number | null>(null);
     const [tablageneral, setTablageneral] = useState<TablageneralType[]>([]);
     const [showSuccess, setShowSuccess] = useState(false);
-
+    const [mostrarSelectHome, setMostrarSelectHome] = useState(true);
+    const [mostrarSelectAway, setMostrarSelectAway] = useState(true);
 
     useEffect(() => {
         // Función para realizar la solicitud fetch
@@ -205,7 +206,13 @@ if (data.localgoals) {
       console.error('Error submitting form:', error);
     }
   };
+  const toggleMostrarSelectHome = () => {
+    setMostrarSelectHome(!mostrarSelectHome);
+  };
 
+  const toggleMostrarSelectAway = () => {
+    setMostrarSelectAway(!mostrarSelectAway);
+  };
   
 
     return(
@@ -218,13 +225,20 @@ if (data.localgoals) {
       <p>idTorneo: {idtorneo}</p>
       {/* El resto de tu lógica para mostrar detalles del torneo */}
     </div>
+
+    <button onClick={toggleMostrarSelectHome}>Mostrar Input/Select para Team Home</button>
+    <button onClick={toggleMostrarSelectAway}>Nuevo Equipo Visitante</button>
+
+
         <form onSubmit={handleSubmit(onSubmit)}>
         {/* nesecito que a fututo el diname se componga de la liga y torneo */}
 
         <label htmlFor="jornada">Jornada</label>
         <input type="number" {...register('matchday')} />
-
-        <label htmlFor="idName">Team Home</label>
+        {mostrarSelectHome  ? (
+        // Renderizar el select si mostrarSelect es true
+        <div>
+          <label htmlFor="idName">Team Home</label>
           <select {...register('teamHome')}>
             {tablageneral.map((equipo) => (
               <option key={equipo.equipoId} value={equipo.equipoId}>
@@ -232,15 +246,34 @@ if (data.localgoals) {
               </option>
             ))}
           </select>
+        </div>
+      ) : (
+        // Renderizar el input si mostrarSelect es false
+        <div>
+          <label htmlFor="idName">Team Home</label>
+          <input type="text" {...register('teamHome')} />
+        </div>
+      )}
                 
-        <label htmlFor="description">TeamAway</label>
-        <select {...register('teamAway')}>
+                {mostrarSelectAway ? (
+        // Renderizar el select para Team Away si mostrarSelectAway es true
+        <div>
+          <label htmlFor="teamAway">Team Away</label>
+          <select {...register('teamAway')}>
             {tablageneral.map((equipo) => (
               <option key={equipo.equipoId} value={equipo.equipoId}>
                 {equipo.equipo}
               </option>
             ))}
           </select>
+        </div>
+      ) : (
+        // Renderizar el input para Team Away si mostrarSelectAway es false
+        <div>
+          <label htmlFor="teamAway">Team Away</label>
+          <input type="text" {...register('teamAway')} />
+        </div>
+      )}
 
       <label htmlFor="date_fundation">Fecha de partido</label>
       <input type="date" {...register('date')} />
