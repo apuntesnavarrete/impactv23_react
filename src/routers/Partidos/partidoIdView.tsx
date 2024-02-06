@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { EstadisticasJugadorType } from '../../types/EstadisticasJugadorType';
 import { MatchType } from '../../types/partidoType';
+import { getPlayersStadisticsByIdMatch } from './functions/getPlayersStatisticsByIdTournament';
 
 
 function PartidoIdView(){
-    const { idPartido} = useParams();
+    const { idPartido, liga, torneo} = useParams();
     const numeroIdPartido = parseInt(idPartido ?? "0", 10);
   
     const [jugadoresEquipoHome, setJugadoresEquipoHome] = useState<EstadisticasJugadorType[]>([]);
@@ -20,81 +21,55 @@ function PartidoIdView(){
         const fetchData = async () => {
 
                
+         
 
+            try {
+                const partidosFiltrados = await getPlayersStadisticsByIdMatch(numeroIdPartido);
 
-          try {
-            const response = await fetch('http://18.188.110.39:83/api/v1/PlayerStatistics');
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
+                const equiposHome = partidosFiltrados[0]?.matches.teamHome;
+                const equiposAway = partidosFiltrados[0]?.matches.teamAway;
+
+                console.log('Equipo Team Home:', equiposHome.id);
+                console.log('Equipo Team Away:', equiposAway.id);
+
+                const jugadoresEquipoHome = partidosFiltrados.filter(partido => partido.teams.id === equiposHome.id);
+                const jugadoresEquipoAway = partidosFiltrados.filter(partido => partido.teams.id === equiposAway.id);
+
+                console.log('jugadores del equipo con ID', equiposHome.id, 'en teamHome:');
+                console.log(jugadoresEquipoHome);
+
+                console.log('jugadores del equipo con ID', equiposAway.id, 'en teamAway:');
+                console.log(jugadoresEquipoAway);
+
+                setJugadoresEquipoHome(jugadoresEquipoHome);
+                setJugadoresEquipoAway(jugadoresEquipoAway);
+
+                const infoPartido = await fetch(`http://18.188.110.39:83/api/v1/matches/${idPartido}`);
+
+                if (!infoPartido.ok) {
+                    throw new Error('Network response was not ok for segundaResponse');
+                }
+
+                const infoPartidoData = await infoPartido.json();
+                console.log(infoPartidoData);
+                setpartidoinfo(infoPartidoData[0]);
+            } catch (error) {
+                console.error('Error fetching data:', error);
             }
-    
-            const data = await response.json();
-
-
-           
-
-
-            const filtrarPorIdTorneo = (partidos: any[], idPartido: number): any[] => {
-                return partidos.filter((partido) => partido.matches.id === idPartido);
-            };
-
-    
-            console.log('API Response:', data);
-
-              // ID del torneo que deseas filtrar
-              
-              // Aplicar el filtro
-              const partidosFiltrados = filtrarPorIdTorneo(data, numeroIdPartido);
-
-              console.log('stadisticas filtrada', partidosFiltrados)
-
-
-              const equiposHome = partidosFiltrados[0]?.matches.teamHome; // Se asume que todos los objetos en el array tienen la misma estructura
-              const equiposAway = partidosFiltrados[0]?.matches.teamAway; // Se asume que todos los objetos en el array tienen la misma estructura
-              
-              // Imprimir en consola los valores
-              console.log('Equipo Team Home:', equiposHome.id);
-              console.log('Equipo Team Away:', equiposAway.id);
-
-              const jugadoresEquipoHome = partidosFiltrados.filter(partido => partido.teams.id === equiposHome.id);
-              const jugadoresEquipoAway = partidosFiltrados.filter(partido => partido.teams.id === equiposAway.id);
-
-// Imprimir en consola los partidos filtrados
-console.log('jugadores del equipo con ID', equiposHome.id, 'en teamHome:');
-console.log(jugadoresEquipoHome)
-
-console.log('jugadores del equipo con ID', equiposAway.id, 'en teamAway:');
-console.log(jugadoresEquipoAway)
-
-setJugadoresEquipoHome(jugadoresEquipoHome);
-setJugadoresEquipoAway(jugadoresEquipoAway);
-
-
-const infoPartido = await fetch(`http://18.188.110.39:83/api/v1/matches/${idPartido}`);
-        
-if (!infoPartido.ok) {
-  throw new Error('Network response was not ok for segundaResponse');
-}
-
-const infoPartidoData = await infoPartido.json();
-console.log(infoPartidoData)
-setpartidoinfo(infoPartidoData[0])
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
         };
     
 
 
         
         fetchData();
-      }, []);
+      }, [idPartido, numeroIdPartido]);
 
 
 
     return(
         <>
-                   
+             <p style={{ textAlign: 'center' }}> Liga {liga} Categoria {torneo}</p>
+
                     <p style={{ textAlign: 'center' }}> Marcador del partido ; {partidoinfo?.teamHome.name} {partidoinfo?.localgoals}-{partidoinfo?.visitangoals} {partidoinfo?.teamAway.name}</p>
      
         <div style={{ display: 'flex' }}>
