@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { TorneoType } from '../../types/torneotype';
 import { MatchType } from '../../types/partidoType';
@@ -107,6 +107,8 @@ function PartidosView(){
             <th>Equipo Visitante</th>
             <th>Puntos Visitante</th>
             <th>Fecha</th>
+            <th>Agregar</th>
+            <th>Ver</th>
 
             {/* Agrega más encabezados según la estructura de tus datos */}
           </tr>
@@ -125,6 +127,17 @@ function PartidosView(){
               <td>{partidos.teamAway.name}</td>
               <td>{partidos.pointsVisitan}</td>
               <td>{partidos.date}</td>
+              <td>  
+              <NavLink to={`/${liga}/${torneo}/partidos/${partidos.id}`}>
+              id {partidos.id} 
+          </NavLink>
+   </td>
+
+   <td>  
+              <NavLink to={`/${liga}/${torneo}/partidos/view/${partidos.id}`}>
+              id {partidos.id} 
+          </NavLink>
+   </td>
 
 
               {/* Renderiza más celdas según la estructura de tus datos */}

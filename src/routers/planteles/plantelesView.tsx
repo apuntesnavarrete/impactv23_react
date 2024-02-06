@@ -5,7 +5,8 @@ import { apiruta } from '../../config/apiruta';
 const PlantelesTabla: React.FC = () => {
     // Estado para almacenar los datos de la API
     const [data, setData] = useState<Plantelestype[]>([]);
-  
+    const [searchTerm, setSearchTerm] = useState<string>('');
+
     useEffect(() => {
       // Función para realizar la solicitud a la API
       const fetchData = async () => {
@@ -15,7 +16,10 @@ const PlantelesTabla: React.FC = () => {
           const jsonData = await response.json();
           // Almacena los datos en el estado
           console.log(jsonData.typeParticipant)
-          setData(jsonData);
+          const sortedData = jsonData.sort((a: Plantelestype, b: Plantelestype) =>
+          a.teams.name.localeCompare(b.teams.name)
+        );
+          setData(sortedData);
         } catch (error) {
           console.error('Error al obtener datos:', error);
         }
@@ -25,8 +29,29 @@ const PlantelesTabla: React.FC = () => {
       fetchData();
     }, []); // El segundo argumento [] indica que este efecto solo se ejecuta al montar el componente
   
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value);
+    };
+
+    const filteredData = data.filter((item: Plantelestype) =>
+  item.teams.name.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
     return (
       <div>
+
+<div>
+  <h1>Tabla de Datos</h1>
+  {/* Agrega un campo de entrada para el término de búsqueda */}
+  <input
+    type="text"
+    placeholder="Buscar por equipo"
+    value={searchTerm}
+    onChange={handleSearch}
+  />
+  {/* Resto del código... */}
+</div>
+
         <h1>Tabla de Datos</h1>
         <table>
           <thead>
@@ -43,7 +68,7 @@ const PlantelesTabla: React.FC = () => {
           </thead>
           <tbody>
             {/* Mapea los datos para generar filas de la tabla */}
-            {data.map((item: Plantelestype) => (
+            {filteredData.map((item: Plantelestype) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.teams.name}</td>

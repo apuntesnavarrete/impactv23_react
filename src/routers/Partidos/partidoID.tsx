@@ -343,6 +343,7 @@ import getTeamIdsFromMatchId from '../Partidos/functions/getTeamIdsFromMatchId';
 import getPlayersByTeamAndTournament from '../Partidos/functions/getPlayersByTeamAndTournament';
 import { useParams } from 'react-router-dom';
 import getTournamentId from './functions/getTournamentId';
+import { SuccessMessage } from '../SuccesMessage';
 
 
 interface JugadorData {
@@ -371,6 +372,7 @@ const PartidoID: React.FC = () => {
   const [jugadores, setJugadores] = useState<JugadorData[]>([]);
   const [selectedTeam, setSelectedTeam] = useState('away');
   const [idTorneo, setIdTorneo] = useState<number | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
 
   getTournamentId(liga, torneo)
@@ -467,6 +469,11 @@ const PartidoID: React.FC = () => {
 
       if (response.ok) {
         console.log(response);
+        setShowSuccess(true); // Mostrar el mensaje de éxito si la solicitud fue exitosa
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 3000);
+
       } else {
         // Manejar respuesta de error
       }
@@ -519,6 +526,8 @@ const PartidoID: React.FC = () => {
       ))}
       <button type="submit">Registrar Partido</button>
     </form>
+    {showSuccess && <SuccessMessage message="¡Creado con éxito!" />}
+
     </>
   );
 };

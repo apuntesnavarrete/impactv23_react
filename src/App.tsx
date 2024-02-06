@@ -74,7 +74,7 @@ Libre ed
     planteles tabla Libre ED 
    </NavLink>
 
-   <NavLink to="/Pro/Libre_Platino/Createpartidos">
+   <NavLink to="/ED/Libre/Createpartidos">
    - Crear partidos libre ed -
    </NavLink>
 
