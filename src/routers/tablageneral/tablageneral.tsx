@@ -19,7 +19,9 @@ const TablaGeneral: React.FC = () => {
         const dataTorneos: TorneoType[] = await responseTorneos.json();
 
         const resultadosFiltrados = dataTorneos.filter(
-          (item) => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias === torneo
+          (item) => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo?.toUpperCase()
+          //            const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo );
+
         );
 
         setidtorneo(resultadosFiltrados[0]?.id);

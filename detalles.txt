@@ -15,3 +15,5 @@ o traer todos los equipos registrados
 //proteger ruta stadisticas
 
 //revisar si funciona partidos create
+
+//revisar como obtengo el idde torneo (lo puedo o debo meter a una function)

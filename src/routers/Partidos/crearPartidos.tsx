@@ -43,8 +43,8 @@ function CrearPartidos(){
             console.log(liga)
             console.log(torneo)
 
-           const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias === torneo );
-           console.log(resultadosFiltrados)
+           const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo?.toUpperCase() );
+           console.log("RESULTADOS FILTRADOS " + resultadosFiltrados)
 
          const RESULTIRDENADOS =  resultadosFiltrados.sort((b, a) => a.idName.localeCompare(b.idName));
 

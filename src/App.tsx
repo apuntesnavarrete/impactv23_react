@@ -120,6 +120,19 @@ Proo libre platinoa</h3>
    - Libre resultados platino-
    </NavLink>
    <h3>
+
+   <h3> Liga AGUIGOL </h3>  <NavLink to="/AGUIGOL/SUB19/Createpartidos">
+   - Crear partidos Liga Aguigol-
+   </NavLink> 
+
+   <NavLink to="/AGUIGOL/SUB19/partidos">
+   - Libre resultados AGUIGOL-
+   </NavLink>
+
+   <NavLink to="/AGUIGOL/SUB19/tablageneral">
+   - tabla general AGUIGOL-
+   </NavLink>
+
  Ligas
 </h3>
 <footer>

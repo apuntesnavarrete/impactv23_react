@@ -28,7 +28,7 @@ function PartidosView(){
     
             // Convertir la respuesta a formato JSON
             const data: TorneoType[] = await response.json();
-           const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias === torneo );
+            const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo?.toUpperCase() );
 
          const RESULTIRDENADOS =  resultadosFiltrados.sort((b, a) => a.idName.localeCompare(b.idName));
 
@@ -109,6 +109,7 @@ function PartidosView(){
             <th>Fecha</th>
             <th>Agregar</th>
             <th>Ver</th>
+            <th>Img</th>
 
             {/* Agrega más encabezados según la estructura de tus datos */}
           </tr>
@@ -135,6 +136,12 @@ function PartidosView(){
 
    <td>  
               <NavLink to={`/${liga}/${torneo}/partidos/view/${partidos.id}`}>
+              id {partidos.id} 
+          </NavLink>
+   </td>
+
+   <td>  
+              <NavLink to={`/${liga}/${torneo}/partidos/img/${partidos.id}`}>
               id {partidos.id} 
           </NavLink>
    </td>
