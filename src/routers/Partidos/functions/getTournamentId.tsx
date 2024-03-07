@@ -14,7 +14,9 @@ const getTournamentId = async (liga: string | undefined, torneo: string | undefi
   
       // Filtrar los resultados basados en la liga y el torneo
       const resultadosFiltrados = data.filter(
-        (item) => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias === torneo
+        (item) => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo?.toUpperCase()
+        //            const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo );
+
       );
   
       // Ordenar los resultados por el nombre de ID en orden descendente

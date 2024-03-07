@@ -158,8 +158,9 @@ const PartidoID: React.FC = () => {
     <button onClick={() => setSelectedTeam('away')}>Usar equiposFiltradosAway</button>
     <button onClick={() => setSelectedTeam('home')}>Usar equiposFiltradosHome</button>
     <button onClick={handleToggleCheckboxes}>Toggle Todos</button>
-
+    {jugadores[0]?.teams}
     <form onSubmit={handleSubmit}>
+      
       {jugadores.map((jugador, index) => (
         <div key={index}>
          

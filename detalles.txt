@@ -17,3 +17,9 @@ o traer todos los equipos registrados
 //revisar si funciona partidos create
 
 //revisar como obtengo el idde torneo (lo puedo o debo meter a una function)
+
+//acentos en las busquedas
+
+*// filtro de idtorneo convertirlo en una function para su mantenimiento
+
+**insertar partido con equipo null**

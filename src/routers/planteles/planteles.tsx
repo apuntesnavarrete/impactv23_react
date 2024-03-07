@@ -34,8 +34,11 @@ function Planteles(){
     
             // Convertir la respuesta a formato JSON
             const data: TorneoType[] = await response.json();
-           const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias === torneo );
-
+            const resultadosFiltrados = data.filter(
+              (item) => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo?.toUpperCase()
+              //            const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo );
+    
+            );
          const RESULTIRDENADOS =  resultadosFiltrados.sort((b, a) => a.idName.localeCompare(b.idName));
 
 

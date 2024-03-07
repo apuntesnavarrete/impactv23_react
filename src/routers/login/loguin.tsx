@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { LoginForm } from '../../types/loginform';
+import { SuccessMessage } from '../SuccesMessage';
 
 
 
 const Login: React.FC = () => {
+
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const [formData, setFormData] = useState<LoginForm>({
     email: '',
     password: '',
@@ -37,6 +41,11 @@ const Login: React.FC = () => {
             localStorage.setItem('token', responseData.token);
 
             console.log('Autenticación exitosa:', responseData);
+            setShowSuccess(true); // Mostrar el mensaje de éxito si la solicitud fue exitosa
+            setTimeout(() => {
+              setShowSuccess(false);
+            }, 3000);
+
           } else {
             // El servidor respondió con un error (código de estado diferente de 2xx)
             console.error('Error en la autenticación:', response.statusText);
@@ -74,6 +83,9 @@ const Login: React.FC = () => {
 
         <button type="submit">Iniciar Sesión</button>
       </form>
+
+      {showSuccess && <SuccessMessage message="Autenticacion exitosa" />}
+
     </div>
   );
 };

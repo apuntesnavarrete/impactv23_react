@@ -45,6 +45,9 @@ function App() {
 <h3>
   estas rutas son provicionales debe hacer un menu
 </h3>
+
+
+
 <NavLink to="/ED/Mixta_Dominical/Createpartidos">
     Crear partidos Ed mixta Dominical
    </NavLink>
@@ -109,6 +112,26 @@ Libre ed
    </p>
 
    <h3>
+ED femenil sabatina</h3>
+<NavLink to="/ED/Femenil/Createpartidos">
+   - Crear partidos Ed Femenil
+   </NavLink>
+   <NavLink to="/ED/Femenil/partidos">
+   -- leer partidos Ed femenil --
+   </NavLink>
+
+   <NavLink to="/ED/Femenil/planteles">
+   --- insertar planteles femenil ED ---
+   </NavLink>
+
+   <NavLink to="/ED/Femenil/plantelesView">
+   -- planteles tabla femenil ED ---
+   </NavLink>
+
+   <NavLink to="/ED/Femenil/tablageneral">
+    Tabla General Femenil ED 
+   </NavLink>
+   <h3>
 Proo libre platinoa</h3>
 <NavLink to="/Pro/Libre_Platino/Createpartidos">
    - Crear partidos Pro platino-
@@ -119,6 +142,15 @@ Proo libre platinoa</h3>
    <NavLink to="/Pro/Libre_Platino/partidos">
    - Libre resultados platino-
    </NavLink>
+
+   <NavLink to="/Pro/Libre_Platino/planteles">
+   --- insertar planteles Libre ED ---
+   </NavLink>
+
+   <NavLink to="/Pro/Libre_Platino/plantelesView">
+   -- planteles tabla Libre ED ---
+   </NavLink>
+
    <h3>
 
    <h3> Liga AGUIGOL </h3>  <NavLink to="/AGUIGOL/SUB19/Createpartidos">

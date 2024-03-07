@@ -13,3 +13,7 @@ export interface MatchType {
     teamHome: EquiposType;
     teamAway: EquiposType;
   }
+
+  export interface ExtendedMatchType extends MatchType {
+    timesPlayed: number;
+  }
