@@ -1,12 +1,13 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { apiruta } from '../../config/apiruta';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { TorneoType } from '../../types/torneotype';
 import { Plantelestype } from '../../types/plantelestype';
 import { SuccessMessage } from '../SuccesMessage';
 import { TablageneralType } from '../../types/tablageneral';
 import getRapidFootballStandings from '../Partidos/functions/getRapidFootballStandings';
+import getPlayersTournament from '../Partidos/functions/getPlayersByTournament';
 
 
 
@@ -14,7 +15,10 @@ function Planteles(){
     const { liga, torneo } = useParams();
     const [idtorneo, setidtorneo] = useState<number | null>(null);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [mensaje, setMensaje] = useState<string>("");
+
     const [tablageneral, setTablageneral] = useState<TablageneralType[]>([]);
+    const [jugadoresRegistro, setjugadoresRegistro] = useState<Plantelestype[]>([]);
 
     useEffect(() => {
         // Función para realizar la solicitud fetch
@@ -74,6 +78,15 @@ function Planteles(){
               console.error('Error en la obtención de equipos con info:', error);
             });
         }
+
+
+        getPlayersTournament(idtorneo)
+          .then((jugadores  )=>{
+            setjugadoresRegistro(jugadores)
+          })
+          .catch((error) => {
+            console.error('Error en la obtención de jugadores', error);
+          });
 
       }, [liga,torneo, idtorneo]); 
 
@@ -150,7 +163,17 @@ if (data.dorsal) {
   }
    
 
- 
+  const findregister = (event: ChangeEvent<HTMLInputElement>): void => {
+    const idRegistro: number = parseInt(event.target.value);
+    console.log(idRegistro); // Imprimir el número en la consola
+    console.log('jugadores del torneo', jugadoresRegistro);
+    const registroEncontrado = jugadoresRegistro.find(registro => registro.participants.id === idRegistro);
+    if (registroEncontrado) {
+      setMensaje(`Jugador ${JSON.stringify(registroEncontrado.participants.name)} - Equipo ${JSON.stringify(registroEncontrado.teams.name)}`);
+  } else {
+      setMensaje("No se encontró el jugador registrado.");
+  }
+};
 
   
 
@@ -186,7 +209,9 @@ if (data.dorsal) {
           </select>
 
       <label htmlFor="participants">Jugador</label>
-      <input type="number" {...register('participants')} />
+      <input type="number" {...register('participants') }
+          onChange={findregister} 
+          />
   
       <label htmlFor="dorsal">Dorsal</label>
         <input type="number" {...register('dorsal')} />
@@ -194,6 +219,8 @@ if (data.dorsal) {
         <button type="submit">Submit</button>
       </form>
       {showSuccess && <SuccessMessage message="¡Creado con éxito!" />}
+      <p>{mensaje}</p>
+
 
       </>
  )
