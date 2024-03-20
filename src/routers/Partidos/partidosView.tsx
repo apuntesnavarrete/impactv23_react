@@ -17,28 +17,15 @@ function PartidosView(){
             // Realizar la solicitud fetch
             const response = await fetch('http://18.188.110.39:83/api/v1/tournaments');
          
-
-
-
-
-            // Verificar si la respuesta es exitosa (código de estado 200)
             if (!response.ok) {
               throw new Error('Error al obtener los datos');
             }
     
-            // Convertir la respuesta a formato JSON
             const data: TorneoType[] = await response.json();
             const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo?.toUpperCase() );
 
          const RESULTIRDENADOS =  resultadosFiltrados.sort((b, a) => a.idName.localeCompare(b.idName));
 
-
-    /*    const resultadosFiltrados = data.filter(item => 
-          item.leagues && 
-          item.leagues.Alias === (liga?.toUpperCase()) &&
-          item.leagues. === torneo
-        );  
-      */  
         console.log(RESULTIRDENADOS)
 
             console.log()

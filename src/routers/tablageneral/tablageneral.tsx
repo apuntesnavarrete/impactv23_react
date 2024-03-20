@@ -56,6 +56,7 @@ const TablaGeneral: React.FC = () => {
       <table>
         <thead>
           <tr>
+            <th>#</th>
             <th>IdEquipo</th>
             <th>Equipo</th>
             <th>Puntos</th>
@@ -70,8 +71,10 @@ const TablaGeneral: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {clasificacion.map((equipo) => (
+          {clasificacion.map((equipo, index) => (
             <tr key={equipo.equipo}>
+             <td>{index + 1}</td>
+
               <td>{equipo.equipoId}</td>
               <td>{equipo.equipo}</td>
               <td>{equipo.puntos}</td>

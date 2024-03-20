@@ -88,6 +88,8 @@ function Goleo(){
         <table>
           <thead>
             <tr>
+            <th>#</th>
+
                 <th>Id Jugador</th>
 
                   <th>Jugador</th>
@@ -99,6 +101,7 @@ function Goleo(){
           <tbody>
             {goleadoresArray.map((jugador, index) => (
               <tr key={index}>
+                      <td>{index + 1}</td>
                  <td>{jugador.id}</td>
                 <td>{jugador.nombre}</td>
                 <td>{jugador.equipo}</td>
