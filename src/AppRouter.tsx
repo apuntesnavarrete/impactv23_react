@@ -21,6 +21,7 @@ import PartidoIdView from './routers/Partidos/partidoIdView';
 import Goleo from './routers/estadisticasJugadores/goleo';
 import PartidoImg from './routers/Partidos/partidoImg';
 import Roll from './routers/roll/roll';
+import MenuTorneos from './routers/Menu/menuTorneo';
  // Nuevo componente para detalles de torneo
 
 // Configura las rutas
@@ -40,7 +41,9 @@ const AppRouter = () => {
         <Route path="/torneos" element={<Torneos />} />
         <Route path="/torneos/create" element={<TorneosCreate />} />
         <Route path="/partidos" element={<PartidosCreate />} />
-        <Route path="/prochampions" element={<Menu_Ligas />} />
+        <Route path="/Menu" element={<Menu_Ligas />} />
+        <Route path="/Menu/torneos" element={<MenuTorneos />} />
+
         {/* Rutas para hacer dinamicas*/}
 
         {/* Rutas dinámicas*/}
@@ -56,6 +59,8 @@ const AppRouter = () => {
         <Route path="/:liga/:torneo/goleo" element={<Goleo />} />
         <Route path="/:liga/:torneo/partidos/img/:idPartido" element={<PartidoImg/>} />
         <Route path="/:liga/:torneo/roll" element={<Roll />} />
+
+        <Route path="/Menu/:liga" element={<MenuTorneos />} />
 
       </Routes>
     </Router>
