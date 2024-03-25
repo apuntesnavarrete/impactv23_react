@@ -4,9 +4,8 @@
 import { useEffect, useState } from "react";
 import Ligatype from "../../types/ligastype";
 import { NavLink } from "react-router-dom";
-import '../../App.css'
 
-function Menu_Ligas() {
+function MenuTorneoOptions() {
 
   const [datos, setDatos] = useState<Ligatype[] | null>(null);
 
@@ -29,47 +28,37 @@ function Menu_Ligas() {
   }, []);
   return (
     <>
-
-<header>
-      <nav>
-   
-   <NavLink to="/">
-     Home
-   </NavLink>
-   <NavLink to="/Login">
-     Login
-   </NavLink>
-   <NavLink to="/Jugadores">
-     Jugadores
-   </NavLink>
-   <NavLink to="/Equipos">
-     Equipos
-   </NavLink>
-   <NavLink to="/Torneos">
-   Torneos
-   </NavLink>
-  </nav>
-      </header> 
-
+    <p>Opciones de torneos</p>
     <div>
-      {/* Renderizar los datos */}
-      {datos && (
-        <ul>
-          {datos.map(item => (
-            <li key={item.id}>
+      
               
-     <NavLink to={item.Alias}>
-            Liga.-  {item.Alias}
+     <NavLink to="tablageneral">
+    -- Tabla general --
    </NavLink>
-              </li>
-          ))}
-        </ul>
-      )}
-      {/* Renderizar el error si lo hay */}
-    </div>
+
+   <NavLink to="partidos">
+--Partidos--
+   </NavLink>
+
+   <NavLink to="plantelesView">
+--plantelesView--
+   </NavLink>
+
+   <NavLink to="goleo">
+--goleo--
+   </NavLink>
+   </div>
+<h3>Agregar Partidos</h3>
+<NavLink to="Createpartidos">
+--Agregar Partidos--
+   </NavLink>
+   <NavLink to="planteles">
+--Agregar planteles--
+   </NavLink>
+
        </>
   
   )
 }
 
-export default Menu_Ligas
+export default MenuTorneoOptions

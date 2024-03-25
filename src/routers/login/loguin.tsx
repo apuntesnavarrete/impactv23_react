@@ -44,6 +44,7 @@ const Login: React.FC = () => {
             setShowSuccess(true); // Mostrar el mensaje de éxito si la solicitud fue exitosa
             setTimeout(() => {
               setShowSuccess(false);
+
             }, 3000);
 
           } else {
