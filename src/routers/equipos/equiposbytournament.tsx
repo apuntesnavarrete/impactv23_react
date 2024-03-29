@@ -1,8 +1,9 @@
 import  { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import {  EquiposByTournamentType } from "../../types/equipostype";
-import { apiruta } from "../../config/apiruta";
+//import { apiruta } from "../../config/apiruta";
 import getTournamentId from "../Partidos/functions/getTournamentId";
+import { apiruta } from "../../config/apiruta";
 
 function EquiposByTournament() {
     const { liga, torneo } = useParams();
@@ -28,7 +29,7 @@ function EquiposByTournament() {
                         // Hacer algo con el ID del torneo
                         console.log('ID del torneo:', idTorneo);
                         setIdTorneo(idTorneo);
-                        const teamsFilterbyId = result.filter((item) => item.tournaments.id === idTorneo);
+                        const teamsFilterbyId = result.filter((item) => item.tournaments?.id === idTorneo);
                         console.log('equiposfilter', teamsFilterbyId);
                         setData(teamsFilterbyId);
                       } else {
@@ -73,17 +74,22 @@ function EquiposByTournament() {
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                       <th>#</th>
+                        <th>Id Registro</th>
+                        <th>Id Equipo</th>
                         <th>Equipo</th>
                         <th>Entrenador</th>
                         {/* Agrega más encabezados según la estructura de tus datos */}
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((Equipo) => (
+                    {data.map((Equipo,index) => (
                         <tr key={Equipo.id}>
+                               <td>{index + 1}</td>
                             <td>{Equipo.id}</td>
-                            <td>{Equipo.teams.name}</td>
+                            <td>{Equipo.teams?.id}</td>
+
+                            <td>{Equipo.teams?.name}</td>
                            
                             <td>{Equipo.participants ? Equipo.participants.name : 'sin asignar'}</td>
                             {/* Renderiza más celdas según la estructura de tus datos */}
