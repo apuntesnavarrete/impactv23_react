@@ -27,6 +27,13 @@ function Menu_Ligas() {
 
     fetchData();
   }, []);
+
+  function handleLogout() {
+    // Eliminar el token del localStorage
+    localStorage.removeItem('token');
+    // Redireccionar a la página de inicio de sesión u otra página relevante
+    window.location.href = '/login'; // Cambia esto por la URL deseada
+  }
   return (
     <>
 
@@ -67,6 +74,10 @@ function Menu_Ligas() {
       )}
       {/* Renderizar el error si lo hay */}
     </div>
+
+    <button onClick={handleLogout}>
+      Cerrar Sesión
+    </button>
        </>
   
   )

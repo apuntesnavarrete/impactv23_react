@@ -9,12 +9,11 @@ const useLigaInfo = (liga?: string) => {
             if (liga === 'AGUIGOL') {
                 setClaseCSS('ligaFondoAguigol');
                 setLogoLiga("aguigol.png");
-            } else if (liga === 'Pro') {
+            } else if (liga === 'PRO') {
                 setClaseCSS('ligaFondoProchampions');
                 setLogoLiga("ProLogo.png");
             } else {
-                setClaseCSS('ligaFondoED');
-                setLogoLiga("ligaed.png");
+              
             }
         }
     }, [liga]);

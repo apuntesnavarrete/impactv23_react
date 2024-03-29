@@ -22,6 +22,8 @@ import PartidoImg from './routers/Partidos/partidoImg';
 import Roll from './routers/roll/roll';
 import MenuTorneos from './routers/Menu/menuTorneo';
 import MenuTorneoOptions from './routers/Menu/menuTorneoOptions';
+import EquiposByTournament from './routers/equipos/equiposbytournament';
+import EquiposCreateByTournament from './routers/equipos/equiposCreateByTournament';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -48,7 +50,7 @@ const AppRouter = () => {
             <Route path="/torneos" element={<Torneos />} />
             <Route path="/torneos/create" element={<TorneosCreate />} />
             <Route path="/partidos" element={<PartidosCreate />} />
-            <Route path="/Menu" element={<Menu_Ligas />} />
+            <Route path="/" element={<Menu_Ligas />} />
             <Route path="/Menu/torneos" element={<MenuTorneos />} />
 
             {/* Rutas para hacer dinamicas*/}
@@ -65,6 +67,8 @@ const AppRouter = () => {
             <Route path="/:liga/:torneo/goleo" element={<Goleo />} />
             <Route path="/:liga/:torneo/partidos/img/:idPartido" element={<PartidoImg />} />
             <Route path="/:liga/:torneo/roll" element={<Roll />} />
+            <Route path="/:liga/:torneo/equipos" element={<EquiposByTournament />} />
+            <Route path="/:liga/:torneo/equipos/newEquipo" element={<EquiposCreateByTournament />} />
 
             <Route path="/:liga" element={<MenuTorneos />} />
             <Route path="/:liga/:torneo" element={<MenuTorneoOptions />} />

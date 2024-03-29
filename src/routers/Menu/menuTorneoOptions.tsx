@@ -47,6 +47,10 @@ function MenuTorneoOptions() {
    <NavLink to="goleo">
 --goleo--
    </NavLink>
+
+   <NavLink to="equipos">
+--equipos--
+   </NavLink>
    </div>
 <h3>Agregar Partidos</h3>
 <NavLink to="Createpartidos">
