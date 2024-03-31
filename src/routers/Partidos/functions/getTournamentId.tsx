@@ -11,7 +11,7 @@ const getTournamentId = async (liga: string | undefined, torneo: string | undefi
   
       // Convertir la respuesta a formato JSON
       const data: TorneoType[] = await response.json();
-  
+
       // Filtrar los resultados basados en la liga y el torneo
       const resultadosFiltrados = data.filter(
         (item) => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo?.toUpperCase()
@@ -19,9 +19,11 @@ const getTournamentId = async (liga: string | undefined, torneo: string | undefi
 
       );
   
+
+
       // Ordenar los resultados por el nombre de ID en orden descendente
       const RESULTIRDENADOS = resultadosFiltrados.sort((b, a) => a.idName.localeCompare(b.idName));
-  
+
       // Devolver el ID del primer elemento en el array ordenado (si existe)
       return RESULTIRDENADOS.length > 0 ? RESULTIRDENADOS[0].id : null;
    

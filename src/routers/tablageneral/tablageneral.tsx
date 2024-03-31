@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TorneoType } from '../../types/torneotype';
 import { TablageneralType } from '../../types/tablageneral';
 import getRapidFootballStandings from '../Partidos/functions/getRapidFootballStandings';
+import getTournamentId from '../Partidos/functions/getTournamentId';
+import { getTeamsTournaments } from '../Partidos/functions/getTeamsTournaments';
 
 const TablaGeneral: React.FC = () => {
   const { liga, torneo } = useParams();
@@ -10,40 +11,35 @@ const TablaGeneral: React.FC = () => {
   const [clasificacion, setClasificacion] = useState<TablageneralType[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseTorneos = await fetch('http://18.188.110.39:83/api/v1/tournaments');
-        if (!responseTorneos.ok) {
-          throw new Error('Error al obtener los datos de los torneos');
+    // Llamada a la función getTournamentId para obtener el ID del torneo
+    getTournamentId(liga, torneo)
+      .then((idtorneo) => {
+        console.log('Equipos con Info:', idtorneo);
+        // Establecer el estado del ID del torneo
+        setidtorneo(idtorneo);
+        // Realizar una llamada a la función getRapidFootballStandings solo si se ha obtenido el ID del torneo
+        if (idtorneo !== null) {
+          getRapidFootballStandings(idtorneo)
+            .then((equiposConInfo) => {
+
+              getTeamsTournaments(idtorneo)
+                .then((data)=>{
+                  console.log(data)
+                  console.log(equiposConInfo)
+                  const equiposFiltrados = equiposConInfo.filter(equipo => data.some(item => item.teams?.id === equipo.equipoId));
+                  console.log('Equipos con filtrados:', equiposFiltrados)
+                  setClasificacion(equiposFiltrados);
+
+                })
+              // Establecer el estado de la clasificación de equipos
+              setClasificacion(equiposConInfo);
+            })
+            .catch((error) => {
+              console.error('Error en la obtención de equipos con info:', error);
+            });
         }
-        const dataTorneos: TorneoType[] = await responseTorneos.json();
-
-        const resultadosFiltrados = dataTorneos.filter(
-          (item) => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo?.toUpperCase()
-          //            const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo );
-
-        );
-
-        setidtorneo(resultadosFiltrados[0]?.id);
-      } catch (error) {
-        console.error('Error obteniendo los datos de los torneos:', error);
-      }
-    };
-
-    fetchData();
-
-    if (idtorneo !== null) {
-      getRapidFootballStandings(idtorneo)
-        .then((equiposConInfo) => {
-          console.log('Equipos con Info:', equiposConInfo);
-          setClasificacion(equiposConInfo);
-        })
-        .catch((error) => {
-          console.error('Error en la obtención de equipos con info:', error);
-        });
-    }
-  }, [liga, torneo, idtorneo]); // Agregué liga, torneo, e idtorneo como dependencias del useEffect
-
+      });
+  }, [liga, torneo, idtorneo]); //
   return (
     <>
       <div>

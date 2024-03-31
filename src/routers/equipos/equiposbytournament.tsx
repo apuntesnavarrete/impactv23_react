@@ -3,7 +3,7 @@ import { NavLink, useParams } from "react-router-dom";
 import {  EquiposByTournamentType } from "../../types/equipostype";
 //import { apiruta } from "../../config/apiruta";
 import getTournamentId from "../Partidos/functions/getTournamentId";
-import { apiruta } from "../../config/apiruta";
+import { getTeamsTournaments } from "../Partidos/functions/getTeamsTournaments";
 
 function EquiposByTournament() {
     const { liga, torneo } = useParams();
@@ -14,42 +14,23 @@ function EquiposByTournament() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+
         const fetchData = async () => {
-
             try {
-                const response = await fetch(`${apiruta}/api/v1/teams-tournament`);
-                if (!response.ok) {
-                    throw new Error('La solicitud no pudo ser completada');
-                }
-                const result: EquiposByTournamentType[] = await response.json();
-
-             getTournamentId(liga,torneo)
-                .then((idTorneo:number | null)=>{
-                    if (idTorneo !== null) {
-                        // Hacer algo con el ID del torneo
-                        console.log('ID del torneo:', idTorneo);
-                        setIdTorneo(idTorneo);
-                        const teamsFilterbyId = result.filter((item) => item.tournaments?.id === idTorneo);
-                        console.log('equiposfilter', teamsFilterbyId);
-                        setData(teamsFilterbyId);
-                      } else {
-                        console.error('No se pudo obtener el ID del torneo.');
-                      }
-                })
-            
-
-
-
+                const idTorneo = await getTournamentId(liga, torneo);
+                setIdTorneo(idTorneo);
+                const tournamentData = await getTeamsTournaments(idTorneo);
+                setData(tournamentData);
+                setLoading(false);
             } catch (error) {
-                console.error('Error fetching data:', error);
-                setError('Ocurrió un error al cargar los datos');
-            } finally {
+                setError("Error al obtener los datos");
                 setLoading(false);
             }
         };
 
         fetchData();
-    }, []);
+
+    }, [liga, torneo]);
 
     if (loading) {
         return <p>Cargando datos...</p>;
@@ -60,7 +41,18 @@ function EquiposByTournament() {
     }
 
     if (data.length === 0) {
-        return <p>No se encontraron equipos.</p>;
+        return (
+<>
+<h2>Detalles del Torneo</h2>
+      <p>Liga: {liga}</p>
+      <p>Categoria: {torneo}</p>
+      <p>idTorneo: {idTorneo}</p>
+
+<p>No se encontraron equipos.</p>
+        <NavLink to="newEquipo">Crear Nuevo Equipo</NavLink></>
+            
+
+        );
     }
 
     return (
