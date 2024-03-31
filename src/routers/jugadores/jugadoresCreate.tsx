@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Jugadorestype } from '../../types/jugadores';
 
 interface FormData extends Jugadorestype {
-  file: FileList;
+  file: FileList; 
 }
 
 function JugadoresCreate(){

@@ -24,6 +24,7 @@ import MenuTorneos from './routers/Menu/menuTorneo';
 import MenuTorneoOptions from './routers/Menu/menuTorneoOptions';
 import EquiposByTournament from './routers/equipos/equiposbytournament';
 import EquiposCreateByTournament from './routers/equipos/equiposCreateByTournament';
+import TablaGeneralHistorica from './routers/tablageneral/tablaGeneralHistorica';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -52,6 +53,7 @@ const AppRouter = () => {
             <Route path="/partidos" element={<PartidosCreate />} />
             <Route path="/" element={<Menu_Ligas />} />
             <Route path="/Menu/torneos" element={<MenuTorneos />} />
+            <Route path="/tablageneral" element={<TablaGeneralHistorica />} />
 
             {/* Rutas para hacer dinamicas*/}
             {/* Rutas dinámicas*/}
