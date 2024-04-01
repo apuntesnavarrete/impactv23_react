@@ -15,7 +15,7 @@ const TablaGeneralHistorica: React.FC = () => {
         .then((equiposConInfo) => {
             console.log(equiposConInfo)
             equiposConInfo.sort((b, a) => a.porcentual - b.porcentual);
-            const equiposMasDe10Partidos = equiposConInfo.filter(equipo => equipo.partidosJugados > 5);
+            const equiposMasDe10Partidos = equiposConInfo.filter(equipo => equipo.partidosJugados >= 5);
 //cambiar por generar botones dependiendo que quiera mostrar.
             setClasificacion(equiposMasDe10Partidos);
         })
@@ -38,14 +38,7 @@ const TablaGeneralHistorica: React.FC = () => {
             <th>IdEquipo</th>
             <th>Equipo</th>
             <th>Puntos</th>
-            <th>GF</th>
-            <th>GC</th>
-            <th>DF</th>
             <th>PJ</th>
-            <th>PG</th>
-            <th>PP</th>
-            <th>PGD</th>
-            <th>PPD</th>
             <th>Porcentual</th>
 
           </tr>
@@ -58,14 +51,7 @@ const TablaGeneralHistorica: React.FC = () => {
               <td>{equipo.equipoId}</td>
               <td>{equipo.equipo}</td>
               <td>{equipo.puntos}</td>
-              <td>{equipo.goles}</td>
-              <td>{equipo.golesRecibidos}</td>
-              <td>{equipo.goles - equipo.golesRecibidos}</td>
               <td>{equipo.partidosJugados}</td>
-              <td>{equipo.partidosGanados}</td>
-              <td>{equipo.partidosPerdidos}</td>
-              <td>{equipo.partidosGanadosDesempate}</td>
-              <td>{equipo.partidosPerdidosDesempate}</td>
               <td>{equipo.porcentual}</td>
 
             </tr>
