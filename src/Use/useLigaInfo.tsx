@@ -6,14 +6,21 @@ const useLigaInfo = (liga?: string) => {
 
     useEffect(() => {
         if (liga) {
-            if (liga === 'AGUIGOL') {
-                setClaseCSS('ligaFondoAguigol');
-                setLogoLiga("aguigol.png");
-            } else if (liga === 'PRO') {
-                setClaseCSS('ligaFondoProchampions');
-                setLogoLiga("ProLogo.png");
-            } else {
-              
+            switch (liga) {
+                case 'AGUIGOL':
+                    setClaseCSS('ligaFondoAguigol');
+                    setLogoLiga("aguigol.png");
+                    break;
+                case 'PRO':
+                    setClaseCSS('ligaFondoProchampions');
+                    setLogoLiga("ProLogo.png");
+                    break;
+                case 'ED':
+                    setClaseCSS('ligaFondoED');
+                    setLogoLiga("ligaed.png");
+                    break;
+                default:
+                    break;
             }
         }
     }, [liga]);
@@ -22,3 +29,4 @@ const useLigaInfo = (liga?: string) => {
 };
 
 export default useLigaInfo;
+

@@ -30,7 +30,7 @@ const TablaGeneralHistorica: React.FC = () => {
       <div>
      
       </div>
-      <p>Tabla General</p>
+      <p>Tabla de Efectividad Multitorneo, Impacto Under</p>
       <table>
         <thead>
           <tr>

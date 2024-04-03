@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {  EstadisticasJugadorType } from "../../types/EstadisticasJugadorType";
-
+/*
 interface Registro {
   id: number;
   annotations: number;
@@ -16,13 +16,14 @@ interface Registro {
     name: string;
   };
 }
-
+*/
 
 
 function GoleoGlobal() {
-  const [datos, setDatos] = useState<Registro[]>([]);
+  const [datos, setDatos] = useState<EstadisticasJugadorType[]>([]);
   const [partidosJugados, setPartidosJugados] = useState<{ [key: string]: { id: number, count: number } }>({});
   const [ordenPor, setOrdenPor] = useState<'goles' | 'promedio' | 'partidos'>('goles');
+  const [datosOriginales, setDatosOriginales] = useState<EstadisticasJugadorType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,22 +34,11 @@ function GoleoGlobal() {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        let data = await response.json();
-        console.log(data);
+        const data = await response.json();
+        setDatosOriginales(data);
 
-        // Filtrar los registros que cumplan los criterios especificados
-        data = data.filter((objeto: EstadisticasJugadorType) => {
-          // Verificar si el nombre del torneo contiene la palabra "mixta"
-          const contieneMixta: boolean = objeto.matches.tournaments.idName.toLowerCase().includes('mixta');
-          // Verificar si el sexo del participante es "M"
-          const sexoEsMasculino: boolean = objeto.participants.sex === 'M'; // Verificar si el sexo está presente y es "M"
-    
-          // Retornar true para mantener el objeto si no cumple ambos criterios
-          return !(contieneMixta && sexoEsMasculino);
-        });
-    
-        console.log(data);
         setDatos(data);
+        console.log(data)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -88,6 +78,20 @@ function GoleoGlobal() {
     {} as { [key: string]: number }
   );
 
+  const handleOrdenarTabla = (tipoOrden: 'goles' | 'promedio' | 'partidos') => {
+    if (tipoOrden === 'partidos') {
+      setDatos(datosOriginales);
+    } else if (tipoOrden === 'promedio') {
+      const dataFiltrada = datosOriginales.filter((objeto: EstadisticasJugadorType) => {
+        const contieneMixta: boolean = objeto.matches.tournaments.idName.toLowerCase().includes('mixta');
+        const sexoEsMasculino: boolean = objeto.participants.sex === 'M';
+        return !(contieneMixta && sexoEsMasculino);
+      });
+      setDatos(dataFiltrada);
+    }
+    setOrdenPor(tipoOrden);
+  };
+
   const goleadoresArray = Object.keys(totalGoles)
     .filter(nombreJugador => partidosJugados[nombreJugador] && partidosJugados[nombreJugador].count > 5)
     .map((nombreJugador) => {
@@ -106,9 +110,7 @@ function GoleoGlobal() {
     });
 
 
-const handleOrdenarTabla = (tipoOrden: 'goles' | 'promedio' | 'partidos') => {
-    setOrdenPor(tipoOrden);
-  };
+
 
   const tablaOrdenada = [...goleadoresArray].sort((a, b) => {
     if (ordenPor === 'goles') {
@@ -128,6 +130,7 @@ const handleOrdenarTabla = (tipoOrden: 'goles' | 'promedio' | 'partidos') => {
         <button onClick={() => handleOrdenarTabla('partidos')}>Ordenar por Partidos Jugados</button>
 
       </div>
+      <p>Estadisticas Individuales Historicas .- Impacto Under</p>
       <table>
         <thead>
           <tr>

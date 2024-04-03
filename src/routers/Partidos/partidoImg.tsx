@@ -4,30 +4,14 @@ import { MatchType } from '../../types/partidoType';
 import { getMatchByIdMatch } from './functions/getPlayersStatisticsByIdTournament';
 import { apiruta } from '../../config/apiruta';
 import './partidoimg.css'; // Importa el archivo de estilos
+import useLigaInfo from '../../Use/useLigaInfo';
 
 function PartidoImg(){
     const { idPartido, liga, torneo } = useParams();
     const numeroIdPartido = parseInt(idPartido ?? "0", 10);
     const [partidoinfo, setpartidoinfo] = useState<MatchType>();
-    let claseCSS;
-    let logoLiga
-    while (true) {
-        if (liga === 'AGUIGOL') {
-            claseCSS = 'ligaFondoAguigol';
-            logoLiga = "aguigol.png"
-            break;
-        } else if (liga === 'Pro') {
-            claseCSS = 'ligaFondoProchampions';
-            logoLiga = "ProLogo.png"
+    const { claseCSS, logoLiga } = useLigaInfo(liga);
 
-            break;
-        } else {
-            claseCSS = 'ligaFondoED';
-            logoLiga = "ligaed.png"
-
-            break;
-        }
-    }
 
     useEffect(() => {
         const fetchData = async () => {
