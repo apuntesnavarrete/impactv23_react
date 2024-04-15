@@ -52,6 +52,11 @@ function Menu_Ligas() {
    <NavLink to="/Equipos">
      Equipos
    </NavLink>
+
+   <NavLink to="/equiposTournaments">
+    - Equipos ALL-
+   </NavLink>
+
    <NavLink to="/Torneos">
    Torneos
    </NavLink>

@@ -1,4 +1,5 @@
 export interface Jugadorestype {
+    sex: string;
     id: number;
     name: string;
     birthDate: string ;

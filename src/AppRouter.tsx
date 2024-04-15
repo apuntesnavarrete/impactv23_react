@@ -26,6 +26,7 @@ import EquiposByTournament from './routers/equipos/equiposbytournament';
 import EquiposCreateByTournament from './routers/equipos/equiposCreateByTournament';
 import TablaGeneralHistorica from './routers/tablageneral/tablaGeneralHistorica';
 import GoleoGlobal from './routers/estadisticasJugadores/goleoGlobal';
+import EquiposTournamentAll from './routers/equipos/equiposTournamentAll';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -47,6 +48,8 @@ const AppRouter = () => {
             <Route path="/jugadores" element={<Jugadores />} />
             <Route path="/jugadores/crear" element={<JugadoresCreate />} />
             <Route path="/equipos" element={<Equipos />} />
+            <Route path="/equiposTournaments" element={<EquiposTournamentAll />} />
+
             <Route path="/equipos/crear" element={<EquiposCreate />} />
             <Route path="/pruebas" element={<Pruebas />} />
             <Route path="/torneos" element={<Torneos />} />

@@ -20,6 +20,9 @@ function App() {
    <NavLink to="/Equipos">
      Equipos
    </NavLink>
+   <NavLink to="/equiposTournamentAll">
+     Equipos ALL
+   </NavLink>
    <NavLink to="/Torneos">
    Torneos
    </NavLink>
