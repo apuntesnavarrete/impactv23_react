@@ -21,7 +21,7 @@ function App() {
      Equipos
    </NavLink>
    <NavLink to="/equiposTournamentAll">
-     Equipos ALL
+    - Equipos ALL-
    </NavLink>
    <NavLink to="/Torneos">
    Torneos

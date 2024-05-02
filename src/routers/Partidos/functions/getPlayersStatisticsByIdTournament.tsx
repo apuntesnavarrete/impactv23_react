@@ -1,6 +1,8 @@
+import { apiruta } from "../../../config/apiruta";
+
 export const getPlayersStadisticsByIdMatch = async (idMatch: number): Promise<any[]> => {
     try {
-        const response = await fetch('http://18.188.110.39:83/api/v1/PlayerStatistics');
+        const response = await fetch(`${apiruta}/api/v1/PlayerStatistics`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -14,7 +16,7 @@ export const getPlayersStadisticsByIdMatch = async (idMatch: number): Promise<an
 
 export const getPlayersStadisticsByIdTournament = async (idTournament: number): Promise<any[]> => {
     try {
-        const response = await fetch('http://18.188.110.39:83/api/v1/PlayerStatistics');
+        const response = await fetch(`${apiruta}/api/v1/PlayerStatistics`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -29,7 +31,7 @@ export const getPlayersStadisticsByIdTournament = async (idTournament: number): 
 //aun en pruebas
 export const getMatchByIdMatch = async (idMatch: number): Promise<any[]> => {
     try {
-        const infoPartido = await fetch(`http://18.188.110.39:83/api/v1/matches/${idMatch}`);
+        const infoPartido = await fetch(`${apiruta}/api/v1/matches/${idMatch}`);
 
         if (!infoPartido.ok) {
             throw new Error('Network response was not ok for segundaResponse');

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LoginForm } from '../../types/loginform';
 import { SuccessMessage } from '../SuccesMessage';
+import { apiruta } from '../../config/apiruta';
 
 
 
@@ -26,7 +27,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-        const response = await fetch('http://18.188.110.39:83/api/v1/auth/login', {
+        const response = await fetch(`${apiruta}/api/v1/auth/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

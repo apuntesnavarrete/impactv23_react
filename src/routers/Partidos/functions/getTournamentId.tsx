@@ -1,8 +1,9 @@
+import { apiruta } from "../../../config/apiruta";
 import { TorneoType } from "../../../types/torneotype";
 
 const getTournamentId = async (liga: string | undefined, torneo: string | undefined): Promise<number | null> => {
       // Realizar la solicitud fetch
-      const response = await fetch('http://18.188.110.39:83/api/v1/tournaments');
+      const response = await fetch(`${apiruta}/api/v1/tournaments`);
   
       // Verificar si la respuesta es exitosa (código de estado 200)
       if (!response.ok) {

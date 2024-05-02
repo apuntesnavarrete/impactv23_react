@@ -1,3 +1,4 @@
+import { apiruta } from "../../../config/apiruta";
 import { MatchType } from "../../../types/partidoType";
 import TeamIds from "../../../types/teamsid";
 
@@ -6,7 +7,7 @@ import TeamIds from "../../../types/teamsid";
 const getTeamIdsFromMatchId = async (numeroIdPartido: number): Promise<TeamIds | null> => {
   try {
     // Realizar la consulta a la API
-    const response = await fetch('http://18.188.110.39:83/api/v1/matches');
+    const response = await fetch(`${apiruta}/api/v1/matches`);
     
     // Verificar si la solicitud fue exitosa
     if (!response.ok) {

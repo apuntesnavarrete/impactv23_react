@@ -64,7 +64,8 @@ function PartidoImg(){
                 </p>
                 <p className="liga">{liga}</p>
             </div>
-           
+            <p className="">{partidoinfo?.pointsLocal} - {partidoinfo?.pointsVisitan}</p>
+
         </>
     )
 }

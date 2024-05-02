@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import {  EstadisticasJugadorType } from "../../types/EstadisticasJugadorType";
+import { apiruta } from "../../config/apiruta";
 /*
 interface Registro {
   id: number;
@@ -29,7 +30,7 @@ function GoleoGlobal() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://18.188.110.39:83/api/v1/PlayerStatistics"
+          `${apiruta}/api/v1/PlayerStatistics`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

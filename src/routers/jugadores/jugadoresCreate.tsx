@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Jugadorestype } from '../../types/jugadores';
+import { apiruta } from '../../config/apiruta';
 
 interface FormData extends Jugadorestype {
   file: FileList; 
@@ -21,7 +22,7 @@ function JugadoresCreate(){
     formData.append('birthDate', data.birthDate);
 
     try {
-      const response = await fetch('http://18.188.110.39:83/api/v1/participants', {
+      const response = await fetch(`${apiruta}/api/v1/participants`, {
         method: 'POST',
         body: formData,
         headers:{

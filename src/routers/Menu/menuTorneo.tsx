@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { TorneoType } from "../../types/torneotype";
+import { apiruta } from "../../config/apiruta";
 
 function MenuTorneos() {
     const { liga } = useParams();
@@ -13,7 +14,7 @@ function MenuTorneos() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://18.188.110.39:83/api/v1/tournaments');
+        const response = await fetch(`${apiruta}/api/v1/tournaments`);
         if (!response.ok) {
           throw new Error('Error al consultar la API');
         }

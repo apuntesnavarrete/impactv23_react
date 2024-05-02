@@ -27,7 +27,7 @@ function CrearPartidos(){
         const fetchData = async () => {
           try {
             // Realizar la solicitud fetch
-            const response = await fetch('http://18.188.110.39:83/api/v1/tournaments');
+            const response = await fetch(`${apiruta}/api/v1/tournaments`);
          
 
 

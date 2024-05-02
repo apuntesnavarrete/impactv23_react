@@ -2,6 +2,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { TorneoType } from '../../types/torneotype';
 import { MatchType } from '../../types/partidoType';
+import { apiruta } from '../../config/apiruta';
 
 
 
@@ -9,13 +10,13 @@ function PartidosView(){
     const { liga, torneo } = useParams();
     const [idtorneo, setidtorneo] = useState<number | null>(null);
     const [partidos, setpartidos] = useState<MatchType[]>([]);
-
+    const [searchTerm, setSearchTerm] = useState<string>('');
     useEffect(() => {
         // Función para realizar la solicitud fetch
         const fetchData = async () => {
           try {
             // Realizar la solicitud fetch
-            const response = await fetch('http://18.188.110.39:83/api/v1/tournaments');
+            const response = await fetch(`${apiruta}/api/v1/tournaments`);
          
             if (!response.ok) {
               throw new Error('Error al obtener los datos');
@@ -36,7 +37,7 @@ function PartidosView(){
           }
 
           try {
-            const response = await fetch('http://18.188.110.39:83/api/v1/matches');
+            const response = await fetch(`${apiruta}/api/v1/matches`);
             const data: MatchType[] = await response.json();
             console.log("informacion de partidos")
 
@@ -64,7 +65,10 @@ function PartidosView(){
 
 
 
- 
+      const filteredPartidos = partidos.filter(partido =>
+        partido.teamHome.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        partido.teamAway.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 
   
 
@@ -78,6 +82,14 @@ function PartidosView(){
       <p>idTorneo: {idtorneo}</p>
       {/* El resto de tu lógica para mostrar detalles del torneo */}
       </div>
+
+      <input
+          type="text"
+          placeholder="Buscar por equipo..."
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+
         <p>Tabla resultados</p>
 
         <table>
@@ -102,7 +114,7 @@ function PartidosView(){
           </tr>
         </thead>
         <tbody>
-          {partidos.map((partidos) => (
+          {filteredPartidos.map((partidos) => (
             <tr key={partidos.id}>
                             <td>{partidos.matchday}</td>
 

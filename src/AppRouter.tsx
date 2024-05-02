@@ -27,6 +27,7 @@ import EquiposCreateByTournament from './routers/equipos/equiposCreateByTourname
 import TablaGeneralHistorica from './routers/tablageneral/tablaGeneralHistorica';
 import GoleoGlobal from './routers/estadisticasJugadores/goleoGlobal';
 import EquiposTournamentAll from './routers/equipos/equiposTournamentAll';
+import Asistencia from './routers/estadisticasJugadores/asistencia';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -72,6 +73,8 @@ const AppRouter = () => {
             <Route path="/:liga/:torneo/partidos/:idPartido" element={<PartidoID />} />
             <Route path="/:liga/:torneo/partidos/view/:idPartido" element={<PartidoIdView />} />
             <Route path="/:liga/:torneo/goleo" element={<Goleo />} />
+            <Route path="/:liga/:torneo/Asistencia" element={<Asistencia />} />
+
             <Route path="/:liga/:torneo/partidos/img/:idPartido" element={<PartidoImg />} />
             <Route path="/:liga/:torneo/roll" element={<Roll />} />
             <Route path="/:liga/:torneo/equipos" element={<EquiposByTournament />} />

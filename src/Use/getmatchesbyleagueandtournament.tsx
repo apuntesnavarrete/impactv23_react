@@ -1,3 +1,4 @@
+import { apiruta } from "../config/apiruta";
 import { MatchType } from "../types/partidoType";
 import { TorneoType } from "../types/torneotype";
 
@@ -6,7 +7,7 @@ export const getMatchesbyleagueandTournament = async (
     torneo: string | null | undefined,
 ): Promise<MatchType[]> => {
     try {
-        const responseTournaments = await fetch('http://18.188.110.39:83/api/v1/tournaments');
+        const responseTournaments = await fetch(`${apiruta}/api/v1/tournaments`);
         if (!responseTournaments.ok) {
             throw new Error('Error al obtener los datos de los torneos. Estado: ' + responseTournaments.status);
         }
@@ -23,7 +24,7 @@ export const getMatchesbyleagueandTournament = async (
 
         const idtorneo = torneoSeleccionado.id;
 
-        const responseMatches = await fetch('http://18.188.110.39:83/api/v1/matches');
+        const responseMatches = await fetch(`${apiruta}/api/v1/matches`);
         if (!responseMatches.ok) {
             throw new Error('Error al obtener los datos de los partidos. Estado: ' + responseMatches.status);
         }

@@ -1,1 +1,1 @@
-export const apiruta = 'http://18.188.110.39:83';
+export const apiruta = 'http://127.0.0.1:4000';

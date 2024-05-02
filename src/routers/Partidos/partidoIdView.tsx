@@ -48,7 +48,7 @@ function PartidoIdView(){
                 setJugadoresEquipoHome(jugadoresEquipoHome);
                 setJugadoresEquipoAway(jugadoresEquipoAway);
 
-                const infoPartido = await fetch(`http://18.188.110.39:83/api/v1/matches/${idPartido}`);
+                const infoPartido = await fetch(`${apiruta}/api/v1/matches/${idPartido}`);
 
                 if (!infoPartido.ok) {
                     throw new Error('Network response was not ok for segundaResponse');

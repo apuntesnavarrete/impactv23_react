@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Ligatype from "../../types/ligastype";
 import { NavLink } from "react-router-dom";
 import '../../App.css'
+import { apiruta } from "../../config/apiruta";
 
 function Menu_Ligas() {
 
@@ -13,7 +14,7 @@ function Menu_Ligas() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://18.188.110.39:83/api/v1/leagues');
+        const response = await fetch(`${apiruta}/api/v1/leagues`);
         if (!response.ok) {
           throw new Error('Error al consultar la API');
         }

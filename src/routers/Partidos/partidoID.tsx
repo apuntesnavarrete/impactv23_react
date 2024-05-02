@@ -5,6 +5,7 @@ import getPlayersByTeamAndTournament from '../Partidos/functions/getPlayersByTea
 import { useParams } from 'react-router-dom';
 import getTournamentId from './functions/getTournamentId';
 import { SuccessMessage } from '../SuccesMessage';
+import { apiruta } from '../../config/apiruta';
 
 
 interface JugadorData {
@@ -120,7 +121,7 @@ const PartidoID: React.FC = () => {
 
 
     try {
-      const response = await fetch(`http://18.188.110.39:83/api/v1/PlayerStatistics`, {
+      const response = await fetch(`${apiruta}/api/v1/PlayerStatistics`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
