@@ -14,7 +14,7 @@ export const getPlayersStadisticsByIdMatch = async (idMatch: number): Promise<an
     }
 };
 
-export const getPlayersStadisticsByIdTournament = async (idTournament: number): Promise<any[]> => {
+export const getPlayersStadisticsByIdTournament = async (idTournament: number | null = null): Promise<any[]> => {
     try {
         const response = await fetch(`${apiruta}/api/v1/PlayerStatistics`);
         if (!response.ok) {
