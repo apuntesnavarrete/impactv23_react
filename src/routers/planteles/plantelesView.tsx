@@ -199,7 +199,7 @@ console.log(goleadoresArray)
         <a href={`Edit/${player.id}`}>
           <p className="card_Dorsal">Dorsal .- {player.dorsal}</p>
         </a>
-        {goleadoresArray.map((goleador) => {
+        {goleadoresFiltrados.map((goleador) => {
           if (goleador.id === player.participants.id) {
             return (
               <p key={`asistencia-${player.id}`} className="card_asistencia">

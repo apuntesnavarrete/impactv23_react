@@ -2,6 +2,7 @@ import  { useEffect, useState } from "react";
 import { Jugadorestype } from "../../types/jugadores";
 import { NavLink } from "react-router-dom";
 import { apiruta } from "../../config/apiruta";
+import { getAllParticipants } from "../Partidos/functions/getAllParticipants";
 
 function Jugadores() {
   const [data, setData] = useState<Jugadorestype[]>([]);
@@ -15,10 +16,10 @@ function Jugadores() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiruta}/api/v1/participants`);
-        const result: Jugadorestype[] = await response.json();
+        const result = await getAllParticipants();
+        console.log(result);
 
-        const jugadoresOrdenados = result.sort((b, a) => a.id - b.id);
+        const jugadoresOrdenados = result.sort((b: { id: number; }, a: { id: number; }) => a.id - b.id);
         // Tomar solo los primeros 100 resultados
         const primeros100Jugadores = jugadoresOrdenados.slice(0, 100);
 
@@ -70,6 +71,8 @@ function Jugadores() {
           <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Sexo</th>
+
             <th>Correo electrónico</th>
             <th>Fecha de Nacimiento</th>
             <th>Foto</th>
@@ -83,6 +86,8 @@ function Jugadores() {
             <tr key={jugador.id}>
               <td>{jugador.id}</td>
               <td>{jugador.name}</td>
+              <td>{jugador.sex}</td>
+
               <td>{jugador.Email}</td>
               <td>{jugador.birthDate}</td>
               <td><img className="PhotoTablas" src={`${apiruta}/public/participants/${jugador.Photo}`} alt="Foto del jugador" /></td>

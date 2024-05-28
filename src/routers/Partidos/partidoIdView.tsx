@@ -6,12 +6,14 @@ import { getPlayersStadisticsByIdMatch } from './functions/getPlayersStatisticsB
 import { apiruta } from '../../config/apiruta';
 import './partidoResultImg.css'; // Importa el archivo de estilos
 import useLigaInfo from '../../Use/useLigaInfo';
+import useScreenshot from '../../Use/screenShot';
 
 
 function PartidoIdView(){
     const { idPartido, liga, torneo} = useParams();
     const numeroIdPartido = parseInt(idPartido ?? "0", 10);
-  
+    const { takeScreenshot, error } = useScreenshot();
+
     const [jugadoresEquipoHome, setJugadoresEquipoHome] = useState<EstadisticasJugadorType[]>([]);
   const [jugadoresEquipoAway, setJugadoresEquipoAway] = useState<EstadisticasJugadorType[]>([]);
   const [partidoinfo, setpartidoinfo] = useState<MatchType>();
@@ -19,6 +21,12 @@ function PartidoIdView(){
 
 
     console.log(numeroIdPartido)
+
+
+    const handleButtonClick = () => {
+        takeScreenshot('content_resul_players');
+      };
+    
 
 
     useEffect(() => {
@@ -176,6 +184,10 @@ function PartidoIdView(){
 
 
             </div>
+
+            <button onClick={handleButtonClick}>Capturar y descargar</button>
+      {error && <p>Error: {error}</p>}
+
 
         </>
     )

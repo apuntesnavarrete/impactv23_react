@@ -19,7 +19,7 @@ const MatchTable: React.FC<Props> = ({ matches, filterTeamIds }) => {
         filterTeamIds.includes(match.teamHome.id) || filterTeamIds.includes(match.teamAway.id)
       );
 
-   
+   console.log(filteredMatches)
 
   return (
     <table>
@@ -62,6 +62,7 @@ const Roll = () => {
       const matches = await getMatchesbyleagueandTournament(liga, torneo);
       console.log("Partidos obtenidos:", matches);
       const teamIds = uniqueTeamIds(matches);
+      console.log(teamIds)
       setEquiposIds(teamIds);
       // Calcular el campo timesPlayed para cada partido
       const matchesWithTimesPlayed = matches.map(match => {

@@ -1,10 +1,11 @@
+import { apiruta } from "../../../config/apiruta";
 import { MatchType } from "../../../types/partidoType";
 import { TablageneralGlobalType } from "../../../types/tablageneral";
 
 
 async function getGlobalTablaGeneral(): Promise<TablageneralGlobalType[]> {
     try {
-        const responseMatches = await fetch('http://18.188.110.39:83/api/v1/matches');
+        const responseMatches = await fetch(`${apiruta}/api/v1/matches`);
         if (!responseMatches.ok) {
             throw new Error('Error al obtener los datos de los partidos');
         }

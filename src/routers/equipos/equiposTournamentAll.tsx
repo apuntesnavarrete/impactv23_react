@@ -1,6 +1,7 @@
 import  { useEffect, useState } from "react";
 //import { apiruta } from "../../config/apiruta";
 import { EquiposByTournamentType } from "../../types/equipostype";
+import { apiruta } from "../../config/apiruta";
 
 export default function EquiposTournamentAll() {
   const [data, setData] = useState<EquiposByTournamentType[]>([]);
@@ -11,7 +12,7 @@ export default function EquiposTournamentAll() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://18.188.110.39:83/api/v1/teams-tournament`);
+        const response = await fetch(`${apiruta}/api/v1/teams-tournament`);
         console.log('API response:', response);
         
         if (!response.ok) {

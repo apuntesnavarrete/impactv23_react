@@ -1,6 +1,8 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Jugadorestype } from '../../types/jugadores';
 import { apiruta } from '../../config/apiruta';
+import './jugadores.css';
+
 
 interface FormData extends Jugadorestype {
   file: FileList; 
@@ -20,8 +22,10 @@ function JugadoresCreate(){
     formData.append('Curp', data.Curp);
     formData.append('Email', data.Email);
     formData.append('birthDate', data.birthDate);
+    formData.append('sex', data.sex);
 
     try {
+      console.log(formData)
       const response = await fetch(`${apiruta}/api/v1/participants`, {
         method: 'POST',
         body: formData,
@@ -44,10 +48,19 @@ function JugadoresCreate(){
      
    
     return(
+
+      <div className="form-container">
+
       <form onSubmit={handleSubmit(onSubmit)}>
       {/* Your form fields go here */}
       <label htmlFor="name">Name:</label>
       <input type="text" {...register('name')} />
+
+      <label htmlFor="Genero">Género:</label>
+        <select id="Genero" {...register('sex')}>
+          <option value="M">Hombre</option>
+          <option value="F">Mujer</option>
+        </select>
 
       <label htmlFor="Curp">Curp:</label>
       <input type="text" {...register('Curp')} />
@@ -63,6 +76,8 @@ function JugadoresCreate(){
 
       <button type="submit">Submit</button>
     </form>
+    </div>
+
     )
     }
 

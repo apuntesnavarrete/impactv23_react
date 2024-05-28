@@ -169,7 +169,7 @@ if (data.dorsal) {
     console.log('jugadores del torneo', jugadoresRegistro);
     const registroEncontrado = jugadoresRegistro.find(registro => registro.participants.id === idRegistro);
     if (registroEncontrado) {
-      setMensaje(`Jugador ${JSON.stringify(registroEncontrado.participants.name)} - Equipo ${JSON.stringify(registroEncontrado.teams.name)}`);
+      setMensaje(`Jugador ${JSON.stringify(registroEncontrado.participants.name)} - Equipo ${JSON.stringify(registroEncontrado.teams.name)}- Id Registro ${JSON.stringify(registroEncontrado.id)}`);
   } else {
       setMensaje("No se encontró el jugador registrado.");
   }
@@ -193,9 +193,7 @@ if (data.dorsal) {
     
         <label htmlFor="TypeParticipant">Typo de Participante</label>
 <select {...register('typeParticipant')} id="TypeParticipant">
-  <option value="Delegado">Delegado</option>
   <option value="Jugador">Jugador</option>
-  <option value="Entrenador">Entrenador</option>
 </select>
       
       
