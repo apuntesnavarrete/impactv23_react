@@ -51,35 +51,46 @@ function JugadoresEdit() {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log(data);
-    const formData = new FormData();
-    formData.append('file', data.file[0]);
-    formData.append('name', data.name);
-    formData.append('Curp', data.Curp);
-    formData.append('Email', data.Email);
-    formData.append('birthDate', data.birthDate);
-    formData.append('sex', data.sex);
+  
+    const photo = data.Photo === undefined ? `${idAsNumber}.jpg` : data.Photo;
 
-    console.log(formData);
 
-    /*
+    const payload = {
+        name: data.name,
+        birthDate: data.birthDate,
+        Curp: data.Curp,
+        Photo: photo, // Si está disponible en los datos
+        Email: data.Email,
+        sex: data.sex,
+      };
+    
     try {
-      console.log(formData);
+    //  console.log(payload);
 
-      const response = await fetch(`${apiruta}/api/v1/participants`, {
-        method: 'POST',
-        body: formData,
-        //agregar token despues.
+      const response = await fetch(`${apiruta}/api/v1/participants/${idAsNumber}`, {
+        
+
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json' // Establecer el tipo de contenido como JSON
+      },
+        body: JSON.stringify(payload),
+        // Agregar token después.
       });
 
       if (response.ok) {
-        window.location.href = '/Jugadores';
+        //window.location.href = '/Jugadores';
+        console.log(response)
       } else {
-        // Handle error response
+         // La solicitud falló, manejar el error
+    const errorData = await response.json(); // Obtener detalles del error del cuerpo de la respuesta
+    console.error('Error en la solicitud:', errorData);
+
       }
     } catch (error) {
       console.error('Error submitting form:', error);
     }
-    */
+    
   };
 
   return (

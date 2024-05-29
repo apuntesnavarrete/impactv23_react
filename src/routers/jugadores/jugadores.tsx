@@ -77,6 +77,7 @@ function Jugadores() {
             <th>Fecha de Nacimiento</th>
             <th>Foto</th>
             <th>Curp</th>
+            <th>Editar</th>
 
             {/* Agrega más encabezados según la estructura de tus datos */}
           </tr>
@@ -92,7 +93,11 @@ function Jugadores() {
               <td>{jugador.birthDate}</td>
               <td><img className="PhotoTablas" src={`${apiruta}/public/participants/${jugador.Photo}`} alt="Foto del jugador" /></td>
               <td>{jugador.Curp}</td>
-
+              <td>  
+              <NavLink to={`edit/${jugador.id}`}>
+              Edit 
+          </NavLink>
+   </td>
               {/* Renderiza más celdas según la estructura de tus datos */}
             </tr>
           ))}
