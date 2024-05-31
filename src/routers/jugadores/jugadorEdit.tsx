@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { getParticipantById } from '../Partidos/functions/getParticipantById';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Jugadorestype } from '../../types/jugadores';
@@ -11,6 +11,7 @@ interface FormData extends Jugadorestype {
 
 function JugadoresEdit() {
   const [jugador, setJugador] = useState<Jugadorestype>();
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const { id } = useParams();
   let idAsNumber: number | undefined;
@@ -28,9 +29,7 @@ function JugadoresEdit() {
     async function fetchParticipantsData() {
       if (idAsNumber !== undefined) {
         const participantsById = await getParticipantById(idAsNumber);
-        console.log(participantsById);
         setJugador(participantsById);
-        console.log(participantsById.name)
         // Set form values after fetching data
         if (participantsById) {
           setValue('name', participantsById.name);
@@ -55,6 +54,7 @@ function JugadoresEdit() {
     const photo = data.Photo === undefined ? `${idAsNumber}.jpg` : data.Photo;
 
 
+    
     const payload = {
         name: data.name,
         birthDate: data.birthDate,
@@ -93,8 +93,40 @@ function JugadoresEdit() {
     
   };
 
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setSelectedImage(file || null);
+  };
+
+  const handleSubmit2 = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!selectedImage) return;
+
+    const formData = new FormData();
+    formData.append('image', selectedImage);
+
+    try {
+      const response = await fetch(`${apiruta}/api/v1/participants/upload-image`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Imagen subida:', data);
+    } catch (error) {
+      console.error('Hubo un problema con la solicitud fetch:', error);
+    }
+  };
+
+
   return (
-    <div className="form-container">
+    <div className='participants-edit-container'>
+      <div className="form-container">
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="name">Name:</label>
         <input type="text" {...register('name')} />
@@ -119,7 +151,17 @@ function JugadoresEdit() {
 
         <button type="submit">Submit</button>
       </form>
+       </div>
+       <div>
+         <p><img className="ParticipantsEdit" src={`${apiruta}/public/participants/${jugador?.Photo}`} alt="Foto del jugador" /></p>
+     
+         <form onSubmit={handleSubmit2}>
+      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <button type="submit">Subir imagen</button>
+    </form>
+       </div>
     </div>
+    
   );
 }
 

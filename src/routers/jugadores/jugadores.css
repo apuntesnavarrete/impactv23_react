@@ -40,3 +40,11 @@
   .form-container button[type="submit"]:hover {
     background-color: #45a049;
   }
+
+  .participants-edit-container{
+    display: flex;
+    flex-direction: row;
+  }
+  .ParticipantsEdit{
+    max-width: 300px;
+  }
