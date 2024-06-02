@@ -1,23 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import {  EstadisticasJugadorType } from "../../types/EstadisticasJugadorType";
 import { apiruta } from "../../config/apiruta";
-/*
-interface Registro {
-  id: number;
-  annotations: number;
-  matches: {
-    id: number;
-    date: string;
-  };
-  participants: {
-    id: number;
-    name: string;
-  };
-  teams: {
-    name: string;
-  };
-}
-*/
 
 
 function GoleoGlobal() {
@@ -25,6 +8,7 @@ function GoleoGlobal() {
   const [partidosJugados, setPartidosJugados] = useState<{ [key: string]: { id: number, count: number } }>({});
   const [ordenPor, setOrdenPor] = useState<'goles' | 'promedio' | 'partidos'>('goles');
   const [datosOriginales, setDatosOriginales] = useState<EstadisticasJugadorType[]>([]);
+  const [mesFiltrado, setMesFiltrado] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +23,6 @@ function GoleoGlobal() {
         setDatosOriginales(data);
 
         setDatos(data);
-        console.log(data)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -80,16 +63,33 @@ function GoleoGlobal() {
   );
 
   const handleOrdenarTabla = (tipoOrden: 'goles' | 'promedio' | 'partidos') => {
+    console.log("Ordenar por:", tipoOrden);
+    console.log("Mes filtrado:", mesFiltrado);
+    let datosFiltrados = [...datosOriginales];
+
+    if (mesFiltrado) {
+
+      datosFiltrados = datosOriginales.filter((objeto) => {
+        const mes = new Date(objeto.matches.date).getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+
+        return mes === parseInt(mesFiltrado, 10);
+      });
+
+    }
+
     if (tipoOrden === 'partidos') {
-      setDatos(datosOriginales);
+      setDatos(datosFiltrados);
     } else if (tipoOrden === 'promedio') {
-      const dataFiltrada = datosOriginales.filter((objeto: EstadisticasJugadorType) => {
-        const contieneMixta: boolean = objeto.matches.tournaments.idName.toLowerCase().includes('mixta');
-        const sexoEsMasculino: boolean = objeto.participants.sex === 'M';
+      const dataFiltrada = datosFiltrados.filter((objeto) => {
+        const contieneMixta = objeto.matches.tournaments.idName.toLowerCase().includes('mixta');
+        const sexoEsMasculino = objeto.participants.sex === 'M';
         return !(contieneMixta && sexoEsMasculino);
       });
       setDatos(dataFiltrada);
+    } else {
+      setDatos(datosFiltrados);
     }
+
     setOrdenPor(tipoOrden);
   };
 
@@ -123,13 +123,31 @@ function GoleoGlobal() {
     }
   });
 
+  const handleMesChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+    setMesFiltrado(e.target.value);
+  };
+
   return (
     <>
       <div>
         <button onClick={() => handleOrdenarTabla('goles')}>Ordenar por Goles</button>
         <button onClick={() => handleOrdenarTabla('promedio')}>Ordenar por Promedio</button>
         <button onClick={() => handleOrdenarTabla('partidos')}>Ordenar por Partidos Jugados</button>
-
+        <select onChange={handleMesChange}>
+          <option value="">Filtrar por Mes</option>
+          <option value="1">Enero</option>
+          <option value="2">Febrero</option>
+          <option value="3">Marzo</option>
+          <option value="4">Abril</option>
+          <option value="5">Mayo</option>
+          <option value="6">Junio</option>
+          <option value="7">Julio</option>
+          <option value="8">Agosto</option>
+          <option value="9">Septiembre</option>
+          <option value="10">Octubre</option>
+          <option value="11">Noviembre</option>
+          <option value="12">Diciembre</option>
+        </select>
       </div>
       <p>Estadisticas Individuales Historicas .- Impacto Under</p>
       <table>
