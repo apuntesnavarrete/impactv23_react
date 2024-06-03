@@ -90,7 +90,11 @@ function Equipos() {
               <td><img className="PhotoTablas" src={`${apiruta}/public/teams/${Equipo.logo}`} alt="Foto del equipo" /></td>
 
               <td>{Equipo.participants ? Equipo.participants.name : 'sin asignar'}</td>
-
+              <td>  
+              <NavLink to={`edit/${Equipo.id}`}>
+              Edit 
+          </NavLink>
+   </td>
               {/* Renderiza más celdas según la estructura de tus datos */}
             </tr>
           ))}
