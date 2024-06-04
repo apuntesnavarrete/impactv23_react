@@ -27,7 +27,6 @@ function PartidosView(){
 
          const RESULTIRDENADOS =  resultadosFiltrados.sort((b, a) => a.idName.localeCompare(b.idName));
 
-        console.log(RESULTIRDENADOS)
 
             console.log()
             // Actualizar el estado con los datos obtenidos
@@ -145,6 +144,11 @@ function PartidosView(){
           </NavLink>
    </td>
 
+   <td>  
+              <NavLink to={`/${liga}/${torneo}/partidos/edit/${partidos.id}`}>
+              edit 
+          </NavLink>
+   </td>
 
               {/* Renderiza más celdas según la estructura de tus datos */}
             </tr>

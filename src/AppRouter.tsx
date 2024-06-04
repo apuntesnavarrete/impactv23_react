@@ -30,6 +30,7 @@ import EquiposTournamentAll from './routers/equipos/equiposTournamentAll';
 import Asistencia from './routers/estadisticasJugadores/asistencia';
 import JugadoresEdit from './routers/jugadores/jugadorEdit';
 import EquiposEdit from './routers/equipos/equiposEdit';
+import PartidoEdit from './routers/Partidos/partidoedit';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -71,6 +72,7 @@ const AppRouter = () => {
             {/* Rutas dinámicas*/}
             <Route path="/:liga/:torneo/Createpartidos" element={<CrearPartidos />} />
             <Route path="/:liga/:torneo/partidos" element={<PartidosView />} />
+
             <Route path="/:liga/:torneo/tablageneral" element={<TablaGeneral />} />
 
             <Route path="/:liga/:torneo/planteles" element={<Planteles />} />
@@ -78,6 +80,8 @@ const AppRouter = () => {
 
             <Route path="/:liga/:torneo/partidos/:idPartido" element={<PartidoID />} />
             <Route path="/:liga/:torneo/partidos/view/:idPartido" element={<PartidoIdView />} />
+            <Route path="/:liga/:torneo/partidos/edit/:idpartido" element={<PartidoEdit />} />
+
             <Route path="/:liga/:torneo/goleo" element={<Goleo />} />
             <Route path="/:liga/:torneo/Asistencia" element={<Asistencia />} />
 
