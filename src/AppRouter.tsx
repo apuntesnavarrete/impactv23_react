@@ -31,6 +31,7 @@ import Asistencia from './routers/estadisticasJugadores/asistencia';
 import JugadoresEdit from './routers/jugadores/jugadorEdit';
 import EquiposEdit from './routers/equipos/equiposEdit';
 import PartidoEdit from './routers/Partidos/partidoedit';
+import PlantelesDelete from './routers/planteles/plantelesDelete';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -77,6 +78,7 @@ const AppRouter = () => {
 
             <Route path="/:liga/:torneo/planteles" element={<Planteles />} />
             <Route path="/:liga/:torneo/plantelesView" element={<PlantelesTabla />} />
+            <Route path="/:liga/:torneo/plantelesView/delete/:idPlantel" element={<PlantelesDelete />} />
 
             <Route path="/:liga/:torneo/partidos/:idPartido" element={<PartidoID />} />
             <Route path="/:liga/:torneo/partidos/view/:idPartido" element={<PartidoIdView />} />

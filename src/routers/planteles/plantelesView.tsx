@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plantelestype } from '../../types/plantelestype';
 import { apiruta } from '../../config/apiruta';
 import getPlayersTournament from '../Partidos/functions/getPlayersByTournament';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import getTournamentId from '../Partidos/functions/getTournamentId';
 import { getPlayersStadisticsByIdTournament } from '../Partidos/functions/getPlayersStatisticsByIdTournament';
 import { EstadisticasJugadorType } from '../../types/EstadisticasJugadorType';
@@ -13,6 +13,7 @@ const PlantelesTabla: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const { liga, torneo } = useParams();
     const [StadisticsTournament, setStadisticsTournament] = useState<EstadisticasJugadorType[]>([]);
+    const [reload, setReload] = useState(false);  // Estado para controlar la recarga
 
     useEffect(() => {
       // Función para realizar la solicitud a la API
@@ -20,11 +21,9 @@ const PlantelesTabla: React.FC = () => {
         try {
         
           const idtorneo = await getTournamentId(liga, torneo)
-          console.log(idtorneo)
           const jsonData = await getPlayersTournament(idtorneo);
 
           const playersStadisticsTournament = await getPlayersStadisticsByIdTournament(idtorneo);
-          console.log(playersStadisticsTournament)
           setStadisticsTournament(playersStadisticsTournament)
 
           const sortedData = jsonData.sort((a: Plantelestype, b: Plantelestype) =>
@@ -38,7 +37,7 @@ const PlantelesTabla: React.FC = () => {
   
       // Llama a la función para obtener los datos cuando el componente se monta
       fetchData();
-    }, []); // El segundo argumento [] indica que este efecto solo se ejecuta al montar el componente
+    }, [reload]); // El segundo argumento [] indica que este efecto solo se ejecuta al montar el componente
   
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value);
@@ -103,7 +102,30 @@ const PlantelesTabla: React.FC = () => {
     });
 });
 
-console.log(goleadoresArray)
+
+const handleDelete  = async (id: number) => {
+  if (window.confirm(`Eliminara el Registro ${id}`)) {
+
+  try {
+    const response = await fetch(`${apiruta}/api/v1/rosters/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    if (response.ok) {
+      setReload(!reload); // Cambia el estado `reload` para recargar los datos
+
+
+    } else {
+      console.error(`Failed to delete item with id ${id}`);
+    }
+  } catch (error) {
+    console.error(`Error deleting item with id ${id}:`, error);
+  }
+}
+};
 
     return (
       <div>
@@ -133,6 +155,9 @@ console.log(goleadoresArray)
               <th>ID_Registro</th>
 
               <th>Foto</th>
+              <th>A</th>
+
+              <th>Delete</th>
 
               {/* Agrega más encabezados según la estructura de tus datos */}
             </tr>
@@ -161,8 +186,14 @@ console.log(goleadoresArray)
       }
       return null;
     })}
+    <td>  
+    <button onClick={() => handleDelete(item.id)}>Delete</button>
+
+   </td>
   </tr>
 ))}
+
+
 
           </tbody>
         </table>
