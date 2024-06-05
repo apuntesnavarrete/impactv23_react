@@ -4,6 +4,7 @@ import {  EquiposByTournamentType } from "../../types/equipostype";
 //import { apiruta } from "../../config/apiruta";
 import getTournamentId from "../Partidos/functions/getTournamentId";
 import { getTeamsTournaments } from "../Partidos/functions/getTeamsTournaments";
+import { apiruta } from "../../config/apiruta";
 
 function EquiposByTournament() {
     const { liga, torneo } = useParams();
@@ -12,6 +13,7 @@ function EquiposByTournament() {
     const [data, setData] = useState<EquiposByTournamentType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [reload, setReload] = useState(false);  // Estado para controlar la recarga
 
     useEffect(() => {
 
@@ -30,7 +32,7 @@ function EquiposByTournament() {
 
         fetchData();
 
-    }, [liga, torneo]);
+    }, [liga, torneo,reload]);
 
     if (loading) {
         return <p>Cargando datos...</p>;
@@ -54,6 +56,33 @@ function EquiposByTournament() {
 
         );
     }
+
+    const handleDelete  = async (id: number) => {
+        console.log(id)
+        
+        if (window.confirm(`Eliminara el Registro ${id}`)) {
+      
+        try {
+          const response = await fetch(`${apiruta}/api/v1/teams-tournament/${id}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          });
+      
+          if (response.ok) {
+            setReload(!reload); // Cambia el estado `reload` para recargar los datos
+      
+      
+          } else {
+            console.error(`Failed to delete item with id ${id}`);
+          }
+        } catch (error) {
+          console.error(`Error deleting item with id ${id}:`, error);
+        }
+      }
+      
+      };
 
     return (
         <>
@@ -85,6 +114,12 @@ function EquiposByTournament() {
                            
                             <td>{Equipo.participants ? Equipo.participants.name : 'sin asignar'}</td>
                             {/* Renderiza más celdas según la estructura de tus datos */}
+                       
+                            <td>  
+    <button onClick={() => handleDelete(Equipo.id)}>Delete</button>
+
+   </td>
+
                         </tr>
                     ))}
                 </tbody>

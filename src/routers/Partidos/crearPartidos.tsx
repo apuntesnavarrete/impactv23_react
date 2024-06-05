@@ -39,9 +39,7 @@ function CrearPartidos(){
     
             // Convertir la respuesta a formato JSON
             const data: TorneoType[] = await response.json();
-            console.log(data)
-            console.log(liga)
-            console.log(torneo)
+            
 
            const resultadosFiltrados = data.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo?.toUpperCase() );
            console.log("RESULTADOS FILTRADOS " + resultadosFiltrados)
