@@ -6,8 +6,14 @@ import { NavLink, useParams } from 'react-router-dom';
 import getTournamentId from '../Partidos/functions/getTournamentId';
 import { getPlayersStadisticsByIdTournament } from '../Partidos/functions/getPlayersStatisticsByIdTournament';
 import { EstadisticasJugadorType } from '../../types/EstadisticasJugadorType';
+import { useRef } from 'react';
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
+
 
 const PlantelesTabla: React.FC = () => {
+  const cardsRef = useRef<HTMLDivElement>(null);
+
     // Estado para almacenar los datos de la API
     const [data, setData] = useState<Plantelestype[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -127,6 +133,23 @@ const handleDelete  = async (id: number) => {
 }
 };
 
+const handleCapture = () => {
+  console.log(cardsRef.current)
+  if (cardsRef.current) {
+    console.log("funciono cardsRef")
+
+    domtoimage.toBlob(cardsRef.current)
+      .then(blob => {
+        if (blob) {
+          saveAs(blob, 'cards-screenshot.png');
+        }
+      })
+      .catch(error => {
+        console.error('Error capturing the image', error);
+      });
+  }
+};
+
     return (
       <div>
 
@@ -190,6 +213,11 @@ const handleDelete  = async (id: number) => {
     <button onClick={() => handleDelete(item.id)}>Delete</button>
 
    </td>
+   <td>  
+              <NavLink to={`/${liga}/${torneo}/planteles/edit/${item.id}`}>
+              edit 
+          </NavLink>
+   </td>
   </tr>
 ))}
 
@@ -199,7 +227,7 @@ const handleDelete  = async (id: number) => {
         </table>
 
 
-        <div>
+        <div ref={cardsRef} className="Registros_card">
 
         <div className="top">
       <div className="content_rigth">
@@ -214,7 +242,7 @@ const handleDelete  = async (id: number) => {
       </div>
 
       {filteredData.map(player => (
-  <div key={player.id} className="card_container">
+  <div key={player.id} className="card_container" >
     <div className="card_interna">
       <img className="card_perfil" src={`${apiruta}/public/participants/${player.participants.Photo}`} alt="Foto del jugador" />
       <div className="card_data">
@@ -244,9 +272,7 @@ const handleDelete  = async (id: number) => {
     </div>
   </div>
 ))}
-
-    </div>     
-    <div className="bottom">
+  <div className="bottom">
     <div className="content_rigth">
       <p>Marcador Final _________________</p>
       
@@ -256,8 +282,15 @@ const handleDelete  = async (id: number) => {
       <h3>Firma______________________</h3>
 
     </div>
+    <button onClick={handleCapture}>Capture</button>
+
   </div>
+    </div>     
+  
+
+
       </div>
+      
     );
   };
 

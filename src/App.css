@@ -71,13 +71,18 @@ table {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-around;
-  margin: 4em;
 }
 
 .content_rigth * {
   margin: 10px 0; /* Puedes ajustar el valor según tus necesidades */
 }
+.content_left{
+  display: flex;
 
+}
 .bottom{
-  margin-top: 5em;
+}
+
+.Registros_card{
+  background-color: #f9f9f9;
 }
