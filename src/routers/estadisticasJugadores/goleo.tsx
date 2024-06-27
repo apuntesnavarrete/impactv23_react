@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import getTournamentId from "../Partidos/functions/getTournamentId";
+import getTournamentId from "../../functions/getTournamentId";
 import { useEffect, useState } from "react";
-import { getPlayersStadisticsByIdTournament } from "../Partidos/functions/getPlayersStatisticsByIdTournament";
+import { getPlayersStadisticsByIdTournament } from "../../functions/getPlayersStatisticsByIdTournament";
 
 interface Registro {
     id: number;

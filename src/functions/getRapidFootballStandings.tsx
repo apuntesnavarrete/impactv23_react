@@ -1,6 +1,6 @@
-import { apiruta } from "../../../config/apiruta";
-import { MatchType } from "../../../types/partidoType";
-import { TablageneralType } from "../../../types/tablageneral";
+import { apiruta } from "../config/apiruta";
+import { MatchType } from "../types/partidoType";
+import { TablageneralType } from "../types/tablageneral";
 
 
 async function getRapidFootballStandings(idTorneo: number): Promise<TablageneralType[]> {

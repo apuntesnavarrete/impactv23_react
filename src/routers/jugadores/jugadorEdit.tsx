@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { getParticipantById } from '../Partidos/functions/getParticipantById';
+import { getParticipantById } from '../../functions/getParticipantById';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Jugadorestype } from '../../types/jugadores';
 import { apiruta } from '../../config/apiruta';

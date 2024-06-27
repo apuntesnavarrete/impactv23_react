@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Plantelestype } from '../../types/plantelestype';
 import { apiruta } from '../../config/apiruta';
-import getPlayersTournament from '../Partidos/functions/getPlayersByTournament';
+import getPlayersTournament from '../../functions/getPlayersByTournament';
 import { NavLink, useParams } from 'react-router-dom';
-import getTournamentId from '../Partidos/functions/getTournamentId';
-import { getPlayersStadisticsByIdTournament } from '../Partidos/functions/getPlayersStatisticsByIdTournament';
+import getTournamentId from '../../functions/getTournamentId';
+import { getPlayersStadisticsByIdTournament } from '../../functions/getPlayersStatisticsByIdTournament';
 import { EstadisticasJugadorType } from '../../types/EstadisticasJugadorType';
 import { useRef } from 'react';
 import domtoimage from 'dom-to-image';

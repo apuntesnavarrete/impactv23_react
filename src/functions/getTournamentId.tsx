@@ -1,5 +1,5 @@
-import { apiruta } from "../../../config/apiruta";
-import { TorneoType } from "../../../types/torneotype";
+import { apiruta } from "../config/apiruta";
+import { TorneoType } from "../types/torneotype";
 
 const getTournamentId = async (liga: string | undefined, torneo: string | undefined): Promise<number | null> => {
       // Realizar la solicitud fetch

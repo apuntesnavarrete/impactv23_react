@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TablageneralType } from '../../types/tablageneral';
-import getRapidFootballStandings from '../Partidos/functions/getRapidFootballStandings';
-import getTournamentId from '../Partidos/functions/getTournamentId';
-import { getTeamsTournaments } from '../Partidos/functions/getTeamsTournaments';
+import getRapidFootballStandings from '../../functions/getRapidFootballStandings';
+import getTournamentId from '../../functions/getTournamentId';
+import { getTeamsTournaments } from '../../functions/getTeamsTournaments';
 
 const TablaGeneral: React.FC = () => {
   const { liga, torneo } = useParams();

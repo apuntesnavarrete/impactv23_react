@@ -1,4 +1,4 @@
-import { apiruta } from "../../../config/apiruta";
+import { apiruta } from "../config/apiruta";
 
 export async function getAllParticipants() {
     const response = await fetch(`${apiruta}/api/v1/participants`);

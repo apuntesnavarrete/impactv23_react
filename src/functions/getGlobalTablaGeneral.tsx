@@ -1,6 +1,6 @@
-import { apiruta } from "../../../config/apiruta";
-import { MatchType } from "../../../types/partidoType";
-import { TablageneralGlobalType } from "../../../types/tablageneral";
+import { apiruta } from "../config/apiruta";
+import { MatchType } from "../types/partidoType";
+import { TablageneralGlobalType } from "../types/tablageneral";
 
 
 async function getGlobalTablaGeneral(): Promise<TablageneralGlobalType[]> {

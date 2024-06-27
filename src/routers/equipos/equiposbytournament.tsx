@@ -2,8 +2,8 @@ import  { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import {  EquiposByTournamentType } from "../../types/equipostype";
 //import { apiruta } from "../../config/apiruta";
-import getTournamentId from "../Partidos/functions/getTournamentId";
-import { getTeamsTournaments } from "../Partidos/functions/getTeamsTournaments";
+import getTournamentId from "../../functions/getTournamentId";
+import { getTeamsTournaments } from "../../functions/getTeamsTournaments";
 import { apiruta } from "../../config/apiruta";
 
 function EquiposByTournament() {

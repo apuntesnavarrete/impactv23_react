@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { EstadisticasJugadorType } from '../../types/EstadisticasJugadorType';
 import { MatchType } from '../../types/partidoType';
-import { getPlayersStadisticsByIdMatch } from './functions/getPlayersStatisticsByIdTournament';
+import { getPlayersStadisticsByIdMatch } from '../../functions/getPlayersStatisticsByIdTournament';
 import { apiruta } from '../../config/apiruta';
 import './partidoResultImg.css'; // Importa el archivo de estilos
 import useLigaInfo from '../../Use/useLigaInfo';

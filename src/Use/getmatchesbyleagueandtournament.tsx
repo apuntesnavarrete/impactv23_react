@@ -13,10 +13,10 @@ export const getMatchesbyleagueandTournament = async (
         }
         const dataTournaments: TorneoType[] = await responseTournaments.json();
 
-        const torneoSeleccionado = dataTournaments.find(item => 
-            item.leagues?.Alias?.toUpperCase() === (liga || "")?.toUpperCase() &&
-            item.categories.categorias.toUpperCase() === (torneo || "")?.toUpperCase()
-        );
+const resultadosFiltrados = dataTournaments.filter(item => item.leagues && item.leagues.Alias === liga?.toUpperCase() && item.categories.categorias.toUpperCase() === torneo?.toUpperCase() );
+const RESULTIRDENADOS =  resultadosFiltrados.sort((b, a) => a.idName.localeCompare(b.idName));
+
+const torneoSeleccionado = RESULTIRDENADOS[0]
 
         if (!torneoSeleccionado) {
             throw new Error('No se encontró el torneo especificado.');

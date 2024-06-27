@@ -1,7 +1,7 @@
 // src/components/PartidoForm.tsx
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import getTeamIdsFromMatchId from '../Partidos/functions/getTeamIdsFromMatchId';
-import getPlayersByTeamAndTournament from '../Partidos/functions/getPlayersByTeamAndTournament';
+import getTeamIdsFromMatchId from '../../functions/getTeamIdsFromMatchId';
+import getPlayersByTeamAndTournament from '../../functions/getPlayersByTeamAndTournament';
 
 interface JugadorData {
   annotations: number;

@@ -1,4 +1,4 @@
-import { apiruta } from "../../../config/apiruta";
+import { apiruta } from "../config/apiruta";
 
 export const getPlayersStadisticsByIdMatch = async (idMatch: number): Promise<any[]> => {
     try {

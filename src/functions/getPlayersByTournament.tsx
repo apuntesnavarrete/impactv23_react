@@ -1,5 +1,5 @@
-import { apiruta } from "../../../config/apiruta";
-import { Plantelestype } from "../../../types/plantelestype";
+import { apiruta } from "../config/apiruta";
+import { Plantelestype } from "../types/plantelestype";
 
 const getPlayersTournament = async (tournamentId: number | null ): Promise<Plantelestype[]> => {
     try {

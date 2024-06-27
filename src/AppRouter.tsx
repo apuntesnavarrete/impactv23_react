@@ -32,6 +32,7 @@ import JugadoresEdit from './routers/jugadores/jugadorEdit';
 import EquiposEdit from './routers/equipos/equiposEdit';
 import PartidoEdit from './routers/Partidos/partidoedit';
 import PlantelesDelete from './routers/planteles/plantelesDelete';
+import RollView from './routers/roll/rollView';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -91,6 +92,7 @@ const AppRouter = () => {
             <Route path="/:liga/:torneo/roll" element={<Roll />} />
             <Route path="/:liga/:torneo/equipos" element={<EquiposByTournament />} />
             <Route path="/:liga/:torneo/equipos/newEquipo" element={<EquiposCreateByTournament />} />
+            <Route path="/:liga/roll" element={<RollView />} />
 
             <Route path="/:liga" element={<MenuTorneos />} />
             <Route path="/:liga/:torneo" element={<MenuTorneoOptions />} />

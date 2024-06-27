@@ -4,7 +4,7 @@ import { MatchType } from '../../types/partidoType';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { TorneoType } from '../../types/torneotype';
-import getRapidFootballStandings from './functions/getRapidFootballStandings';
+import getRapidFootballStandings from '../../functions/getRapidFootballStandings';
 import { TablageneralType } from '../../types/tablageneral';
 import { SuccessMessage } from '../SuccesMessage';
 /*

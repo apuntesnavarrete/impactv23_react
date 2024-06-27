@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import getTournamentId from "../Partidos/functions/getTournamentId";
+import getTournamentId from "../../functions/getTournamentId";
 import { useEffect, useState } from "react";
-import { getPlayersStadisticsByIdTournament } from "../Partidos/functions/getPlayersStatisticsByIdTournament";
-import getPlayersTournament from "../Partidos/functions/getPlayersByTournament";
+import { getPlayersStadisticsByIdTournament } from "../../functions/getPlayersStatisticsByIdTournament";
+import getPlayersTournament from "../../functions/getPlayersByTournament";
 import { Plantelestype } from "../../types/plantelestype";
 
 interface Registro {

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { apiruta } from '../../config/apiruta';
-import { getTeamsById } from '../Partidos/functions/getTeamById';
+import { getTeamsById } from '../../functions/getTeamById';
 import { EquiposType } from '../../types/equipostype';
 
 interface FormData extends EquiposType {

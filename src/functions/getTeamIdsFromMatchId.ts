@@ -1,6 +1,6 @@
-import { apiruta } from "../../../config/apiruta";
-import { MatchType } from "../../../types/partidoType";
-import TeamIds from "../../../types/teamsid";
+import { apiruta } from "../config/apiruta";
+import { MatchType } from "../types/partidoType";
+import TeamIds from "../types/teamsid";
 
 
 

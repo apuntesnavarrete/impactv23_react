@@ -2,7 +2,7 @@ import  { useEffect, useState } from "react";
 import { Jugadorestype } from "../../types/jugadores";
 import { NavLink } from "react-router-dom";
 import { apiruta } from "../../config/apiruta";
-import { getAllParticipants } from "../Partidos/functions/getAllParticipants";
+import { getAllParticipants } from "../../functions/getAllParticipants";
 
 function Jugadores() {
   const [data, setData] = useState<Jugadorestype[]>([]);

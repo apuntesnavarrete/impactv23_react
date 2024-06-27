@@ -1,9 +1,9 @@
 
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import getTeamIdsFromMatchId from '../Partidos/functions/getTeamIdsFromMatchId';
-import getPlayersByTeamAndTournament from '../Partidos/functions/getPlayersByTeamAndTournament';
+import getTeamIdsFromMatchId from '../../functions/getTeamIdsFromMatchId';
+import getPlayersByTeamAndTournament from '../../functions/getPlayersByTeamAndTournament';
 import { useParams } from 'react-router-dom';
-import getTournamentId from './functions/getTournamentId';
+import getTournamentId from '../../functions/getTournamentId';
 import { SuccessMessage } from '../SuccesMessage';
 import { apiruta } from '../../config/apiruta';
 

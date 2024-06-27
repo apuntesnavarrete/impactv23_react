@@ -1,5 +1,5 @@
-import { apiruta } from "../../../config/apiruta";
-import { EquiposByTournamentType } from "../../../types/equipostype";
+import { apiruta } from "../config/apiruta";
+import { EquiposByTournamentType } from "../types/equipostype";
 
 export const getTeamsTournaments = async (idTorneo : number | null) => {
     try {

@@ -3,10 +3,10 @@ import {  useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { apiruta } from '../../config/apiruta';
 import { MatchType } from '../../types/partidoType';
-import { getMatchById } from './functions/getMatchbyId';
+import { getMatchById } from '../../functions/getMatchbyId';
 import { TablageneralType } from '../../types/tablageneral';
-import getRapidFootballStandings from './functions/getRapidFootballStandings';
-import getTournamentId from './functions/getTournamentId';
+import getRapidFootballStandings from '../../functions/getRapidFootballStandings';
+import getTournamentId from '../../functions/getTournamentId';
 
 interface FormData extends MatchType {
   file: FileList;

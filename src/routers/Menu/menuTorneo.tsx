@@ -52,6 +52,10 @@ function MenuTorneos() {
         </ul>
       )}
       {/* Renderizar el error si lo hay */}
+
+      <NavLink to="Roll">
+           Roll 
+   </NavLink>
     </div>
        </>
   

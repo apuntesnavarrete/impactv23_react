@@ -3,7 +3,7 @@ import { EquiposByTournamentType } from '../../types/equipostype';
 import { apiruta } from '../../config/apiruta';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import getTournamentId from '../Partidos/functions/getTournamentId';
+import getTournamentId from '../../functions/getTournamentId';
 import { SuccessMessage } from '../SuccesMessage';
 
 function EquiposCreateByTournament() {

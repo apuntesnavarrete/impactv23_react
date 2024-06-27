@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MatchType } from '../../types/partidoType';
-import { getMatchByIdMatch } from './functions/getPlayersStatisticsByIdTournament';
+import { getMatchByIdMatch } from '../../functions/getPlayersStatisticsByIdTournament';
 import { apiruta } from '../../config/apiruta';
 import './partidoimg.css'; // Importa el archivo de estilos
 import useLigaInfo from '../../Use/useLigaInfo';

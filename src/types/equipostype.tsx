@@ -10,7 +10,7 @@ export interface EquiposType {
 
 export interface EquiposByTournamentType {
     id: number;
-    teams: EquiposType | null;
+    teams: EquiposType ; //aqui no deberia permitir null
     tournaments: TorneoType | null;
     participants: Jugadorestype | null;
 }

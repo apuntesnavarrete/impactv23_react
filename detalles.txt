@@ -23,3 +23,9 @@ o traer todos los equipos registrados
 *// filtro de idtorneo convertirlo en una function para su mantenimiento
 
 **insertar partido con equipo null**
+
+***captura en los resultados**
+
+**rediseño de tabla general**
+
+**Rediseño de goleo**

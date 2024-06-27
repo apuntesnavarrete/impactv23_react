@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TablageneralGlobalType } from '../../types/tablageneral';
 
-import getGlobalTablaGeneral from '../Partidos/functions/getGlobalTablaGeneral';
-import getGlobalTablaGeneralByMounth from '../Partidos/functions/getGlobalTablageneralBymounth';
+import getGlobalTablaGeneral from '../../functions/getGlobalTablaGeneral';
+import getGlobalTablaGeneralByMounth from '../../functions/getGlobalTablageneralBymounth';
 
 const TablaGeneralHistorica: React.FC = () => {
   const [clasificacion, setClasificacion] = useState<TablageneralGlobalType[]>([]);

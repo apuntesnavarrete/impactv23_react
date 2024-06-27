@@ -1,4 +1,4 @@
-import { apiruta } from "../../../config/apiruta";
+import { apiruta } from "../config/apiruta";
 
 export async function getMatchById(id: number) {
     const response = await fetch(`${apiruta}/api/v1/matches/${id}`);

@@ -6,8 +6,8 @@ import { TorneoType } from '../../types/torneotype';
 import { Plantelestype } from '../../types/plantelestype';
 import { SuccessMessage } from '../SuccesMessage';
 import { TablageneralType } from '../../types/tablageneral';
-import getRapidFootballStandings from '../Partidos/functions/getRapidFootballStandings';
-import getPlayersTournament from '../Partidos/functions/getPlayersByTournament';
+import getRapidFootballStandings from '../../functions/getRapidFootballStandings';
+import getPlayersTournament from '../../functions/getPlayersByTournament';
 
 
 
