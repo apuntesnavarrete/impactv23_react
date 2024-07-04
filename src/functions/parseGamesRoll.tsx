@@ -1,6 +1,6 @@
 import { Game } from "../types/game";
 
-export const parseGamesRoll= (input: string, date: string): Game[] => {
+export const parseGamesRoll= (input: string): Game[] => {
     const lines = input.split(' ').filter(line => line.trim() !== '');
     const games: Game[] = [];
   
@@ -14,8 +14,7 @@ export const parseGamesRoll= (input: string, date: string): Game[] => {
           gameTime: gameTime.trim(),
           homeTeam: homeTeam.trim(),
           awayTeam: awayTeam.trim(),
-          category: category.trim(),
-          date: date.trim(), // Añadimos la fecha aquí
+          category: category.trim()
         });
       }
     }

@@ -7,31 +7,40 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { cleanInputRoll } from "../../functions/cleanInputRoll";
 import { parseGamesRoll } from "../../functions/parseGamesRoll";
 import { convertTeams } from "../../functions/convertTeams";
+import { Game } from "../../types/game";
+import './rollview.css'
+import RollLayer from "./rolllayer";
+import ButtonCapture from "../../components/buttonCapture";
+import useTodayDate from "../../Use/useTodayDay";
+import { EditDate } from "../../components/editDate";
+import { RollInput } from "./rollInput";
+
 
 
 const RollView = () => {
+  
+  const [toogleRoll, SetToogleRoll] = useState(false)
+  const [toogleFecha, SetToogleFecha] = useState(false)
+
   const [teamsTournament, setTeamsTournament] = useState<Partial<EquiposType>[]>([]);
   const { liga } = useParams();
   const { data, loading, error } = useFetch<EquiposByTournamentType[]>(`${apiruta}/api/v1/teams-tournament`);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [date, setDate] = useState<string>(() => {
-    const today = new Date();
-    return today.toISOString().split('T')[0]; // Formato yyyy-MM-dd
-  });
-    const [dayOfWeek, setDayOfWeek] = useState('');
+  //const textareaRef = useRef<HTMLTextAreaElement>(null);
+  
+  const { date, dayOfWeek, handleDateChange } = useTodayDate();
 
-  //se jecuta 3 veces
+  const [gamesFinal, SetGamesFinal] = useState<Game[]>([]);
+  const rollLayerRef = useRef<HTMLDivElement>(null);
+
   console.log("RollView render");
 
-  // Utilizamos useMemo para memoizar los equipos filtrados
   const filteredTeams = useMemo(() => {
     if (data) {
       return getTeamsTournamentsByLeague(data, liga);
     }
     return [];
-  }, [data, liga]); // Dependencias correctas
+  }, [data, liga]);
 
-  // useEffect ahora depende de filteredTeams
   useEffect(() => {
     if (filteredTeams.length > 0) {
       const teamInfo = filteredTeams.map((item) => ({
@@ -42,53 +51,48 @@ const RollView = () => {
       }));
       setTeamsTournament(teamInfo);
     }
-  }, [filteredTeams]); // Dependencias correctas
+  }, [filteredTeams]);
 
-  // Utilizamos useCallback para memoizar handleInputChange
-  const handleButtonClick = () => {
-    if (textareaRef.current) {
-      const inputValue = textareaRef.current.value;
-
-     const rollclean = cleanInputRoll(inputValue)
-
-     const parsedGames = parseGamesRoll(rollclean, date); // Pasamos la fecha aquí
-
-     let gameConvert = convertTeams(teamsTournament,parsedGames)
-      // Aquí puedes poner la lógica que deseas ejecutar
-      console.log('team convertidos', gameConvert);
-
-    }
+  const handleRollConversion = (convertedGames: Game[]) => {
+    SetGamesFinal(convertedGames);
+    SetToogleRoll(true);
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
-
-  //este puedo hacerlo un hook para futuras implementaciones
-  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-
-    const selectedDate = new Date(event.target.value);
-    const formattedDate = `${String(selectedDate.getDate()).padStart(2, '0')}/${String(selectedDate.getMonth() + 1).padStart(2, '0')}/${selectedDate.getFullYear()}`;
-    console.log(formattedDate);
-    const day = daysOfWeek[selectedDate.getDay() + 1];
-
-    setDate(event.target.value); // Actualizar el estado con el valor en formato yyyy-MM-dd
-    setDayOfWeek(day);
+/*
+  const ConvertRoll = () => {
+    if (textareaRef.current) {
+      const inputValue = textareaRef.current.value;
+      const rollclean = cleanInputRoll(inputValue);
+      const parsedGames = parseGamesRoll(rollclean);
+      const gameConvert = convertTeams(teamsTournament, parsedGames);
+      SetGamesFinal(gameConvert);
+      console.log(gamesFinal);
+      SetToogleRoll(true)
+    }
   };
-
+*/
+  const EditarFecha = () =>{
+    SetToogleFecha(true)
+  }
   return (
-    <div>
-       <label htmlFor="date">Date:</label>
-       <input type="date" value={date} onChange={handleDateChange} />
-      <p>Fecha seleccionada: {date}</p>
-      <p>Día de la semana: {dayOfWeek}</p>
-              <p>Texto de prueba</p>
-        <textarea ref={textareaRef} rows={10} cols={50} />
-        <button onClick={handleButtonClick}>Ejecutar</button>   
-        
-         
+    <div className="ConvertRoll">
+      {toogleFecha && <EditDate date={date} handleDateChange={handleDateChange} />
+    }
+      
+      <RollInput onRollConvert={handleRollConversion} teamsTournament={teamsTournament} />
+
+      
+      {toogleRoll && <div>
+        <button onClick={EditarFecha}>Editar Fecha</button>
+        <ButtonCapture captureRef={rollLayerRef} /> 
+
+        <RollLayer ref={rollLayerRef} gamesFinal={gamesFinal} dayOfWeek={dayOfWeek} date={date}  liga={liga} />
+      </div> }
     </div>
   );
 }
 
 export default RollView;
+
