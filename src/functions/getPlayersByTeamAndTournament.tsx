@@ -10,7 +10,8 @@ import { Plantelestype } from "../types/plantelestype";
     // Filtra el conjunto de datos por el ID proporcionado y el torneo proporcionado
     const objetosFiltrados = jsonData.filter(objeto => objeto.teams.id === id && objeto.tournaments.id === tournamentId);
 
-    console.log(objetosFiltrados);
+    objetosFiltrados.sort((a, b) => a.participants.id - b.participants.id);
+
     
     return objetosFiltrados;
   } catch (error) {

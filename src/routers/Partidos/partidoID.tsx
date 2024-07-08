@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import getTournamentId from '../../functions/getTournamentId';
 import { SuccessMessage } from '../SuccesMessage';
 import { apiruta } from '../../config/apiruta';
-
+import JugadorForm from '../../components/jugadorForm';
 
 interface JugadorData {
   annotations: number;
@@ -17,19 +17,10 @@ interface JugadorData {
   name: string
 }
 
-
-
-
-
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-
 const PartidoID: React.FC = () => {
   const { idPartido , torneo, liga} = useParams();
   const numeroIdPartido = parseInt(idPartido ?? "0", 10);
 
-  console.log(numeroIdPartido)
 
   const [jugadores, setJugadores] = useState<JugadorData[]>([]);
   const [selectedTeam, setSelectedTeam] = useState('away');
@@ -40,8 +31,6 @@ const PartidoID: React.FC = () => {
   getTournamentId(liga, torneo)
   .then((idTorneo: number | null) => {
     if (idTorneo !== null) {
-      // Hacer algo con el ID del torneo
-      console.log('ID del torneo:', idTorneo);
       setIdTorneo(idTorneo);
 
     } else {
@@ -50,10 +39,6 @@ const PartidoID: React.FC = () => {
   });
 
   useEffect(() => {
-
-  
-
-
     getTeamIdsFromMatchId(numeroIdPartido)
       .then((resultado) => {
         const teamAwayId = resultado?.teamAwayId || 0;
@@ -65,9 +50,14 @@ const PartidoID: React.FC = () => {
         return Promise.all([promiseAway, promiseHome]);
       })
       .then(([equiposFiltradosAway, equiposFiltradosHome]) => {
-        console.log('Equipos filtrados para teamAwayId:', equiposFiltradosAway);
-        console.log('Equipos filtrados para teamHomeId:', equiposFiltradosHome);
+       
+
+
+
         const selectedTeamData = selectedTeam === 'away' ? equiposFiltradosAway : equiposFiltradosHome;
+
+        console.log('jugadores:' + selectedTeamData);
+
 
         const convertedArray = selectedTeamData.map(({ participants, teams }) => ({
           name: participants.name,
@@ -75,6 +65,8 @@ const PartidoID: React.FC = () => {
           teams: teams.id,
         }));
         
+
+
         const jugadoresjson = convertedArray.map((jugador,index) => ({
           name: convertedArray[index].name,
 
@@ -84,7 +76,9 @@ const PartidoID: React.FC = () => {
           participants: convertedArray[index].participants,
           teams: convertedArray[index].teams, 
         }));
-        console.log(convertedArray);
+        //jugadores.sort((a, b) => a.participants. - b.participants.id);
+
+
         setJugadores(jugadoresjson); // Actualiza el estado con convertedArray
 
       })
@@ -110,13 +104,10 @@ const PartidoID: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log('ver datos:', jugadores);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const postData = jugadores.map(({ name, ...rest }) => rest);
-    console.log('ver postData:', postData);
     const filteredArray = postData.filter((jugador) => jugador.attendance);
-    console.log('filtrado true:', filteredArray);
 
 
 
@@ -160,35 +151,22 @@ const PartidoID: React.FC = () => {
     <button onClick={() => setSelectedTeam('home')}>Usar equiposFiltradosHome</button>
     <button onClick={handleToggleCheckboxes}>Toggle Todos</button>
     {jugadores[0]?.teams}
+
+
     <form onSubmit={handleSubmit}>
       
       {jugadores.map((jugador, index) => (
-        <div key={index}>
-         
-      <p>Jugador ;{jugadores[index].name} Id.- {jugadores[index].participants}  </p>
-         
-          <label>
-            Goles:
-            <input
-              type="number"
-              name="annotations"
-              value={jugador.annotations}
-              onChange={(e) => handleInputChange(e, index)}
-            />
-          </label>
-          <label>
-  Asistencias:
-  <input
-    type="checkbox"
-    name="attendance"
-    checked={jugador.attendance}
-    onChange={(e) => handleInputChange(e, index)}
-  />
-</label>
-        </div>
+        <JugadorForm
+        key={index}
+        jugador={jugador}
+        index={index}
+        handleInputChange={handleInputChange}
+      />
       ))}
       <button type="submit">Registrar Partido</button>
     </form>
+
+
     {showSuccess && <SuccessMessage message="¡Creado con éxito!" />}
 
     </>
@@ -199,3 +177,4 @@ export default PartidoID;
 
 
 
+//antes 196 lineas
