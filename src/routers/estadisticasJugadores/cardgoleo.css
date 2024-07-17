@@ -1,0 +1,50 @@
+.card_goleadores{
+    display: flex;
+    border: 1px dotted white;
+    width: 80%;
+    align-items: center;
+    border-radius: 13px;
+    padding: 10px;
+    margin: 15px 0px;
+}
+
+.card_goleadores_top{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 30px;
+
+}
+.card_goleadores_name{
+    font-size: 10px;
+    font-size: 20px;
+
+}
+
+.card_goleadores div{
+    width: 100%;
+    padding: 15px;
+}
+.card_goleadores_bottom{
+    display: flex;
+    align-items: center;
+   border-top:  1px solid;
+
+}
+.jugador_img {
+    max-width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 13px;
+
+
+}
+.goleadores-card-goles{
+    font-size: 125px;
+padding: 0 35px;
+}
+.card-goleador_equipos{
+    width: 50px;
+   margin:  0 15px;
+
+}

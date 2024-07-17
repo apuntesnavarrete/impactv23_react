@@ -2,6 +2,8 @@ import React from 'react';
 import { Game } from '../../types/game';
 import { apiruta } from '../../config/apiruta';
 import useLigaInfo from '../../Use/useLigaInfo';
+import TopImg from '../../components/topimg';
+import BottomImg from '../../components/bottomimg';
 
 interface ContentResultRollProps {
   gamesFinal: Game[];
@@ -15,10 +17,8 @@ const RollLayer = React.forwardRef<HTMLDivElement, ContentResultRollProps>(({ ga
 
   return (
     <div id="content_resul_roll" ref={ref} className={`content_resul_roll ${claseCSS}`}>
-      <div className='versus_top'>
-        <p>{date}</p>
-        <p>Liga {liga}</p>
-      </div>
+       <TopImg date={date} liga={liga} />
+
       <p className='dayOfWeek'>{dayOfWeek}</p>
       {gamesFinal.map((game, index) => (
         <div key={index} className='content_versus_data'>
@@ -34,11 +34,8 @@ const RollLayer = React.forwardRef<HTMLDivElement, ContentResultRollProps>(({ ga
           </div>
         </div>
       ))}
-      <div className='versus_bottom'>
-        <p className="Logo">
-          <img className="logo-img" src={`${apiruta}/public/teams/${logoLiga}`} alt={`${liga}Logo`} />
-        </p>
-      </div>
+      <BottomImg logoLiga={logoLiga} />
+
     </div>
   );
 });
