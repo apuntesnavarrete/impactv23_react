@@ -1,14 +1,18 @@
 import { useState, useEffect, SetStateAction } from "react";
 import {  EstadisticasJugadorType } from "../../types/EstadisticasJugadorType";
 import { apiruta } from "../../config/apiruta";
+import GoleoImg from "./goleoimg";
+import { TypeGoleadorDetallado } from "../../types/goleadores";
+import { getSumDataPlayer } from "../../functions/getSumDataPlayer";
 
 
 function GoleoGlobal() {
   const [datos, setDatos] = useState<EstadisticasJugadorType[]>([]);
-  const [partidosJugados, setPartidosJugados] = useState<{ [key: string]: { id: number, count: number } }>({});
   const [ordenPor, setOrdenPor] = useState<'goles' | 'promedio' | 'partidos'>('goles');
   const [datosOriginales, setDatosOriginales] = useState<EstadisticasJugadorType[]>([]);
   const [mesFiltrado, setMesFiltrado] = useState<string>("");
+
+  const [ordenartable, setOrdenartable] = useState("goles")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +24,7 @@ function GoleoGlobal() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+
         setDatosOriginales(data);
 
         setDatos(data);
@@ -31,40 +36,15 @@ function GoleoGlobal() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const partidosPorJugador: { [key: string]: { id: number, count: number } } = {};
-
-    datos.forEach(registro => {
-      const { id, name } = registro.participants;
-
-      if (!partidosPorJugador[name]) {
-        partidosPorJugador[name] = { id, count: 0 };
-      }
-
-      partidosPorJugador[name].count++;
-    });
-
-    setPartidosJugados(partidosPorJugador);
-  }, [datos]);
-
-  const totalGoles: { [key: string]: number } = datos.reduce(
-    (acumulador, registro) => {
-      const { id, name } = registro.participants;
-
-      if (!acumulador[name]) {
-        acumulador[name] = 0;
-      }
-
-      acumulador[name] += registro.annotations;
-
-      return acumulador;
-    },
-    {} as { [key: string]: number }
-  );
-
   const handleOrdenarTabla = (tipoOrden: 'goles' | 'promedio' | 'partidos') => {
+
+    setOrdenartable(tipoOrden)
+
     console.log("Ordenar por:", tipoOrden);
     console.log("Mes filtrado:", mesFiltrado);
+
+
+
     let datosFiltrados = [...datosOriginales];
 
     if (mesFiltrado) {
@@ -93,23 +73,7 @@ function GoleoGlobal() {
     setOrdenPor(tipoOrden);
   };
 
-  const goleadoresArray = Object.keys(totalGoles)
-    .filter(nombreJugador => partidosJugados[nombreJugador] && partidosJugados[nombreJugador].count > 5)
-    .map((nombreJugador) => {
-      const { id } = partidosJugados[nombreJugador];
-      const goles = totalGoles[nombreJugador];
-      const partidos = partidosJugados[nombreJugador].count || 0;
-      const promedio = partidos > 0 ? goles / partidos : 0;
-
-      return {
-        id,
-        nombre: nombreJugador,
-        goles,
-        partidos,
-        promedio,
-      };
-    });
-
+const goleadoresArray: TypeGoleadorDetallado[] = getSumDataPlayer(datos,20);
 
 
 
@@ -150,6 +114,12 @@ function GoleoGlobal() {
         </select>
       </div>
       <p>Estadisticas Individuales Historicas .- Impacto Under</p>
+
+
+      {tablaOrdenada && <GoleoImg order={ordenartable} infoType="Global" liga="Registro Impacto" goleadores={tablaOrdenada} torneo="Impacto Under" tipoTorneo="Goleo Historico"/>}
+
+
+
       <table>
         <thead>
           <tr>

@@ -6,6 +6,8 @@
     border-radius: 13px;
     padding: 10px;
     margin: 15px 0px;
+    justify-content: space-around;
+
 }
 
 .card_goleadores_top{
@@ -22,14 +24,21 @@
 }
 
 .card_goleadores div{
-    width: 100%;
     padding: 15px;
 }
 .card_goleadores_bottom{
     display: flex;
-    align-items: center;
-   border-top:  1px solid;
+    flex-direction: column;
+    align-items: flex-start;
+       border-top:  1px solid;
 
+}
+
+.card_equipos_bottom{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+       border-top:  1px solid;
 }
 .jugador_img {
     max-width: 200px;
@@ -41,10 +50,20 @@
 }
 .goleadores-card-goles{
     font-size: 125px;
-padding: 0 35px;
 }
 .card-goleador_equipos{
     width: 50px;
    margin:  0 15px;
+
+}
+.globalPj{
+    font-size: 0.5em;
+}
+
+.card-goles-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 35%;
 
 }

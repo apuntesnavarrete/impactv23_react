@@ -19,6 +19,10 @@ const useLigaInfo = (liga?: string) => {
                     setClaseCSS('ligaFondoED');
                     setLogoLiga("ligaed.png");
                     break;
+                case 'Registro Impacto':  
+                      setClaseCSS('impac');
+                    setLogoLiga("impac.png"); 
+                    break 
                 default:
                     break;
             }

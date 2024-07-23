@@ -17,7 +17,7 @@ import TablaGeneral from './routers/tablageneral/tablageneral';
 import PlantelesTabla from './routers/planteles/plantelesView';
 import CrearPartidos from './routers/Partidos/crearPartidos';
 import PartidoIdView from './routers/Partidos/partidoIdView';
-import Goleo from './routers/estadisticasJugadores/goleo';
+import Goleo from './routers/estadisticasJugadores/goleobytournament';
 import PartidoImg from './routers/Partidos/partidoImg';
 import Roll from './routers/roll/roll';
 import MenuTorneos from './routers/Menu/menuTorneo';
@@ -33,6 +33,7 @@ import EquiposEdit from './routers/equipos/equiposEdit';
 import PartidoEdit from './routers/Partidos/partidoedit';
 import PlantelesDelete from './routers/planteles/plantelesDelete';
 import RollView from './routers/roll/rollView';
+import Goleobytournament from './routers/estadisticasJugadores/goleobytournament';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -85,7 +86,7 @@ const AppRouter = () => {
             <Route path="/:liga/:torneo/partidos/view/:idPartido" element={<PartidoIdView />} />
             <Route path="/:liga/:torneo/partidos/edit/:idpartido" element={<PartidoEdit />} />
 
-            <Route path="/:liga/:torneo/goleo" element={<Goleo />} />
+            <Route path="/:liga/:torneo/goleo" element={<Goleobytournament />} />
             <Route path="/:liga/:torneo/Asistencia" element={<Asistencia />} />
 
             <Route path="/:liga/:torneo/partidos/img/:idPartido" element={<PartidoImg />} />

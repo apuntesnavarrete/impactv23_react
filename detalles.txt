@@ -29,3 +29,5 @@ o traer todos los equipos registrados
 **rediseño de tabla general**
 
 **Rediseño de goleo**
+
+**basado en los versus un hoja de registro con los jugdores que se enfrentn**
