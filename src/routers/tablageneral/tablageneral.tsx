@@ -4,6 +4,7 @@ import { TablageneralType } from '../../types/tablageneral';
 import getRapidFootballStandings from '../../functions/getRapidFootballStandings';
 import getTournamentId from '../../functions/getTournamentId';
 import { getTeamsTournaments } from '../../functions/getTeamsTournaments';
+import TablaGeneralLayer from './tablageneralayer';
 
 const TablaGeneral: React.FC = () => {
   const { liga, torneo } = useParams();
@@ -14,22 +15,16 @@ const TablaGeneral: React.FC = () => {
     // Llamada a la función getTournamentId para obtener el ID del torneo
     getTournamentId(liga, torneo)
       .then((idtorneo) => {
-        console.log('Equipos con Info:', idtorneo);
         // Establecer el estado del ID del torneo
         setidtorneo(idtorneo);
         // Realizar una llamada a la función getRapidFootballStandings solo si se ha obtenido el ID del torneo
         if (idtorneo !== null) {
           getRapidFootballStandings(idtorneo)
             .then((equiposConInfo) => {
-
               getTeamsTournaments(idtorneo)
                 .then((data)=>{
-                  console.log(data)
-                  console.log(equiposConInfo)
                   const equiposFiltrados = equiposConInfo.filter(equipo => data.some(item => item.teams?.id === equipo.equipoId));
-                  console.log('Equipos con filtrados:', equiposFiltrados)
                   setClasificacion(equiposFiltrados);
-
                 })
               // Establecer el estado de la clasificación de equipos
               setClasificacion(equiposConInfo);
@@ -49,6 +44,12 @@ const TablaGeneral: React.FC = () => {
         <p>idTorneo: {idtorneo}</p>
       </div>
       <p>Tabla General</p>
+      
+      <TablaGeneralLayer>
+        
+      </TablaGeneralLayer>
+
+      
       <table>
         <thead>
           <tr>

@@ -1,0 +1,119 @@
+.content-card-team{
+    display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 0 20px;
+     font-size: 0.5em;
+     padding: 15px;
+     border-radius: 10px;
+     border: 1px dashed antiquewhite;
+     margin: 5px;
+}
+
+.conten-cards-team{
+    justify-content: center;
+
+}
+
+.card-team-left{
+    font-size: 0.7em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-center_matches{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+    justify-content: space-evenly;
+    border-bottom: 1px dashed antiquewhite;}
+
+.team-center_match :nth-child(2), .team-rigth-pj div :nth-child(2) {
+   font-size: 0.8em;
+  }
+
+.team-center_goles{
+    display: flex;
+}
+
+.team-rigth-pj{
+    display: flex
+}
+.team-left-img{
+    width: 70px;
+}
+
+.card-team-center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   margin: 0px 5px;
+
+}
+
+
+
+.team-center_goles div, .team-center_goles div,.team-rigth-pj div{
+  margin: 0 10px;
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+
+
+
+
+    .team-rigth-pj div p{
+        margin: -5px 0px;
+    }
+
+
+    .team-center_match {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Opcional, para alinear a la izquierda */
+    }
+    
+    .team-center_match p {
+        margin: -2px; /* Eliminar márgenes predeterminados */
+    }
+     .team-center-pj div p{
+        margin: -5px; /* Eliminar márgenes predeterminados */
+
+    }
+
+    .team-center_matches .puntos {
+        font-size: 3em; /* Tamaño del número */
+    }
+    
+    .team-center_matches .puntos .small {
+        font-size: 0.3em; /* Tamaño de "pts" */
+    }
+
+    .position{
+        margin-bottom: -10px;
+        width: 80%;
+        text-align: end;
+    }
+    .conten-cards-team{    display: flex;
+        flex-wrap: wrap;
+
+    }
+
+    .team-center-pj{
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+   .promedio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   }
