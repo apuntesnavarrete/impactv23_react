@@ -1,9 +1,10 @@
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect, SetStateAction, useMemo } from "react";
 import {  EstadisticasJugadorType } from "../../types/EstadisticasJugadorType";
 import { apiruta } from "../../config/apiruta";
 import GoleoImg from "./goleoimg";
 import { TypeGoleadorDetallado } from "../../types/goleadores";
 import { getSumDataPlayer } from "../../functions/getSumDataPlayer";
+import useFetch from "../../Use/UseFetch";
 
 
 function GoleoGlobal() {
@@ -13,40 +14,40 @@ function GoleoGlobal() {
   const [mesFiltrado, setMesFiltrado] = useState<string>("");
 
   const [ordenartable, setOrdenartable] = useState("goles")
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `${apiruta}/api/v1/PlayerStatistics`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-
-        setDatosOriginales(data);
-
-        setDatos(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  const { data, loading, error } = useFetch<EstadisticasJugadorType[]>(`${apiruta}/api/v1/PlayerStatistics`);
   
-    fetchData();
-  }, []);
+//mete data enun set para poder manipularlo.
 
-  const handleOrdenarTabla = (tipoOrden: 'goles' | 'promedio' | 'partidos') => {
+ //no tiene caso sume todo de inicio
+  const goleadoresArray = useMemo(() => {
+    if (data) {
+      return getSumDataPlayer(data, 20);
+    }
+    return [];
+  }, [data]);
 
-    setOrdenartable(tipoOrden)
-
-    console.log("Ordenar por:", tipoOrden);
-    console.log("Mes filtrado:", mesFiltrado);
 
 
+  const OrderTableGoleadores = (tipoOrden: 'goles' | 'promedio' | 'partidos') => {
 
-    let datosFiltrados = [...datosOriginales];
+    if(data){
+      let datosFiltrados = [...data];
 
+      if (tipoOrden === 'partidos') {
+        setDatos(datosFiltrados);
+      } else if (tipoOrden === 'promedio') {
+        const dataFiltrada = datosFiltrados.filter((objeto) => {
+          const contieneMixta = objeto.matches.tournaments.idName.toLowerCase().includes('mixta');
+          const sexoEsMasculino = objeto.participants.sex === 'M';
+          return !(contieneMixta && sexoEsMasculino);
+        });
+        setDatos(dataFiltrada);
+      } else {
+        setDatos(datosFiltrados);
+      }
+    }
+
+    /*
     if (mesFiltrado) {
 
       datosFiltrados = datosOriginales.filter((objeto) => {
@@ -55,25 +56,15 @@ function GoleoGlobal() {
         return mes === parseInt(mesFiltrado, 10);
       });
 
+      console.log(datosFiltrados)
+      setDatos(datosFiltrados)
     }
-
-    if (tipoOrden === 'partidos') {
-      setDatos(datosFiltrados);
-    } else if (tipoOrden === 'promedio') {
-      const dataFiltrada = datosFiltrados.filter((objeto) => {
-        const contieneMixta = objeto.matches.tournaments.idName.toLowerCase().includes('mixta');
-        const sexoEsMasculino = objeto.participants.sex === 'M';
-        return !(contieneMixta && sexoEsMasculino);
-      });
-      setDatos(dataFiltrada);
-    } else {
-      setDatos(datosFiltrados);
-    }
+*/
+   
 
     setOrdenPor(tipoOrden);
   };
 
-const goleadoresArray: TypeGoleadorDetallado[] = getSumDataPlayer(datos,20);
 
 
 
@@ -87,16 +78,28 @@ const goleadoresArray: TypeGoleadorDetallado[] = getSumDataPlayer(datos,20);
     }
   });
 
-  const handleMesChange = (e: { target: { value: SetStateAction<string>; }; }) => {
-    setMesFiltrado(e.target.value);
+  const handleMesChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+    const mesFiltrado2 = e.target.value;
+    if (data) {
+      const datosFiltrados = data.filter((objeto) => {
+        const mes = new Date(objeto.matches.date).getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+
+        return mes === parseInt(mesFiltrado2, 10);
+      });
+
+      console.log(datosFiltrados);
+    }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <>
       <div>
-        <button onClick={() => handleOrdenarTabla('goles')}>Ordenar por Goles</button>
-        <button onClick={() => handleOrdenarTabla('promedio')}>Ordenar por Promedio</button>
-        <button onClick={() => handleOrdenarTabla('partidos')}>Ordenar por Partidos Jugados</button>
+        <button onClick={() => OrderTableGoleadores('goles')}>Ordenar por Goles</button>
+        <button onClick={() => OrderTableGoleadores('promedio')}>Ordenar por Promedio</button>
+        <button onClick={() => OrderTableGoleadores('partidos')}>Ordenar por Partidos Jugados</button>
         <select onChange={handleMesChange}>
           <option value="">Filtrar por Mes</option>
           <option value="1">Enero</option>
