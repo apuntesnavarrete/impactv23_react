@@ -262,7 +262,8 @@ const handleCapture = () => {
           if (goleador.id === player.participants.id) {
             return (
               <p key={`asistencia-${player.id}`} className="card_asistencia">
-                Asistencias: {goleador.asistencias}
+                Asistencias: {goleador.asistencias}   /    {goleador.asistencias >= 5 ? " Autorizado a liguilla" : ""}
+
               </p>
             );
           }

@@ -50,7 +50,7 @@ const AppRouter = () => {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
-        {isAuthenticated ? (
+        {/* isAuthenticated */ true ? (
           <>
             <Route path="/jugadores" element={<Jugadores />} />
             <Route path="/jugadores/crear" element={<JugadoresCreate />} />
