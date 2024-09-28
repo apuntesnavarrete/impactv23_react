@@ -1,7 +1,6 @@
 // src/functions/procesarGoleadoresDetallado.ts
 import { EstadisticasJugadorType } from "../types/EstadisticasJugadorType";
 import { TypeGoleadorDetallado } from "../types/goleadores";
-//import { TypeGoleadorDetallado } from "../types/goleadores";
 
 export function getSumDataPlayer(datos: EstadisticasJugadorType[] , golmin: number): TypeGoleadorDetallado[] {
  

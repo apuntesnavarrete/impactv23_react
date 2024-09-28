@@ -21,6 +21,7 @@ const PartidoID: React.FC = () => {
   const { idPartido , torneo, liga} = useParams();
   const numeroIdPartido = parseInt(idPartido ?? "0", 10);
 
+  const token = localStorage.getItem('token');
 
   const [jugadores, setJugadores] = useState<JugadorData[]>([]);
   const [selectedTeam, setSelectedTeam] = useState('away');
@@ -115,6 +116,8 @@ const PartidoID: React.FC = () => {
       const response = await fetch(`${apiruta}/api/v1/PlayerStatistics`, {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${token}`,
+
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(filteredArray),
