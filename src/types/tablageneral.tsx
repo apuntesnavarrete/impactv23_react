@@ -1,4 +1,5 @@
 export interface TablageneralType {
+    logo: string;
     equipoId: number;
     equipo: string;
     puntos: number;

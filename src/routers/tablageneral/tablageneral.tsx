@@ -23,6 +23,7 @@ const TablaGeneral: React.FC = () => {
             .then((equiposConInfo) => {
               getTeamsTournaments(idtorneo)
                 .then((data)=>{
+                  console.log("equipos filtrado" + data)
                   const equiposFiltrados = equiposConInfo.filter(equipo => data.some(item => item.teams?.id === equipo.equipoId));
                   setClasificacion(equiposFiltrados);
                 })
@@ -45,9 +46,8 @@ const TablaGeneral: React.FC = () => {
       </div>
       <p>Tabla General</p>
       
-      <TablaGeneralLayer>
-        
-      </TablaGeneralLayer>
+      <TablaGeneralLayer clasificacion={clasificacion} />
+
 
       
       <table>

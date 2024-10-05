@@ -81,10 +81,7 @@
     .team-center_match p {
         margin: -2px; /* Eliminar márgenes predeterminados */
     }
-     .team-center-pj div p{
-        margin: -5px; /* Eliminar márgenes predeterminados */
-
-    }
+    
 
     .team-center_matches .puntos {
         font-size: 3em; /* Tamaño del número */
@@ -95,9 +92,8 @@
     }
 
     .position{
-        margin-bottom: -10px;
-        width: 80%;
-        text-align: end;
+        align-self: start;
+
     }
     .conten-cards-team{    display: flex;
         flex-wrap: wrap;

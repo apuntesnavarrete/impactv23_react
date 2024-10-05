@@ -20,9 +20,11 @@ async function getRapidFootballStandings(idTorneo: number): Promise<Tablageneral
         const equipoVisitante = partido.teamAway.name;
         const equipoLocalId = partido.teamHome.id; // Nueva propiedad para el ID del equipo local
         const equipoVisitanteId = partido.teamAway.id; // Nueva propiedad para el ID del equipo visitante
+        const equipoVisitanteEscudo = partido.teamAway.logo || `${apiruta}/default-logo.png`;; // Nueva propiedad para el ID del equipo visitante
+        const localEscudo = partido.teamHome.logo || `${apiruta}/default-logo.png`; // Nueva propiedad para el ID del equipo visitante
 
         if (!puntosPorEquipo[equipoLocal]) {
-          puntosPorEquipo[equipoLocal] = { equipoId: equipoLocalId, equipo: equipoLocal, puntos: 0, goles: 0, golesRecibidos: 0, partidosJugados: 0, partidosGanados: 0, partidosGanadosDesempate: 0, partidosPerdidos: 0, partidosPerdidosDesempate: 0, partidosEmpatados: 0 };
+          puntosPorEquipo[equipoLocal] = {logo:localEscudo, equipoId: equipoLocalId, equipo: equipoLocal, puntos: 0, goles: 0, golesRecibidos: 0, partidosJugados: 0, partidosGanados: 0, partidosGanadosDesempate: 0, partidosPerdidos: 0, partidosPerdidosDesempate: 0, partidosEmpatados: 0 };
         }
         puntosPorEquipo[equipoLocal].puntos += partido.pointsLocal;
         puntosPorEquipo[equipoLocal].goles += partido.localgoals;
@@ -42,7 +44,7 @@ async function getRapidFootballStandings(idTorneo: number): Promise<Tablageneral
 
 
         if (!puntosPorEquipo[equipoVisitante]) {
-          puntosPorEquipo[equipoVisitante] = { equipoId: equipoVisitanteId, equipo: equipoVisitante, puntos: 0, goles: 0, golesRecibidos: 0, partidosJugados: 0, partidosGanados: 0, partidosGanadosDesempate: 0, partidosPerdidos: 0, partidosPerdidosDesempate: 0, partidosEmpatados: 0 };
+          puntosPorEquipo[equipoVisitante] = {logo:equipoVisitanteEscudo, equipoId: equipoVisitanteId, equipo: equipoVisitante, puntos: 0, goles: 0, golesRecibidos: 0, partidosJugados: 0, partidosGanados: 0, partidosGanadosDesempate: 0, partidosPerdidos: 0, partidosPerdidosDesempate: 0, partidosEmpatados: 0 };
         }
         puntosPorEquipo[equipoVisitante].puntos += partido.pointsVisitan;
         puntosPorEquipo[equipoVisitante].goles += partido.visitangoals;
