@@ -20,6 +20,7 @@ const PlantelesTabla: React.FC = () => {
     const { liga, torneo } = useParams();
     const [StadisticsTournament, setStadisticsTournament] = useState<EstadisticasJugadorType[]>([]);
     const [reload, setReload] = useState(false);  // Estado para controlar la recarga
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
       // Función para realizar la solicitud a la API
@@ -117,6 +118,7 @@ const handleDelete  = async (id: number) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${token}`,
       },
     });
 
@@ -262,7 +264,7 @@ const handleCapture = () => {
           if (goleador.id === player.participants.id) {
             return (
               <p key={`asistencia-${player.id}`} className="card_asistencia">
-                Asistencias: {goleador.asistencias}   /    {goleador.asistencias >= 5 ? " Autorizado a liguilla" : ""}
+                Asistencias: {goleador.asistencias}   /    {/*goleador.asistencias >= 5 ? " Autorizado a liguilla" : ""*/}
 
               </p>
             );

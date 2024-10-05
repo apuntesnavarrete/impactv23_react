@@ -12,6 +12,7 @@ interface FormData extends Jugadorestype {
 function JugadoresEdit() {
   const [jugador, setJugador] = useState<Jugadorestype>();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const token = localStorage.getItem('token');
 
   const { id } = useParams();
   let idAsNumber: number | undefined;
@@ -72,7 +73,8 @@ function JugadoresEdit() {
 
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json' // Establecer el tipo de contenido como JSON
+        'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
+        'Authorization': `Bearer ${token}`,
       },
         body: JSON.stringify(payload),
         // Agregar token después.
