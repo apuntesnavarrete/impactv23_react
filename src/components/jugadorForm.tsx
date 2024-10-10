@@ -22,6 +22,7 @@ const JugadorForm: React.FC<JugadorFormProps> = ({ jugador, index, handleInputCh
         <input
           type="number"
           name="annotations"
+          min="0"  // Esto restringe los números negativos
           value={jugador.annotations}
           onChange={(e) => handleInputChange(e, index)}
         />
