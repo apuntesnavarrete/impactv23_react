@@ -48,6 +48,11 @@ function MenuTorneoOptions() {
    <NavLink to="goleo">
 --goleo--
    </NavLink>
+
+   <NavLink to="goleoHistorico">
+--goleo Historico--
+   </NavLink>
+
    <NavLink to="Asistencia">
 --asistencia--
    </NavLink>
