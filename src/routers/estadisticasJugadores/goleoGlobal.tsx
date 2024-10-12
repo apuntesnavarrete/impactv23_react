@@ -1,93 +1,92 @@
-import { useState, useEffect, SetStateAction, useMemo } from "react";
-import {  EstadisticasJugadorType } from "../../types/EstadisticasJugadorType";
+/*
+import { useState, useEffect, useMemo } from "react";
+import { EstadisticasJugadorType } from "../../types/EstadisticasJugadorType";
 import { apiruta } from "../../config/apiruta";
 import GoleoImg from "./goleoimg";
-import { TypeGoleadorDetallado } from "../../types/goleadores";
 import { getSumDataPlayer } from "../../functions/getSumDataPlayer";
 import useFetch from "../../Use/UseFetch";
 
-
 function GoleoGlobal() {
-  const [datos, setDatos] = useState<EstadisticasJugadorType[]>([]);
   const [ordenPor, setOrdenPor] = useState<'goles' | 'promedio' | 'partidos'>('goles');
-  const [datosOriginales, setDatosOriginales] = useState<EstadisticasJugadorType[]>([]);
-  const [mesFiltrado, setMesFiltrado] = useState<string>("");
-
-  const [ordenartable, setOrdenartable] = useState("goles")
-  const { data, loading, error } = useFetch<EstadisticasJugadorType[]>(`${apiruta}/api/v1/PlayerStatistics`);
+  const [mesFiltrado, setMesFiltrado] = useState<number | null>(null);
   
-//mete data enun set para poder manipularlo.
+  const { data, loading, error } = useFetch<EstadisticasJugadorType[]>(`${apiruta}/api/v1/PlayerStatistics`);
 
- //no tiene caso sume todo de inicio
+  // Filtrar los datos por mes si se ha seleccionado uno
+  const datosFiltradosPorMes = useMemo(() => {
+    if (!data) return [];
+    if (mesFiltrado === null) return data;
+
+    const filtrados = data.filter((objeto) => {
+      if (!objeto.matches || !objeto.matches.date) {
+        console.warn(`Objeto con ID ${objeto.id} no tiene matches.date`);
+        return false;
+      }
+
+      const fecha = new Date(objeto.matches.date);
+      if (isNaN(fecha.getTime())) {
+        console.warn(`Fecha inválida para objeto con ID ${objeto.id}: ${objeto.matches.date}`);
+        return false;
+      }
+
+      const mes = fecha.getMonth() + 1;
+      console.log(`Objeto ID ${objeto.id}: Mes de la fecha = ${mes}`);
+      return mes === mesFiltrado;
+    });
+
+    console.log(`Mes Filtrado: ${mesFiltrado}`);
+    console.log('Datos Filtrados por Mes:', filtrados);
+
+    return filtrados;
+  }, [data, mesFiltrado]);
+
+  // Obtener la suma de datos por jugador
   const goleadoresArray = useMemo(() => {
-    if (data) {
-      return getSumDataPlayer(data, 20);
+    if (datosFiltradosPorMes && datosFiltradosPorMes.length > 0) {
+      console.log('Datos para getSumDataPlayer:', datosFiltradosPorMes);
+      const resultado = getSumDataPlayer(datosFiltradosPorMes, 20);
+      console.log('Resultado de getSumDataPlayer:', resultado);
+      return resultado;
     }
     return [];
-  }, [data]);
+  }, [datosFiltradosPorMes]);
 
+  // Ordenar los goleadores según el criterio seleccionado
+  const tablaOrdenada = useMemo(() => {
+    const ordenada = [...goleadoresArray].sort((a, b) => {
+      if (ordenPor === 'goles') {
+        return b.goles - a.goles;
+      } else if (ordenPor === 'promedio') {
+        return b.promedio - a.promedio;
+      } else {
+        return b.partidos - a.partidos;
+      }
+    });
 
+    console.log('Tabla Ordenada:', ordenada);
+    return ordenada;
+  }, [goleadoresArray, ordenPor]);
+
+  // Monitorear cambios en mesFiltrado
+  useEffect(() => {
+    console.log(`Estado de mesFiltrado actualizado: ${mesFiltrado}`);
+  }, [mesFiltrado]);
+
+  // Monitorear cambios en tablaOrdenada
+  useEffect(() => {
+    console.log('Tabla Ordenada:', tablaOrdenada);
+  }, [tablaOrdenada]);
 
   const OrderTableGoleadores = (tipoOrden: 'goles' | 'promedio' | 'partidos') => {
-
-    if(data){
-      let datosFiltrados = [...data];
-
-      if (tipoOrden === 'partidos') {
-        setDatos(datosFiltrados);
-      } else if (tipoOrden === 'promedio') {
-        const dataFiltrada = datosFiltrados.filter((objeto) => {
-          const contieneMixta = objeto.matches.tournaments.idName.toLowerCase().includes('mixta');
-          const sexoEsMasculino = objeto.participants.sex === 'M';
-          return !(contieneMixta && sexoEsMasculino);
-        });
-        setDatos(dataFiltrada);
-      } else {
-        setDatos(datosFiltrados);
-      }
-    }
-
-    /*
-    if (mesFiltrado) {
-
-      datosFiltrados = datosOriginales.filter((objeto) => {
-        const mes = new Date(objeto.matches.date).getMonth() + 1; // Los meses en JavaScript van de 0 a 11
-
-        return mes === parseInt(mesFiltrado, 10);
-      });
-
-      console.log(datosFiltrados)
-      setDatos(datosFiltrados)
-    }
-*/
-   
-
     setOrdenPor(tipoOrden);
   };
 
-
-
-
-  const tablaOrdenada = [...goleadoresArray].sort((a, b) => {
-    if (ordenPor === 'goles') {
-      return b.goles - a.goles;
-    } else if (ordenPor === 'promedio') {
-      return b.promedio - a.promedio;
-    } else {
-      return b.partidos - a.partidos;
-    }
-  });
-
   const handleMesChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-    const mesFiltrado2 = e.target.value;
-    if (data) {
-      const datosFiltrados = data.filter((objeto) => {
-        const mes = new Date(objeto.matches.date).getMonth() + 1; // Los meses en JavaScript van de 0 a 11
-
-        return mes === parseInt(mesFiltrado2, 10);
-      });
-
-      console.log(datosFiltrados);
+    const valor = e.target.value;
+    if (valor === "") {
+      setMesFiltrado(null);
+    } else {
+      setMesFiltrado(parseInt(valor, 10));
     }
   };
 
@@ -100,7 +99,7 @@ function GoleoGlobal() {
         <button onClick={() => OrderTableGoleadores('goles')}>Ordenar por Goles</button>
         <button onClick={() => OrderTableGoleadores('promedio')}>Ordenar por Promedio</button>
         <button onClick={() => OrderTableGoleadores('partidos')}>Ordenar por Partidos Jugados</button>
-        <select onChange={handleMesChange}>
+        <select onChange={handleMesChange} value={mesFiltrado ?? ""}>
           <option value="">Filtrar por Mes</option>
           <option value="1">Enero</option>
           <option value="2">Febrero</option>
@@ -116,19 +115,26 @@ function GoleoGlobal() {
           <option value="12">Diciembre</option>
         </select>
       </div>
-      <p>Estadisticas Individuales Historicas .- Impacto Under</p>
+      <p>Estadísticas Individuales Históricas .- Impacto Under</p>
 
-
-      {tablaOrdenada && <GoleoImg order={ordenartable} infoType="Global" liga="Registro Impacto" goleadores={tablaOrdenada} torneo="Impacto Under" tipoTorneo="Goleo Historico"/>}
-
-
+      {tablaOrdenada.length > 0 ? (
+        <GoleoImg 
+          order={ordenPor} 
+          infoType="Global" 
+          liga="Registro Impacto" 
+          goleadores={tablaOrdenada} 
+          torneo="Impacto Under" 
+          tipoTorneo="Goleo Histórico"
+        />
+      ) : (
+        <p>No hay datos disponibles para el mes seleccionado.</p>
+      )}
 
       <table>
         <thead>
           <tr>
             <th>#</th>
             <th>Id Jugador</th>
-
             <th>Nombre</th>
             <th>Goles</th>
             <th>Partidos Jugados</th>
@@ -137,10 +143,9 @@ function GoleoGlobal() {
         </thead>
         <tbody>
           {tablaOrdenada.map((jugador, index) => (
-            <tr key={index}>
+            <tr key={jugador.id}> }
               <td>{index + 1}</td>         
-                   <td>{jugador.id}</td>
-
+              <td>{jugador.id}</td>
               <td>{jugador.nombre}</td>
               <td>{jugador.goles}</td>
               <td>{jugador.partidos}</td>
@@ -154,5 +159,55 @@ function GoleoGlobal() {
 }
 
 export default GoleoGlobal;
+*/
 
+
+
+import { useMemo, useState } from "react";
+import { apiruta } from "../../config/apiruta";
+import { getSumDataPlayer } from "../../functions/getSumDataPlayer";
+import { EstadisticasJugadorType } from "../../types/EstadisticasJugadorType";
+import useFetch from "../../Use/UseFetch";
+import GoleoImg from "./goleoimg";
+import { OrderTableGoleadores } from "./partials/ordertablagoleadores";
+
+function GoleoGlobal() {
+  const { data, loading, error } = useFetch<EstadisticasJugadorType[]>(`${apiruta}/api/v1/PlayerStatistics`);
+  const [ordenartable, setOrdenartable] = useState("goles");
+
+  const goleadoresArray = useMemo(() => {
+    if (data) {
+      return getSumDataPlayer(data, 10);
+    }
+    return [];
+  }, [data]);
+
+  const handleOrderChange = (tipoOrden: 'goles' | 'promedio' | 'partidos') => {
+    setOrdenartable(tipoOrden);
+    OrderTableGoleadores(goleadoresArray, tipoOrden); // Usar la función externa para ordenar
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!data) return null;
+//volver los botones un componente
+  return (
+    <>
+      <button onClick={() => handleOrderChange('goles')}>Ordenar por Goles</button>
+      <button onClick={() => handleOrderChange('promedio')}>Ordenar por Promedio</button>
+      <button onClick={() => handleOrderChange('partidos')}>Ordenar por Partidos Jugados</button>
+
+      <GoleoImg
+        order={ordenartable}
+        infoType="Global"
+        liga={"ed"}
+        goleadores={goleadoresArray}
+        torneo={"ed"}
+        tipoTorneo="Goleo Historico"
+      />
+    </>
+  );
+}
+
+export default GoleoGlobal;
 

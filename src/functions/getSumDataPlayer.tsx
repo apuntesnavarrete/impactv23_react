@@ -48,5 +48,5 @@ export function getSumDataPlayer(datos: EstadisticasJugadorType[] , golmin: numb
       };
     });
 
-  return goleadoresArray;
+  return goleadoresArray.sort((a, b) => b.goles - a.goles);;
 }
