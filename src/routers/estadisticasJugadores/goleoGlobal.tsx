@@ -160,7 +160,6 @@ function GoleoGlobal() {
 
 export default GoleoGlobal;
 */
-
 import { useMemo, useState } from "react";
 import { apiruta } from "../../config/apiruta";
 import { getSumDataPlayer } from "../../functions/getSumDataPlayer";
@@ -175,6 +174,7 @@ function GoleoGlobal() {
   const { data, loading, error } = useFetch<EstadisticasJugadorType[]>(`${apiruta}/api/v1/PlayerStatistics`);
   const [ordenartable, setOrdenartable] = useState<"goles" | "promedio" | "partidos">("goles");
   const [mesFiltrado, setMesFiltrado] = useState<string>("");
+  const [partidosMinimos, setPartidosMinimos] = useState<number>(30); // Estado para el número de partidos mínimos
 
   const goleadoresArray = useMemo(() => {
     if (data) {
@@ -188,14 +188,14 @@ function GoleoGlobal() {
       }
 
       // Determinar el número mínimo de partidos según el tipo de orden
-      const partidosMinimos = ordenartable === "promedio" ? 30 : 10;
-      const result = getSumDataPlayer(filteredData, partidosMinimos);
+      const minPartidos = ordenartable === "promedio" && !mesFiltrado ? partidosMinimos : 0;
+      const result = getSumDataPlayer(filteredData, minPartidos);
 
       // Usamos la función para ordenar los resultados
       return OrderTableGoleadores(result, ordenartable);
     }
     return [];
-  }, [data, mesFiltrado, ordenartable]);
+  }, [data, mesFiltrado, ordenartable, partidosMinimos]); // Añadimos partidosMinimos como dependencia
 
   const handleOrderChange = (tipoOrden: "goles" | "promedio" | "partidos") => {
     setOrdenartable(tipoOrden);
@@ -203,6 +203,11 @@ function GoleoGlobal() {
 
   const handleMesChange = (mes: string) => {
     setMesFiltrado(mes);
+  };
+
+  const handlePartidosMinimosChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setPartidosMinimos(isNaN(value) ? 30 : value); // Aseguramos un valor por defecto si el input está vacío
   };
 
   if (loading) return <p>Loading...</p>;
@@ -214,6 +219,19 @@ function GoleoGlobal() {
       <MonthFilter selectedMonth={mesFiltrado} onMonthChange={handleMesChange} />
 
       <OrderButtons handleOrderChange={handleOrderChange} /> {/* Usamos el componente aquí */}
+
+      {/* Input para que el usuario establezca el número de partidos mínimos */}
+      <div>
+        <label>
+          Partidos mínimos para promedio:
+          <input
+            type="number"
+            value={partidosMinimos}
+            onChange={handlePartidosMinimosChange}
+            placeholder="Partidos mínimos"
+          />
+        </label>
+      </div>
 
       <GoleoImg
         order={ordenartable}
@@ -228,5 +246,6 @@ function GoleoGlobal() {
 }
 
 export default GoleoGlobal;
+
 
 
