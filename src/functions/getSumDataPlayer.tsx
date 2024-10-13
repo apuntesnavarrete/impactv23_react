@@ -3,7 +3,7 @@ import { EstadisticasJugadorType } from "../types/EstadisticasJugadorType";
 import { TypeGoleadorDetallado } from "../types/goleadores";
 
 export function getSumDataPlayer(datos: EstadisticasJugadorType[] , golmin: number): TypeGoleadorDetallado[] {
- 
+ //golmin es un minimo de partidos jugados
     const partidosJugados: { [key: string]: { id: number, count: number } } = {};
 
     datos.forEach(registro => {

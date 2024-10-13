@@ -161,8 +161,6 @@ function GoleoGlobal() {
 export default GoleoGlobal;
 */
 
-
-
 import { useMemo, useState } from "react";
 import { apiruta } from "../../config/apiruta";
 import { getSumDataPlayer } from "../../functions/getSumDataPlayer";
@@ -170,32 +168,52 @@ import { EstadisticasJugadorType } from "../../types/EstadisticasJugadorType";
 import useFetch from "../../Use/UseFetch";
 import GoleoImg from "./goleoimg";
 import { OrderTableGoleadores } from "./partials/ordertablagoleadores";
+import OrderButtons from "./partials/orderButtons";
+import MonthFilter from "../../functions/monthFileter";
 
 function GoleoGlobal() {
   const { data, loading, error } = useFetch<EstadisticasJugadorType[]>(`${apiruta}/api/v1/PlayerStatistics`);
-  const [ordenartable, setOrdenartable] = useState("goles");
+  const [ordenartable, setOrdenartable] = useState<"goles" | "promedio" | "partidos">("goles");
+  const [mesFiltrado, setMesFiltrado] = useState<string>("");
 
   const goleadoresArray = useMemo(() => {
     if (data) {
-      return getSumDataPlayer(data, 10);
+      // Filtrar los datos según el mes seleccionado
+      let filteredData = data;
+      if (mesFiltrado) {
+        filteredData = data.filter((player) => {
+          const matchMonth = new Date(player.matches.date).getMonth() + 1;
+          return matchMonth === parseInt(mesFiltrado, 10);
+        });
+      }
+
+      // Determinar el número mínimo de partidos según el tipo de orden
+      const partidosMinimos = ordenartable === "promedio" ? 30 : 10;
+      const result = getSumDataPlayer(filteredData, partidosMinimos);
+
+      // Usamos la función para ordenar los resultados
+      return OrderTableGoleadores(result, ordenartable);
     }
     return [];
-  }, [data]);
+  }, [data, mesFiltrado, ordenartable]);
 
-  const handleOrderChange = (tipoOrden: 'goles' | 'promedio' | 'partidos') => {
+  const handleOrderChange = (tipoOrden: "goles" | "promedio" | "partidos") => {
     setOrdenartable(tipoOrden);
-    OrderTableGoleadores(goleadoresArray, tipoOrden); // Usar la función externa para ordenar
+  };
+
+  const handleMesChange = (mes: string) => {
+    setMesFiltrado(mes);
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!data) return null;
-//volver los botones un componente
+
   return (
     <>
-      <button onClick={() => handleOrderChange('goles')}>Ordenar por Goles</button>
-      <button onClick={() => handleOrderChange('promedio')}>Ordenar por Promedio</button>
-      <button onClick={() => handleOrderChange('partidos')}>Ordenar por Partidos Jugados</button>
+      <MonthFilter selectedMonth={mesFiltrado} onMonthChange={handleMesChange} />
+
+      <OrderButtons handleOrderChange={handleOrderChange} /> {/* Usamos el componente aquí */}
 
       <GoleoImg
         order={ordenartable}
@@ -210,4 +228,5 @@ function GoleoGlobal() {
 }
 
 export default GoleoGlobal;
+
 
