@@ -35,6 +35,7 @@ import PlantelesDelete from './routers/planteles/plantelesDelete';
 import RollView from './routers/roll/rollView';
 import Goleobytournament from './routers/estadisticasJugadores/goleobytournament';
 import GoleoHistoricoLiga from './routers/estadisticasJugadores/goleohistorico/GoleoHistoricoLiga';
+import NewPlantillas from './routers/planteles/newPlantillas/NewPlantillas';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -88,6 +89,8 @@ const AppRouter = () => {
             <Route path="/:liga/:torneo/partidos/:idPartido" element={<PartidoID />} />
             <Route path="/:liga/:torneo/partidos/view/:idPartido" element={<PartidoIdView />} />
             <Route path="/:liga/:torneo/partidos/edit/:idpartido" element={<PartidoEdit />} />
+            <Route path="/:liga/:torneo/newPlantillas" element={<NewPlantillas />} />
+
 
             <Route path="/:liga/:torneo/goleo" element={<Goleobytournament />} />
             <Route path="/:liga/:torneo/Asistencia" element={<Asistencia />} />

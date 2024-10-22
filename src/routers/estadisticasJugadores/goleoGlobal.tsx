@@ -236,7 +236,7 @@ function GoleoGlobal() {
       <GoleoImg
         order={ordenartable}
         infoType="Global"
-        liga={"ed"}
+        liga={"Registro Impacto"}
         goleadores={goleadoresArray}
         torneo={"ed"}
         tipoTorneo="Goleo Historico"

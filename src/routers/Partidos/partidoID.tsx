@@ -108,6 +108,8 @@ const PartidoID: React.FC = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const postData = jugadores.map(({ name, ...rest }) => rest);
+
+    
     const filteredArray = postData.filter((jugador) => jugador.attendance);
 
 
