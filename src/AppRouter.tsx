@@ -35,7 +35,7 @@ import PlantelesDelete from './routers/planteles/plantelesDelete';
 import RollView from './routers/roll/rollView';
 import Goleobytournament from './routers/estadisticasJugadores/goleobytournament';
 import GoleoHistoricoLiga from './routers/estadisticasJugadores/goleohistorico/GoleoHistoricoLiga';
-import NewPlantillas from './routers/planteles/newPlantillas/NewPlantillas';
+import NewPlantillas from './routers/planteles/newPlantillas/newPlantillas';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {

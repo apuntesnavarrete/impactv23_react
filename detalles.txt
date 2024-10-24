@@ -31,3 +31,5 @@ o traer todos los equipos registrados
 **Rediseño de goleo**
 
 **basado en los versus un hoja de registro con los jugdores que se enfrentn**
+
+**crear un get tourmaent all data

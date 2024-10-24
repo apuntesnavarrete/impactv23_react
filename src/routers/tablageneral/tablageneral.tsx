@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TablageneralType } from '../../types/tablageneral';
 import getRapidFootballStandings from '../../functions/getRapidFootballStandings';
 import getTournamentId from '../../functions/getTournamentId';
 import { getTeamsTournaments } from '../../functions/getTeamsTournaments';
 import TablaGeneralLayer from './tablageneralayer';
+import ButtonCapture from '../../components/buttonCapture';
 
 const TablaGeneral: React.FC = () => {
   const { liga, torneo } = useParams();
@@ -23,7 +24,6 @@ const TablaGeneral: React.FC = () => {
             .then((equiposConInfo) => {
               getTeamsTournaments(idtorneo)
                 .then((data)=>{
-                  console.log("equipos filtrado" + data)
                   const equiposFiltrados = equiposConInfo.filter(equipo => data.some(item => item.teams?.id === equipo.equipoId));
                   setClasificacion(equiposFiltrados);
                 })
@@ -45,8 +45,8 @@ const TablaGeneral: React.FC = () => {
         <p>idTorneo: {idtorneo}</p>
       </div>
       <p>Tabla General</p>
-      
-      <TablaGeneralLayer clasificacion={clasificacion} />
+
+      <TablaGeneralLayer  clasificacion={clasificacion} liga={liga} torneo={torneo} typeTorneo="Tabla General"/>
 
 
       

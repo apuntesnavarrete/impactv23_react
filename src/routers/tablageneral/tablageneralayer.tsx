@@ -1,29 +1,35 @@
+import { useRef } from "react";
 import useLigaInfo from "../../Use/useLigaInfo";
 import useTodayDate from "../../Use/useTodayDay";
 import BottomImg from "../../components/bottomimg";
+import ButtonCapture from "../../components/buttonCapture";
 import TopImg from "../../components/topimg";
 import { apiruta } from "../../config/apiruta";
 import { TablageneralType } from "../../types/tablageneral";
 import './tablageneral.css';
 
 interface TablaGeneralLayerProps {
-  clasificacion: TablageneralType[];  // Cambiar a un array de equipos
+  clasificacion: TablageneralType[];
+  liga: string | undefined;
+  typeTorneo: string
+  torneo: string | undefined
 }
 
-const TablaGeneralLayer: React.FC<TablaGeneralLayerProps> = ({ clasificacion }) => {
-  console.log(clasificacion)
+const TablaGeneralLayer: React.FC<TablaGeneralLayerProps> = ({ torneo,clasificacion,liga, typeTorneo }) => {
+  
+  const cardDownload = useRef<HTMLDivElement>(null);
 
-  let liga = "PRO";
   const { claseCSS, logoLiga } = useLigaInfo(liga);
   const { date } = useTodayDate();
-  let tipoTorneo = "clausura 2024";
-  let torneo = "general";
 
   return (
-    <div className={`content_resul_roll ${claseCSS}`}>
+    <>
+                <ButtonCapture captureRef={cardDownload} />
+
+    <div className={`content_resul_roll ${claseCSS}`} ref={cardDownload}>
       <TopImg date={date} liga={liga} />
-      <p className='dayOfWeek'>{tipoTorneo}</p>
-      <p>{torneo}</p>
+      <p className='dayOfWeek'>{typeTorneo}</p>
+      <p>Categoria {torneo}</p>
 
       <div className="conten-cards-team">
         {/* Iterar sobre los equipos de la clasificación */}
@@ -90,6 +96,7 @@ const TablaGeneralLayer: React.FC<TablaGeneralLayerProps> = ({ clasificacion }) 
 
       <BottomImg logoLiga={logoLiga} />
     </div>
+    </>
   );
 }
 
