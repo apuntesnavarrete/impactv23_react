@@ -7,6 +7,7 @@ import getPlayersTournament from "../../../functions/getPlayersByTournament";
 import { Plantelestype } from "../../../types/plantelestype";
 import getTournamentId from "../../../functions/getTournamentId";
 import { SuccessMessage } from "../../SuccesMessage";
+import { apiruta } from "../../../config/apiruta";
 
 function NewPlantillas() {
     const { torneo, liga } = useParams();
@@ -87,7 +88,7 @@ function NewPlantillas() {
             console.log("¡newdata!"  ,dataToSend);
 
             //cambiar a dinamica la direeccion.
-            fetch('http://localhost:4000/api/v1/Rosters', {
+            fetch(`${apiruta}/api/v1/Rosters`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

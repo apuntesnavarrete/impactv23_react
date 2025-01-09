@@ -29,6 +29,14 @@ function MenuTorneoOptions() {
   }, []);
   return (
     <>
+    <p>Torneos pasadod</p>
+    <NavLink to="newPlantillas">
+    -- plantillas pasada --
+   </NavLink>
+   <NavLink to="GeneralHistorica">
+    -- Tabla general Historica--
+   </NavLink>
+
     <p>Opciones de torneos</p>
     <div>
       

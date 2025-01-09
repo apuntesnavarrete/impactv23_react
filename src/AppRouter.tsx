@@ -36,6 +36,7 @@ import RollView from './routers/roll/rollView';
 import Goleobytournament from './routers/estadisticasJugadores/goleobytournament';
 import GoleoHistoricoLiga from './routers/estadisticasJugadores/goleohistorico/GoleoHistoricoLiga';
 import NewPlantillas from './routers/planteles/newPlantillas/newPlantillas';
+import TablaGeneralHistoricaByTournament from './routers/tablageneral/tablashistoricas/tablahistorciatorneo';
 
 const AppRouter = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -79,6 +80,8 @@ const AppRouter = () => {
             <Route path="/:liga/:torneo/partidos" element={<PartidosView />} />
 
             <Route path="/:liga/:torneo/tablageneral" element={<TablaGeneral />} />
+            <Route path="/:liga/:torneo/GeneralHistorica" element={<TablaGeneralHistoricaByTournament />} />
+
             <Route path="/:liga/:torneo/goleoHistorico" element={<GoleoHistoricoLiga />} />
 
 
@@ -103,6 +106,7 @@ const AppRouter = () => {
 
             <Route path="/:liga" element={<MenuTorneos />} />
             <Route path="/:liga/:torneo" element={<MenuTorneoOptions />} />
+
           </>
         ) : null}
         <Route path="/*" element={isAuthenticated ? null : <Navigate to="/login" />} />
