@@ -3,6 +3,8 @@ import { TablageneralGlobalType } from '../../types/tablageneral';
 
 import getGlobalTablaGeneral from '../../functions/getGlobalTablaGeneral';
 import getGlobalTablaGeneralByMounth from '../../functions/getGlobalTablageneralBymounth';
+import { apiruta } from '../../config/apiruta';
+import { MatchType } from '../../types/partidoType';
 
 const TablaGeneralHistorica: React.FC = () => {
   const [clasificacion, setClasificacion] = useState<TablageneralGlobalType[]>([]);
@@ -10,23 +12,29 @@ const TablaGeneralHistorica: React.FC = () => {
 
   useEffect(() => {
     // Llamada a la función getTournamentId para obtener el ID del torneo
-   
-    
   
-    // Realizar una llamada a la función getRapidFootballStandings solo si se ha obtenido el ID del torneo
-      getGlobalTablaGeneral()
+    const fetchMatches = async () => {
+      const responseMatches = await fetch(`${apiruta}/api/v1/matches`);
+      if (!responseMatches.ok) {
+        throw new Error('Error al obtener los datos de los partidos');
+      }
+      const dataMatches: MatchType[] = await responseMatches.json();
+  
+      // Realizar una llamada a la función getRapidFootballStandings solo si se ha obtenido el ID del torneo
+      getGlobalTablaGeneral(dataMatches)
         .then((equiposConInfo) => {
-            equiposConInfo.sort((b, a) => a.porcentual - b.porcentual);
-            const equiposMasDe10Partidos = equiposConInfo.filter(equipo => equipo.partidosJugados >= 5);
-//cambiar por generar botones dependiendo que quiera mostrar.
-            setClasificacion(equiposMasDe10Partidos);
+          equiposConInfo.sort((b, a) => a.porcentual - b.porcentual);
+          const equiposMasDe10Partidos = equiposConInfo.filter(equipo => equipo.partidosJugados >= 5);
+          // Cambiar por generar botones dependiendo que quiera mostrar.
+          setClasificacion(equiposMasDe10Partidos);
         })
-        .catch((error) => {
-          console.error('Error en la obtención de equipos con info:', error);
-        });
+        .catch(error => console.error(error));
+    };
+  
+    fetchMatches().catch(error => console.error(error));
+  }, []);
 
 
-  }, []); //
 
 
   const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
