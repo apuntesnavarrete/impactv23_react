@@ -8,11 +8,13 @@ async function getGlobalTablaGeneral(dataMatches: MatchType[]): Promise<Tablagen
     dataMatches.forEach((partido) => {
         const equipoLocal = partido.teamHome.name;
         const equipoVisitante = partido.teamAway.name;
-        const equipoLocalId = partido.teamHome.id; // Nueva propiedad para el ID del equipo local
-        const equipoVisitanteId = partido.teamAway.id; // Nueva propiedad para el ID del equipo visitante
+        const equipoLocalId = partido.teamHome.id;
+        const equipoVisitanteId = partido.teamAway.id;
+        const equipoLocalEscudo = partido.teamHome.logo || `${apiruta}/default-logo.png`;
+        const equipoVisitanteEscudo = partido.teamAway.logo || `${apiruta}/default-logo.png`;
 
         if (!puntosPorEquipo[equipoLocal]) {
-            puntosPorEquipo[equipoLocal] = { equipoId: equipoLocalId, equipo: equipoLocal, puntos: 0, goles: 0, golesRecibidos: 0, partidosJugados: 0, partidosGanados: 0, partidosGanadosDesempate: 0, partidosPerdidos: 0, partidosPerdidosDesempate: 0, partidosEmpatados: 0, porcentual: 0 };
+            puntosPorEquipo[equipoLocal] = { equipoId: equipoLocalId, equipo: equipoLocal, logo: equipoLocalEscudo, puntos: 0, goles: 0, golesRecibidos: 0, partidosJugados: 0, partidosGanados: 0, partidosGanadosDesempate: 0, partidosPerdidos: 0, partidosPerdidosDesempate: 0, partidosEmpatados: 0, porcentual: 0 };
         }
         puntosPorEquipo[equipoLocal].puntos += partido.pointsLocal;
         puntosPorEquipo[equipoLocal].goles += partido.localgoals;
@@ -31,7 +33,7 @@ async function getGlobalTablaGeneral(dataMatches: MatchType[]): Promise<Tablagen
         }
 
         if (!puntosPorEquipo[equipoVisitante]) {
-            puntosPorEquipo[equipoVisitante] = { equipoId: equipoVisitanteId, equipo: equipoVisitante, puntos: 0, goles: 0, golesRecibidos: 0, partidosJugados: 0, partidosGanados: 0, partidosGanadosDesempate: 0, partidosPerdidos: 0, partidosPerdidosDesempate: 0, partidosEmpatados: 0, porcentual: 0 };
+            puntosPorEquipo[equipoVisitante] = { equipoId: equipoVisitanteId, equipo: equipoVisitante, logo: equipoVisitanteEscudo, puntos: 0, goles: 0, golesRecibidos: 0, partidosJugados: 0, partidosGanados: 0, partidosGanadosDesempate: 0, partidosPerdidos: 0, partidosPerdidosDesempate: 0, partidosEmpatados: 0, porcentual: 0 };
         }
         puntosPorEquipo[equipoVisitante].puntos += partido.pointsVisitan;
         puntosPorEquipo[equipoVisitante].goles += partido.visitangoals;
