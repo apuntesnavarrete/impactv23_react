@@ -1,1 +1,1 @@
-export const apiruta = 'http://10.210.20.243:8080';
+export const apiruta = 'http://192.168.0.10:8080';
