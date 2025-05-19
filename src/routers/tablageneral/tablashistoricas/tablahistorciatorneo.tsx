@@ -4,6 +4,7 @@ import getGlobalTablaGeneral from '../../../functions/getGlobalTablaGeneral';
 import { TablageneralGlobalType } from '../../../types/tablageneral';
 import { apiruta } from '../../../config/apiruta';
 import { MatchType } from '../../../types/partidoType';
+import TablaGeneralLayer from '../tablageneralayer';
 
 const TablaGeneralHistoricaByTournament: React.FC = () => {
   const { liga , torneo} = useParams<{ liga: string, torneo: string }>();
@@ -32,6 +33,7 @@ const TablaGeneralHistoricaByTournament: React.FC = () => {
        
         getGlobalTablaGeneral(filteredMatches)
           .then((result) => {
+            console.log(result);
             setClasificacion(result);
           })
           .catch((error) => {
@@ -45,30 +47,8 @@ const TablaGeneralHistoricaByTournament: React.FC = () => {
   return (
     <>
       <p>Tabla de Efectividad Multitorneo, Impacto Under</p>
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>IdEquipo</th>
-            <th>Equipo</th>
-            <th>Puntos</th>
-            <th>PJ</th>
-            <th>Porcentual</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clasificacion.map((equipo, index) => (
-            <tr key={equipo.equipo}>
-              <td>{index + 1}</td>
-              <td>{equipo.equipoId}</td>
-              <td>{equipo.equipo}</td>
-              <td>{equipo.puntos}</td>
-              <td>{equipo.partidosJugados}</td>
-              <td>{equipo.porcentual}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <TablaGeneralLayer  clasificacion={clasificacion} liga={liga} torneo={torneo} typeTorneo="Tabla General Historica"/>
+
     </>
   );
 };
