@@ -4,33 +4,40 @@ import { TypeGoleador, TypeGoleadorArray } from "../types/goleadores";
 
 export function GetSumDataPlayerWithTeam(datos: EstadisticasJugadorType[]): TypeGoleadorArray[] {
 
-  const goleadores: { [key: string]: TypeGoleador } = datos.reduce((acumulador, registro) => {
+  const goleadores: { [key: string]: TypeGoleadorArray } = datos.reduce((acumulador, registro) => {
     const nombreJugador = registro.participants.name;
     const jugadorId = registro.participants.id;
     const equipo = registro.teams.name;
     const equipoLogo = registro.teams.logo;
 
-    if (!acumulador[nombreJugador]) {
-        acumulador[nombreJugador] = { id: jugadorId, goles: 0, asistencias: 0, equipo: equipo, equipoLogo: equipoLogo };
+    // Clave única por jugador y equipo
+    const clave = `${jugadorId}-${equipo}`;
+
+    if (!acumulador[clave]) {
+      acumulador[clave] = {
+        id: jugadorId,
+        goles: 0,
+        asistencias: 0,
+        equipo: equipo,
+        equipoLogo: equipoLogo,
+        nombre: nombreJugador, // Necesario para el array final
+      };
     }
 
-    acumulador[nombreJugador].goles += registro.annotations;
-      acumulador[nombreJugador].asistencias += Number(registro.attendance);
+    acumulador[clave].goles += registro.annotations;
+    acumulador[clave].asistencias += Number(registro.attendance);
 
     return acumulador;
-  }, {} as { [key: string]: TypeGoleador });
+  }, {} as { [key: string]: TypeGoleador & { nombre: string } });
 
-
-  const goleadoresArray: TypeGoleadorArray[] = Object.keys(goleadores).map(nombreJugador => ({
-    nombre: nombreJugador,
-    id: goleadores[nombreJugador].id,
-    goles: goleadores[nombreJugador].goles,
-    asistencias: goleadores[nombreJugador].asistencias,
-    equipo: goleadores[nombreJugador].equipo,
-    equipoLogo: goleadores[nombreJugador].equipoLogo
+  const goleadoresArray: TypeGoleadorArray[] = Object.values(goleadores).map((jugador) => ({
+    nombre: jugador.nombre,
+    id: jugador.id,
+    goles: jugador.goles,
+    asistencias: jugador.asistencias,
+    equipo: jugador.equipo,
+    equipoLogo: jugador.equipoLogo
   }));
-
-
 
   goleadoresArray.sort((a, b) => b.goles - a.goles);
 
