@@ -25,7 +25,22 @@ const TablaGeneralHistorica: React.FC = () => {
         .then((equiposConInfo) => {
           equiposConInfo.sort((b, a) => a.porcentual - b.porcentual);
           const equiposMasDe10Partidos = equiposConInfo.filter(equipo => equipo.partidosJugados >= 5);
-          // Cambiar por generar botones dependiendo que quiera mostrar.
+          // Por puntos
+console.log("Por puntos:");
+console.log([...equiposConInfo].sort((a, b) => b.puntos - a.puntos));
+
+// Por porcentual
+console.log("Por porcentual (solo con 20 o más partidos jugados):");
+const filtradosPorPartidos = equiposConInfo.filter(e => e.partidosJugados >= 20);
+const ordenadosPorPorcentual = filtradosPorPartidos.sort((a, b) => b.porcentual - a.porcentual);
+console.log(ordenadosPorPorcentual);
+// Por partidos ganados
+console.log("Por partidos ganados:");
+console.log([...equiposConInfo].sort((a, b) => b.partidosGanados - a.partidosGanados));
+
+// Por partidos jugados
+console.log("Por partidos jugados:");
+console.log([...equiposConInfo].sort((a, b) => b.partidosJugados - a.partidosJugados));
           setClasificacion(equiposMasDe10Partidos);
         })
         .catch(error => console.error(error));
